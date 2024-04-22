@@ -7,11 +7,12 @@ import ForgotPasswordScreen from './Screens/ForgotPasswordScreen';
 import ChangePasswordScreen from './Screens/ChangePasswordScreen';
 import SuccessScreen from './Screens/SuccessScreen';
 import OTPScreen from './Screens/OTPScreen';
+import HomeScreen from './Screens/HomeScreen';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <OTPScreen/>
+      <HomeScreen/>
       <StatusBar style="auto" />
     </View>
   );
