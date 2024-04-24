@@ -8,11 +8,12 @@ import ChangePasswordScreen from './Screens/ChangePasswordScreen';
 import SuccessScreen from './Screens/SuccessScreen';
 import OTPScreen from './Screens/OTPScreen';
 import HomeScreen from './Screens/HomeScreen';
+import FoodScreen from './Screens/FoodScreen';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <HomeScreen/>
+      <FoodScreen/>
       <StatusBar style="auto" />
     </View>
   );

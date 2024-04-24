@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const RestaurantCard = ({ name, location, imageSource, openingHours }) => {
+const RestaurantCard = ({ name, location, imageSource, openingHours,onPress }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <Image
         source={imageSource}
         style={styles.image}
@@ -20,7 +20,7 @@ const RestaurantCard = ({ name, location, imageSource, openingHours }) => {
         </View>
       </View>
       
-    </View>
+    </TouchableOpacity>
   );
 };
 
