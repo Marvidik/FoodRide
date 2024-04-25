@@ -1,6 +1,8 @@
-import { View, Text,StyleSheet,Image } from 'react-native'
+import { View, Text,StyleSheet,Image,ScrollView } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
+import JunksCard from '../Components/JunksCard';
+import FoodCard from '../Components/FoodCard';
 
 
 
@@ -25,6 +27,102 @@ export default function FoodScreen() {
             <Text style={styles.text4}>5.0</Text>
             <Text style={styles.text5}>100+  ratings</Text>
         </View>
+        <ScrollView contentContainerStyle={styles.scrollView1}>
+        <Text style={styles.text6}>Junks and Proteins</Text>
+
+        <ScrollView horizontal contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
+      <JunksCard
+        name="Burger"
+        source={require("../assets/burgs (1).jpg")}
+        category="Junks"
+        price={34}
+        availability={true}
+        
+      />
+      <JunksCard
+        name="Burger"
+        source={require("../assets/burgs (2).jpg")}
+        category="Junks"
+        price={34}
+        availability={true}
+    
+      />
+      <JunksCard
+        name="Burger"
+        source={require("../assets/burgs (3).jpg")}
+        category="Junks"
+        price={34}
+        availability={true}
+    
+      />
+      <JunksCard
+        name="Burger"
+        source={require("../assets/burgs (4).jpg")}
+        category="Junks"
+        price={34}
+        availability={true}
+       
+      />
+      <JunksCard
+        name="Burger"
+        source={require("../assets/burgs (5).jpg")}
+        category="Junks"
+        price={34}
+        availability={true}
+        
+      />
+    </ScrollView>
+
+    <Text style={styles.text6}>Foods</Text>
+
+    
+      <FoodCard
+        name="Pizza"
+        image={require("../assets/menu (1).jpg")}
+        rating={4.5}
+        category="Italian"
+        availability={true}
+        price={10.99}
+      
+      />
+      <FoodCard
+        name="Sushi"
+        image={require("../assets/menu (1).jpg")}
+        rating={4.8}
+        category="Japanese"
+        availability={true}
+        price={15.99}
+      
+      />
+      <FoodCard
+        name="Burger"
+        image={require("../assets/menu (1).jpg")}
+        rating={4.7}
+        category="American"
+        availability={true}
+        price={8.99}
+       
+      />
+      <FoodCard
+        name="Taco"
+        image={require("../assets/menu (1).jpg")}
+        rating={4.6}
+        category="Mexican"
+        availability={true}
+        price={7.99}
+       
+      />
+      <FoodCard
+        name="Pad Thai"
+        image={require("../assets/menu (1).jpg")}
+        rating={4.4}
+        category="Thai"
+        availability={true}
+        price={11.99}
+        
+      />
+    </ScrollView>
+    
       
     </View>
   )
@@ -35,7 +133,8 @@ export default function FoodScreen() {
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop:44
+        paddingTop:44,
+        flex:1
     },
     box1:{
         marginLeft:20,
@@ -56,7 +155,8 @@ const styles = StyleSheet.create({
     },
     text1:{
         fontSize:28,
-        fontWeight:"700"
+        fontWeight:"700",
+        color:"#512213"
     },
     text2:{
         color:"#FF7518",
@@ -76,6 +176,12 @@ const styles = StyleSheet.create({
         fontSize:18,
         paddingLeft:10
     },
+    text6:{
+        paddingLeft:20,
+        paddingTop:20,
+        fontSize:24,
+        color:"#512213"
+    },
     ibox:{
         flexDirection:"row",
         marginTop:30
@@ -89,5 +195,9 @@ const styles = StyleSheet.create({
         paddingLeft:20,
         flexDirection:"row",
         alignItems:"center"
-    }
+    },
+    scrollView: {
+        padding: 10,
+        
+      },
 })
