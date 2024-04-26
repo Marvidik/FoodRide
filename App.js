@@ -9,11 +9,13 @@ import SuccessScreen from './Screens/SuccessScreen';
 import OTPScreen from './Screens/OTPScreen';
 import HomeScreen from './Screens/HomeScreen';
 import FoodScreen from './Screens/FoodScreen';
+import CartScreen from './Screens/CartScreen';
+import OrderScreen from './Screens/OrderScreen';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <FoodScreen/>
+      <OrderScreen/>
       <StatusBar style="auto" />
     </View>
   );
