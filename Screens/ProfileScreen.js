@@ -2,6 +2,7 @@ import { View, Text ,StyleSheet,Image,TouchableOpacity} from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
+import ListItem from '../Components/ListItem';
 
 export default function ProfileScreen() {
   return (
@@ -12,6 +13,11 @@ export default function ProfileScreen() {
             <Text style={styles.text}>Change Image</Text>
             <Ionicons name={"pencil"} size={20} style={styles.icon} color={"orange"}/>
       </TouchableOpacity>
+
+      <ListItem info={"Current Orders"} icon={"cart-plus"}/>
+      <ListItem info={"Change Payment Address"} icon={"credit-card"} />
+      <ListItem info={"Change Delivery Address"} icon={"map-marker"}/>
+      <ListItem info={"Logout"} icon={"sign-out"} />
         
     </View>
   )
@@ -46,8 +52,10 @@ const styles = StyleSheet.create({
 
     },
     text:{
-        color:"orange",
+        color:"#FF7518",
         fontSize:20,
     },
-   
+   content:{
+    height:50
+   }
 })
