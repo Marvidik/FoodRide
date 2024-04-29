@@ -11,11 +11,12 @@ import HomeScreen from './Screens/HomeScreen';
 import FoodScreen from './Screens/FoodScreen';
 import CartScreen from './Screens/CartScreen';
 import OrderScreen from './Screens/OrderScreen';
+import ProfileScreen from './Screens/ProfileScreen';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <OrderScreen/>
+      <ProfileScreen/>
       <StatusBar style="auto" />
     </View>
   );
