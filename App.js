@@ -12,11 +12,14 @@ import FoodScreen from './Screens/FoodScreen';
 import CartScreen from './Screens/CartScreen';
 import OrderScreen from './Screens/OrderScreen';
 import ProfileScreen from './Screens/ProfileScreen';
+import AddressScreen from './Screens/AddressScreen';
+import AddressChangeScreen from './Screens/AddressChangeScreen';
+import ConfirmScreen from './Screens/ConfirmScreen';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ProfileScreen/>
+      <ConfirmScreen/>
       <StatusBar style="auto" />
     </View>
   );
