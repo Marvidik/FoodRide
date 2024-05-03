@@ -18,7 +18,7 @@ export default function ChangePasswordScreen() {
        
     
 
-        <CustomButton style={styles.but} title={"Submit"} />
+        <CustomButton style={styles.but} title={"Submit"} onPress={() => navigation.navigate('changesuccess')}/>
       </View>
     </ScrollView>
   </KeyboardAvoidingView>
@@ -31,7 +31,8 @@ export default function ChangePasswordScreen() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop:20
+      paddingTop:20,
+      backgroundColor:"white"
     },
     content: {
       flexGrow: 1,

@@ -9,7 +9,7 @@ export default function SuccessScreen() {
       <Text style={styles.text3}>Password Changed Successfully </Text>
       <Text style={styles.text2}>Log In and Enjoy your Food</Text>
 
-      <CustomButton style={styles.but} title={"Done"} />
+      <CustomButton style={styles.but} title={"Done"} onPress={() => console.log("Welcome to the home screen")}/>
     </View>
   )
 }
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
       flex:1,
       justifyContent:"center",
       alignItems:"center",
+      backgroundColor:"white"
       
     },
     text2: {

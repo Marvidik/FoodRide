@@ -1,9 +1,14 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, StyleSheet } from 'react-native';
 
-const OTPInput = ({ digitCount, inputStyle }) => {
+const OTPInput = ({ digitCount, inputStyle, onOTPChange }) => {
   const [otp, setOTP] = useState(Array(digitCount).fill(''));
   const inputRefs = useRef([]);
+
+  useEffect(() => {
+    // Send the OTP to the parent component whenever it changes
+    onOTPChange(otp.join(''));
+  }, [otp, onOTPChange]);
 
   const handleChange = (index, value) => {
     const newOTP = [...otp];
@@ -43,7 +48,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    
   },
   input: {
     borderWidth: 1,
@@ -53,7 +57,6 @@ const styles = StyleSheet.create({
     height: 60,
     textAlign: 'center',
     fontSize: 20,
-    
   },
 });
 

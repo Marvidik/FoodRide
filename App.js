@@ -1,5 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import SplashScreen from './Screens/SplashScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import LoginScreen from './Screens/LoginScreen';
@@ -17,9 +21,20 @@ import AddressChangeScreen from './Screens/AddressChangeScreen';
 import ConfirmScreen from './Screens/ConfirmScreen';
 
 export default function App() {
+
+  const Stack = createStackNavigator();
   return (
     <View style={styles.container}>
-      <ConfirmScreen/>
+      <NavigationContainer>
+      <Stack.Navigator initialRouteName="Register">
+        <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Forgottenpassword" component={ForgotPasswordScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Changepassword" component={ChangePasswordScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Otp" component={OTPScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="changesuccess" component={SuccessScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
       <StatusBar style="auto" />
     </View>
   );
