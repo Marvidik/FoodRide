@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40, // Adjust height as needed
     marginLeft: 5, // Adjust margin as needed
+    
   },
   icon: {
     marginRight: 5, // Adjust margin as needed

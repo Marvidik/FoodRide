@@ -1,64 +1,50 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import OTPInput from '../Components/OTPInput';
 import axios from 'axios';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 
-export default function OTPScreen({ navigation }) {
+export default function OTPScreen({navigation}) {
   const [otp1, setOTP1] = useState('');
   const [otp2, setOTP2] = useState('');
   const [otp3, setOTP3] = useState('');
   const [otp4, setOTP4] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [userid, setUserid] = useState('');
+  const [user,setUserid]= useState('')
 
-  const otp2Ref = useRef(null);
-  const otp3Ref = useRef(null);
-  const otp4Ref = useRef(null);
+  const otp=otp1+otp2+otp3+otp4
+
+  
 
   const handleVerifyOTP = async () => {
-    const otp = otp1 + otp2 + otp3 + otp4;
-
+    setUserid(14)
     if (!otp) {
       setError('Please enter OTP');
       return;
     }
-
-    setUserid(14);
-
+    console.log(otp)
+    console.log(user)
     try {
       setLoading(true);
-
-      const response = await axios.post('https://savvy.pythonanywhere.com/otp/', { userid, otp });
-
+  
+      const response = await axios.post('https://savvy.pythonanywhere.com/otp/', { 
+        user,
+        otp 
+      });
+  
       setLoading(false);
-
+  
       console.log('OTP verified:', response.data);
       // Handle successful verification here
-      navigation.navigate('changesuccess');
+      navigation.navigate('Changepassword'); // Assuming navigation is available
     } catch (error) {
       setLoading(false);
       console.error('Error verifying OTP:', error);
       Alert.alert('Error', 'Failed to verify OTP. Please try again.');
     }
   };
-
-  const handleBackspace = (index) => {
-    switch (index) {
-      case 1:
-        otp1Ref.current.focus();
-        break;
-      case 2:
-        otp2Ref.current.focus();
-        break;
-      case 3:
-        otp3Ref.current.focus();
-        break;
-      default:
-        break;
-    }
-  };
-
+  
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require('../assets/logosmall.jpeg')} />
@@ -69,63 +55,21 @@ export default function OTPScreen({ navigation }) {
       </View>
 
       <View style={styles.otpinputs}>
-        <TextInputWithIcons
-          style={styles.textinput}
-          placeholder={""}
-          value={otp1}
-          onChangeText={(value) => {
-            setOTP1(value);
-            if (value) otp2Ref.current.focus();
-          }}
-          keyboardType="numeric"
-          maxLength={1}
-        />
-        <TextInputWithIcons
-          style={styles.textinput}
-          placeholder={""}
-          value={otp2}
-          onChangeText={(value) => {
-            setOTP2(value);
-            if (value) otp3Ref.current.focus();
-          }}
-          onKeyPress={({ nativeEvent: { key } }) => {
-            if (key === 'Backspace' && !otp2) otp1Ref.current.focus();
-          }}
-          keyboardType="numeric"
-          maxLength={1}
-          ref={otp2Ref}
-        />
-        <TextInputWithIcons
-          style={styles.textinput}
-          placeholder={""}
-          value={otp3}
-          onChangeText={(value) => {
-            setOTP3(value);
-            if (value) otp4Ref.current.focus();
-          }}
-          onKeyPress={({ nativeEvent: { key } }) => {
-            if (key === 'Backspace' && !otp3) otp2Ref.current.focus();
-          }}
-          keyboardType="numeric"
-          maxLength={1}
-          ref={otp3Ref}
-        />
-        <TextInputWithIcons
-          style={styles.textinput}
-          placeholder={""}
-          value={otp4}
-          onChangeText={(value) => {
-            setOTP4(value);
-            if (!value) otp3Ref.current.focus();
-          }}
-          onKeyPress={({ nativeEvent: { key } }) => {
-            if (key === 'Backspace' && !otp4) otp3Ref.current.focus();
-          }}
-          keyboardType="numeric"
-          maxLength={1}
-          ref={otp4Ref}
-        />
+          <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp1}
+            onChangeText={setOTP1} keyboardType="numeric"
+            maxLength={1}/>
+            <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp2}
+            onChangeText={setOTP2} keyboardType="numeric"
+            maxLength={1}/>
+            <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp3}
+            onChangeText={setOTP3} keyboardType="numeric"
+            maxLength={1}/>
+            <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp4}
+            onChangeText={setOTP4} keyboardType="numeric"
+            maxLength={1}/>
       </View>
+
+      
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
@@ -185,19 +129,23 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
   },
+  customInput: {
+    marginHorizontal: 20,
+  },
   error: {
     color: 'red',
     marginTop: 10,
     textAlign: 'center',
   },
-  otpinputs: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+  otpinputs:{
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center",
+    
   },
-  textinput: {
-    height: 70,
-    width: 60,
-    marginHorizontal: 20,
-  },
+  textinput:{
+    height:70,
+    width:60,
+    marginHorizontal:20
+  }
 });
