@@ -3,8 +3,12 @@ import React, { useState } from 'react';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import axios from 'axios'; // Import axios for making API calls
+import { useDispatch } from 'react-redux';
 
 export default function LoginScreen({navigation}) {
+
+  const dispatch = useDispatch();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -33,9 +37,10 @@ export default function LoginScreen({navigation}) {
       });
 
       setLoading(false);
+      dispatch({ type: 'SET_RESPONSE_DATA', payload: response.data });
       // Handle successful registration, navigate to login screen
       console.log('Login successful:', response.data);
-      navigation.navigate('Otp');
+      navigation.navigate('Home');
     } catch (error) {
       // Handle registration error
       console.log('Login Error:', error);

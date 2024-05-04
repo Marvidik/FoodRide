@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import axios from 'axios'; // Import axios for making API calls
+import { useDispatch } from 'react-redux';
 
 export default function ForgotPasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const passreset = async () => {
     try {
@@ -24,6 +27,7 @@ export default function ForgotPasswordScreen({navigation}) {
       });
 
       setLoading(false);
+      dispatch({ type: 'SET_RESPONSE_DATA', payload: email });
       // Handle successful registration, navigate to login screen
       console.log('OTP successful:', response.data);
       navigation.navigate('Otp');

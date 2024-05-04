@@ -4,8 +4,18 @@ import IconComponent from '../Components/IconComponent';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import RestaurantCard from '../Components/RestaurantCard'; // Import RestaurantCard component
+import { useSelector } from 'react-redux';
 
 export default function HomeScreen() {
+  const responseData = useSelector(state => state.responseData);
+
+  const { token, user } = responseData;
+
+  console.log('Token:', token);
+  console.log('User ID:', user.id);
+  console.log('Username:', user.username);
+  console.log('Email:', user.email);
+
   return (
     <View style={styles.container}>
       <View style={styles.box1}>
@@ -15,7 +25,7 @@ export default function HomeScreen() {
       <View style={styles.box2}>
         <IconComponent icon={"locate"} color={"#FF7518"} style={{ backgroundColor: "#FCAE1E", marginRight: 20 }} />
         <View style={styles.textbox}>
-          <Text style={styles.text1}>Current Location</Text>
+          <Text style={styles.text1}>Address</Text>
           <Text style={styles.text2}>21 Eberechi lane off Niger</Text>
         </View>
       </View>

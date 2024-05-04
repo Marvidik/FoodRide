@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Ale
 import OTPInput from '../Components/OTPInput';
 import axios from 'axios';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
+import { useSelector } from 'react-redux';
 
 export default function OTPScreen({navigation}) {
   const [otp1, setOTP1] = useState('');
@@ -11,25 +12,26 @@ export default function OTPScreen({navigation}) {
   const [otp4, setOTP4] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [user,setUserid]= useState('')
+  const [email,setUseremail]= useState('');
 
   const otp=otp1+otp2+otp3+otp4
 
+  const responseData = useSelector(state => state.responseData);
   
 
   const handleVerifyOTP = async () => {
-    setUserid(14)
+    setUseremail(responseData)
+    console.log(responseData)
     if (!otp) {
       setError('Please enter OTP');
       return;
     }
-    console.log(otp)
-    console.log(user)
+    
     try {
       setLoading(true);
   
       const response = await axios.post('https://savvy.pythonanywhere.com/otp/', { 
-        user,
+        email,
         otp 
       });
   

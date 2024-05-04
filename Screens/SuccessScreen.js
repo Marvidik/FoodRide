@@ -2,14 +2,14 @@ import { View, Text,Image ,StyleSheet} from 'react-native'
 import React from 'react'
 import CustomButton from '../Components/CustomButton';
 
-export default function SuccessScreen() {
+export default function SuccessScreen({navigation}) {
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={require('../assets/logosmall.jpeg')}/>
       <Text style={styles.text3}>Password Changed Successfully </Text>
       <Text style={styles.text2}>Log In and Enjoy your Food</Text>
 
-      <CustomButton style={styles.but} title={"Done"} onPress={() => console.log("Welcome to the home screen")}/>
+      <CustomButton style={styles.but} title={"Done"} onPress={navigation.navigate('Login')}/>
     </View>
   )
 }

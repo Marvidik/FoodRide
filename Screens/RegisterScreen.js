@@ -1,8 +1,14 @@
 import { View, Text, Image, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TextInput, TouchableOpacity,ActivityIndicator } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useContext  } from 'react';
 import axios from 'axios'; // Import axios for making API calls
+import { useDispatch } from 'react-redux';
+
 
 export default function RegisterScreen({ navigation }) {
+
+  const dispatch = useDispatch();
+
+  
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -46,9 +52,10 @@ export default function RegisterScreen({ navigation }) {
       });
 
       setLoading(false);
+      dispatch({ type: 'SET_RESPONSE_DATA', payload: response.data });
       // Handle successful registration, navigate to login screen
       console.log('Registration successful:', response.data);
-      navigation.navigate('Login');
+      navigation.navigate('Home');
     } catch (error) {
       // Handle registration error
       alert('Error registering:', error);

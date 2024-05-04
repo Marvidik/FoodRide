@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import axios from 'axios'; // Import axios for making API calls
+import { useSelector } from 'react-redux';
 
 export default function ChangePasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -10,9 +11,11 @@ export default function ChangePasswordScreen({navigation}) {
   const [confirm_password, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const responseData = useSelector(state => state.responseData);
+
 
   const Changepass = async () => {
-    setEmail("Savvybittechnology@gmail.com")
+    setEmail(responseData)
     try {
       if(password=== ""){
         alert('password is empty');

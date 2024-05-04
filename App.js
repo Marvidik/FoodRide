@@ -19,11 +19,21 @@ import ProfileScreen from './Screens/ProfileScreen';
 import AddressScreen from './Screens/AddressScreen';
 import AddressChangeScreen from './Screens/AddressChangeScreen';
 import ConfirmScreen from './Screens/ConfirmScreen';
+import { Provider } from 'react-redux';
+import store from './Data/store';
+
+
+
+
 
 export default function App() {
-
+  
   const Stack = createStackNavigator();
+
+
+ 
   return (
+    <Provider store={store}>
     <View style={styles.container}>
       <NavigationContainer>
       <Stack.Navigator initialRouteName="Register">
@@ -33,10 +43,13 @@ export default function App() {
         <Stack.Screen options={{ headerShown: false }} name="Changepassword" component={ChangePasswordScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Otp" component={OTPScreen} />
         <Stack.Screen options={{ headerShown: false }} name="changesuccess" component={SuccessScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
       <StatusBar style="auto" />
     </View>
+    
+    </Provider>
   );
 }
 
