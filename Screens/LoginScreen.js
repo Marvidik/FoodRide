@@ -59,9 +59,10 @@ export default function LoginScreen({navigation}) {
     } catch (error) {
       // Handle registration error
       console.log('Login Error:', error);
+      setError(error)
       showMessage({
         message: "Login Error",
-        description: "Incorrect Username Or Password",
+        description: error.message,
         type: "danger",
         style:styles.message
       });
