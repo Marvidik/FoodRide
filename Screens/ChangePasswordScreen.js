@@ -4,6 +4,7 @@ import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import axios from 'axios'; // Import axios for making API calls
 import { useSelector } from 'react-redux';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function ChangePasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -45,11 +46,22 @@ export default function ChangePasswordScreen({navigation}) {
 
       setLoading(false);
       // Handle successful registration, navigate to login screen
+      showMessage({
+        message: "PASSWORD CHANGED",
+        description: " Password Changed Successfully",
+        type: "success",
+        style:styles.message
+      });
       console.log('Change successful:', response.data);
-      navigation.navigate('changesuccess');
+      navigation.navigate('Login');
     } catch (error) {
       // Handle registration error
-      console.log('ChangeError:', error);
+      showMessage({
+        message: "PASSWORD CHANGED ERROR",
+        description: "An Error Occured While Changing Password",
+        type: "danger",
+        style:styles.message
+      });
       setLoading(false);
     }
   };
@@ -66,9 +78,9 @@ export default function ChangePasswordScreen({navigation}) {
         <Text style={styles.text3}>At least 8 characters with uppercase </Text>
         <Text style={styles.text2}>and a character</Text>
 
-        <TextInputWithIcons style={styles.textinput} placeholder={"New Password"} value={password}
+        <TextInputWithIcons style={styles.textinput} placeholder={"New Password"} 
             onChangeText={setPassword}/>
-        <TextInputWithIcons style={styles.textinput} placeholder={"Confirm Password"} value={confirm_password}
+        <TextInputWithIcons style={styles.textinput} placeholder={"Confirm Password"} 
             onChangeText={setConfirmPassword}/>
        
         
@@ -130,6 +142,11 @@ const styles = StyleSheet.create({
       alignSelf:"center",
       flex:1
     },
+    message:{
+      marginTop:64,
+      marginHorizontal:10,
+      borderRadius:10
+    }
   });
   
 

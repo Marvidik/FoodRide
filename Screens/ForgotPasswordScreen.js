@@ -4,6 +4,7 @@ import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import axios from 'axios'; // Import axios for making API calls
 import { useDispatch } from 'react-redux';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function ForgotPasswordScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -28,12 +29,23 @@ export default function ForgotPasswordScreen({navigation}) {
 
       setLoading(false);
       dispatch({ type: 'SET_RESPONSE_DATA', payload: email });
+      showMessage({
+        message: "OTP SENT TO EMAIL",
+        description: "An OTP has been sent to the provided email address",
+        type: "success",
+        style:styles.message
+      });
       // Handle successful registration, navigate to login screen
       console.log('OTP successful:', response.data);
       navigation.navigate('Otp');
     } catch (error) {
       // Handle registration error
-      console.log('OTP Error:', error);
+      showMessage({
+        message: "OTP",
+        description: "User with the email does not exist",
+        type: "danger",
+        style:styles.message
+      });
       setLoading(false);
     }
   };
@@ -113,5 +125,10 @@ const styles = StyleSheet.create({
       alignSelf:"center",
       flex:1
     },
+    message:{
+      marginTop:64,
+      marginHorizontal:10,
+      borderRadius:10
+    }
   });
   

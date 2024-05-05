@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, TextInput } from 'react-native';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function OTPScreen({navigation}) {
   const [otp, setOTP] = useState(['', '', '', '']);
@@ -45,12 +46,22 @@ export default function OTPScreen({navigation}) {
       setLoading(false);
   
       console.log('OTP verified:', response.data);
+      showMessage({
+        message: "OTP VERIFIED",
+        description: " OTP Verified Successfully",
+        type: "success",
+        style:styles.message
+      });
       // Handle successful verification here
       navigation.navigate('Changepassword'); // Assuming navigation is available
     } catch (error) {
       setLoading(false);
-      console.error('Error verifying OTP:', error);
-      Alert.alert('Error', 'Failed to verify OTP. Please try again.');
+      showMessage({
+        message: "OTP ERROR",
+        description: " OTP is Incorrect",
+        type: "danger",
+        style:styles.message
+      });
     }
   };
   
@@ -60,7 +71,7 @@ export default function OTPScreen({navigation}) {
       <Text style={styles.text1}>OTP Request</Text>
       <View style={styles.box1}>
         <Text style={styles.text2}>4 digit code sent to </Text>
-        <Text style={styles.text3}>ebubeidika@gmail.com</Text>
+        <Text style={styles.text3}>{responseData}</Text>
       </View>
 
       <View style={styles.otpinputs}>
@@ -162,5 +173,10 @@ const styles = StyleSheet.create({
     borderRadius:10,
     borderColor:"grey",
     alignSelf:"center",
+  },
+  message:{
+    marginTop:64,
+    marginHorizontal:10,
+    borderRadius:10
   }
 });

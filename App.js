@@ -22,6 +22,8 @@ import ConfirmScreen from './Screens/ConfirmScreen';
 import { Provider } from 'react-redux';
 import store from './Data/store';
 
+import FlashMessage from "react-native-flash-message";
+
 
 
 
@@ -48,7 +50,7 @@ export default function App() {
     </NavigationContainer>
       <StatusBar style="auto" />
     </View>
-    
+    <FlashMessage position="top" />
     </Provider>
   );
 }

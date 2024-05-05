@@ -1,9 +1,10 @@
-import { View, Text, Image, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TextInput, TouchableOpacity,ActivityIndicator, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, KeyboardAvoidingView, Button,ScrollView, Platform, TextInput, TouchableOpacity,ActivityIndicator, Alert } from 'react-native';
 import React, { useState } from 'react';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
 import axios from 'axios'; // Import axios for making API calls
 import { useDispatch } from 'react-redux';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 export default function LoginScreen({navigation}) {
 
@@ -18,12 +19,20 @@ export default function LoginScreen({navigation}) {
   const Login = async () => {
     try {
       if(username=== ""){
-        alert('Username is empty');
+        showMessage({
+          message: "Username is empty",
+          type: "success",
+          style:styles.message
+        });
         return;
       }
 
       if(password=== ""){
-        alert('Password is empty');
+        showMessage({
+          message: "Password is empty",
+          type: "success",
+          style:styles.message
+        });
         return;
       }
 
@@ -38,13 +47,24 @@ export default function LoginScreen({navigation}) {
 
       setLoading(false);
       dispatch({ type: 'SET_RESPONSE_DATA', payload: response.data });
+      showMessage({
+        message: "Login Successful",
+        description: "Enjoy Your Foods",
+        type: "success",
+        style:styles.message
+      });
       // Handle successful registration, navigate to login screen
       console.log('Login successful:', response.data);
       navigation.navigate('Home');
     } catch (error) {
       // Handle registration error
       console.log('Login Error:', error);
-      Alert.alert('Wrong Username or password');
+      showMessage({
+        message: "Login Error",
+        description: "Incorrect Username Or Password",
+        type: "danger",
+        style:styles.message
+      });
       setLoading(false);
     }
   };
@@ -60,9 +80,9 @@ export default function LoginScreen({navigation}) {
           <Text style={styles.text1}>Welcome Back</Text>
           <Text style={styles.text2}>Log Into Your Account</Text>
 
-          <TextInputWithIcons style={styles.textinput} placeholder={"Username"} value={username}
+          <TextInputWithIcons style={styles.textinput} placeholder={"Username"} 
             onChangeText={setUsername}/>
-          <TextInputWithIcons style={styles.textinput} placeholder={"Password"} value={password}
+          <TextInputWithIcons style={styles.textinput} placeholder={"Password"} 
             onChangeText={setPassword} secureTextEntry/>
       
           <TouchableOpacity  onPress={()=> navigation.navigate('Register')}>
@@ -127,5 +147,10 @@ const styles = StyleSheet.create({
       alignSelf:"center",
       flex:1
     },
+    message:{
+      marginTop:64,
+      marginHorizontal:10,
+      borderRadius:10
+    }
   });
   

@@ -2,6 +2,7 @@ import { View, Text, Image, StyleSheet, KeyboardAvoidingView, ScrollView, Platfo
 import React, { useState, useContext  } from 'react';
 import axios from 'axios'; // Import axios for making API calls
 import { useDispatch } from 'react-redux';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 export default function RegisterScreen({ navigation }) {
@@ -21,22 +22,38 @@ export default function RegisterScreen({ navigation }) {
     try {
       // Check if passwords match
       if (password !== confirmPassword) {
-        alert('Passwords do not match');
+        showMessage({
+          message: "Passwords Do not Match",
+          type: "warning",
+          style:styles.message
+        });
         return;
       }
 
       if(email=== ""){
-        alert('Email is empty');
+        showMessage({
+          message: "Email Field is Empty",
+          type: "warning",
+          style:styles.message
+        });
         return;
       }
 
       if(username=== ""){
-        alert('Username is empty');
+        showMessage({
+          message: "Username Field is Empty",
+          type: "warning",
+          style:styles.message
+        });
         return;
       }
 
       if(password=== ""){
-        alert('password is empty');
+        showMessage({
+          message: "Password Field is Empty",
+          type: "warning",
+          style:styles.message
+        });
         return;
       }
 
@@ -53,13 +70,22 @@ export default function RegisterScreen({ navigation }) {
 
       setLoading(false);
       dispatch({ type: 'SET_RESPONSE_DATA', payload: response.data });
+      showMessage({
+        message: "Registration Successful",
+        description: "Enjoy Your Foods",
+        type: "success",
+        style:styles.message
+      });
       // Handle successful registration, navigate to login screen
       console.log('Registration successful:', response.data);
       navigation.navigate('Home');
     } catch (error) {
-      // Handle registration error
-      alert('Error registering:', error);
-      setError('Error registering user');
+      showMessage({
+        message: "Registration Error ",
+        description: "Error Registering User",
+        type: "danger",
+        style:styles.message
+      });
       setLoading(false);
     }
   };
@@ -188,5 +214,10 @@ const styles = StyleSheet.create({
     paddingLeft:300,
     fontSize:22,
     color:'#FF7518'
+  },
+  message:{
+    marginTop:64,
+    marginHorizontal:10,
+    borderRadius:10
   }
 });
