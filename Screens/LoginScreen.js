@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TextInput, TouchableOpacity,ActivityIndicator } from 'react-native';
+import { View, Text, Image, StyleSheet, KeyboardAvoidingView, ScrollView, Platform, TextInput, TouchableOpacity,ActivityIndicator, Alert } from 'react-native';
 import React, { useState } from 'react';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
@@ -44,7 +44,7 @@ export default function LoginScreen({navigation}) {
     } catch (error) {
       // Handle registration error
       console.log('Login Error:', error);
-      setError('Error registering user');
+      Alert.alert('Wrong Username or password');
       setLoading(false);
     }
   };

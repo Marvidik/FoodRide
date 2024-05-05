@@ -1,28 +1,35 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
-import OTPInput from '../Components/OTPInput';
+import React, { useState, useRef } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ActivityIndicator, Alert, TextInput } from 'react-native';
 import axios from 'axios';
-import TextInputWithIcons from '../Components/TextInputWithIcons';
 import { useSelector } from 'react-redux';
 
 export default function OTPScreen({navigation}) {
-  const [otp1, setOTP1] = useState('');
-  const [otp2, setOTP2] = useState('');
-  const [otp3, setOTP3] = useState('');
-  const [otp4, setOTP4] = useState('');
+  const [otp, setOTP] = useState(['', '', '', '']);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [email,setUseremail]= useState('');
-
-  const otp=otp1+otp2+otp3+otp4
+  const [email, setUseremail] = useState('');
 
   const responseData = useSelector(state => state.responseData);
   
+  const inputRefs = useRef([]);
+
+  const handleInputChange = (text, index) => {
+    const newOtp = [...otp];
+    newOtp[index] = text;
+    setOTP(newOtp);
+
+    if (text && index < 3) {
+      inputRefs.current[index + 1].focus();
+    } else if (!text && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
 
   const handleVerifyOTP = async () => {
-    setUseremail(responseData)
-    console.log(responseData)
-    if (!otp) {
+    setUseremail(responseData);
+    const otpString = otp.join('');
+    
+    if (!otpString) {
       setError('Please enter OTP');
       return;
     }
@@ -32,7 +39,7 @@ export default function OTPScreen({navigation}) {
   
       const response = await axios.post('https://savvy.pythonanywhere.com/otp/', { 
         email,
-        otp 
+        otp: otpString
       });
   
       setLoading(false);
@@ -57,21 +64,19 @@ export default function OTPScreen({navigation}) {
       </View>
 
       <View style={styles.otpinputs}>
-          <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp1}
-            onChangeText={setOTP1} keyboardType="numeric"
-            maxLength={1}/>
-            <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp2}
-            onChangeText={setOTP2} keyboardType="numeric"
-            maxLength={1}/>
-            <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp3}
-            onChangeText={setOTP3} keyboardType="numeric"
-            maxLength={1}/>
-            <TextInputWithIcons style={styles.textinput} placeholder={""} value={otp4}
-            onChangeText={setOTP4} keyboardType="numeric"
-            maxLength={1}/>
+        {otp.map((value, index) => (
+          <TextInput
+            key={index}
+            ref={ref => (inputRefs.current[index] = ref)}
+            style={styles.textinput}
+            placeholder={""}
+            value={value}
+            onChangeText={text => handleInputChange(text, index)}
+            keyboardType="numeric"
+            maxLength={1}
+          />
+        ))}
       </View>
-
-      
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
@@ -143,11 +148,19 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     alignItems:"center",
     justifyContent:"center",
+   
     
   },
   textinput:{
     height:70,
     width:60,
-    marginHorizontal:20
+    paddingHorizontal:20,
+    marginHorizontal:20,
+    borderWidth:1,
+    alignItems:"center",
+    justifyContent:"center",
+    borderRadius:10,
+    borderColor:"grey",
+    alignSelf:"center",
   }
 });
