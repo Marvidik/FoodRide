@@ -4,9 +4,11 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomButton from './CustomButton';
 
 const CartItem = ({ item, onIncrement, onDecrement }) => {
+  const imageUrl = `https://savvy.pythonanywhere.com${item.image}`;
+
   return (
     <View style={styles.container}>
-      <Image source={ item.image } style={styles.image} />
+      <Image source={{ uri: imageUrl }} style={styles.image} />
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.price}>${item.price.toFixed(2)}</Text>
@@ -32,7 +34,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     paddingBottom: 20,
-    paddingHorizontal:10
+    paddingHorizontal:10,
+    
   },
   image: {
     width: 80,
@@ -62,10 +65,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f0',
     padding: 8,
     borderRadius: 5,
+    height:40,
+    width:40,
+    justifyContent:"center",
+    alignItems:"center"
   },
   quantityButtonText: {
-    fontSize: 20,
+    fontSize: 24,
     color: '#000',
+    
+    
   },
   quantity: {
     fontSize: 16,

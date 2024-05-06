@@ -9,6 +9,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 
+
 export default function FoodScreen({ route }) {
 
   const { restaurant } = route.params;
@@ -19,15 +20,21 @@ export default function FoodScreen({ route }) {
   const [foods, setFoods] = useState([]);
   const [junks, setJunks] = useState([]);
 
-  
+
+  const { addToCart } = useCart();
 
   const handleAddToCart = (food) => {
+    // Set quantity to 1 before adding to cart
+    const foodWithQuantity = { ...food, quantity: 1 };
+    addToCart(foodWithQuantity);
     showMessage({
       message: "Added To Cart",
       type: "success",
-      style:styles.message,
+      style: styles.message,
     });
+    console.log(food);
   };
+  
 
   useEffect(() => {
     setLoading(true);

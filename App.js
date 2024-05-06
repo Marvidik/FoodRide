@@ -25,6 +25,7 @@ import store from './Data/store';
 
 import FlashMessage from "react-native-flash-message";
 import { Ionicons } from '@expo/vector-icons'; 
+import { CartProvider } from './Data/CartContext';
 
 
 const Stack = createStackNavigator();
@@ -34,8 +35,10 @@ const Tab = createBottomTabNavigator();
 const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{ headerShown: false }} name="Main" component={HomeScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="HomeEntry" component={HomeScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Food" component={FoodScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Address" component={AddressScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Addresschange" component={AddressChangeScreen} />
     </Stack.Navigator>
   );
 };
@@ -124,6 +127,7 @@ export default function App() {
  
   return (
     <Provider store={store}>
+      <CartProvider>
     <View style={styles.container}>
       <NavigationContainer>
       <Stack.Navigator initialRouteName="Register">
@@ -139,6 +143,7 @@ export default function App() {
       <StatusBar style="auto" />
     </View>
     <FlashMessage position="top" />
+    </CartProvider>
     </Provider>
   );
 }

@@ -16,7 +16,9 @@ export default function AddressChangeScreen() {
           <TextInputWithIcons style={styles.textinput} placeholder={"Apartment"} />
           
 
-          <CustomButton style={styles.but} title={"Register"} />
+          <CustomButton style={styles.but} title={"Save"}  onPress={() => {
+            console.log("This happens");
+          }}/>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -27,7 +29,8 @@ export default function AddressChangeScreen() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop:20
+      paddingTop:20,
+      backgroundColor:"white",
     },
     content: {
       flexGrow: 1,

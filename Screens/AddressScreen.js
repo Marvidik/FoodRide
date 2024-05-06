@@ -3,7 +3,7 @@ import React from 'react'
 import CustomButton from '../Components/CustomButton'
 import { Ionicons } from '@expo/vector-icons';
 
-export default function AddressScreen() {
+export default function AddressScreen({navigation}) {
   return (
     <View style={styles.container}>
         <View style={styles.box}>
@@ -22,7 +22,10 @@ export default function AddressScreen() {
         </View>
 
       
-      <CustomButton title={"Change Address"} style={styles.but}/>
+      <CustomButton title={"Change Address"} style={styles.but}  onPress={() => {
+                    
+    navigation.navigate("Addresschange");
+    }}/>
     </View>
   )
 }
@@ -31,6 +34,8 @@ export default function AddressScreen() {
 const styles = StyleSheet.create({
     container:{
         paddingTop:44,
+        backgroundColor:"white",
+        flex:1
 
     },
     text:{

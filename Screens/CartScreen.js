@@ -1,73 +1,97 @@
-// CartScreen.js
-import React, { useState } from 'react';
-import { View, Text, Button,StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import CartItem from '../Components/CartItem';
 import CustomButton from '../Components/CustomButton';
+import { useCart } from '../Data/CartContext';
 
+const CartScreen = ({navigation}) => {
+  const { cartItems } = useCart();
+  const [total, setTotal] = useState(0);
 
-const CartScreen = () => {
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: 'Item 1', price: 20.00, image: require("../assets/menu (1).jpg"), quantity: 1 },
-    { id: 2, name: 'Item 2', price: 25.00, image: require("../assets/menu (2).jpg"), quantity: 1 },
-    { id: 3, name: 'Item 2', price: 25.00, image: require("../assets/menu (3).jpg"), quantity: 1 },
-    { id: 4, name: 'Item 2', price: 25.00, image: require("../assets/burgs (3).jpg"), quantity: 1 },
-   
-  ]);
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [cartItems]);
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    cartItems.forEach((item) => {
+      totalPrice += item.price * item.quantity;
+    });
+    setTotal(totalPrice);
+  };
 
   const handleIncrement = (index) => {
     const newCartItems = [...cartItems];
     newCartItems[index].quantity++;
-    setCartItems(newCartItems);
+    // Recalculate total price after incrementing
+    calculateTotalPrice();
   };
 
   const handleDecrement = (index) => {
     const newCartItems = [...cartItems];
     if (newCartItems[index].quantity > 1) {
       newCartItems[index].quantity--;
-      setCartItems(newCartItems);
+      // Recalculate total price after decrementing
+      calculateTotalPrice();
     }
   };
 
-
   return (
     <View style={styles.container}>
-      <View style={styles.b1}>
-        <Text style={styles.cart}>Cart</Text>
-        <ScrollView style={styles.ScrollView}>
+      <Text style={styles.cart}>Cart</Text>
+      {cartItems.length > 0 ? (
+        <ScrollView style={styles.scrollView}>
           {cartItems.map((item, index) => (
-            <CartItem  key={item.id} item={item} onIncrement={() => handleIncrement(index)} onDecrement={() => handleDecrement(index)} />
+            <CartItem
+              key={item.id}
+              item={item}
+              onIncrement={() => handleIncrement(index)}
+              onDecrement={() => handleDecrement(index)}
+            />
           ))}
         </ScrollView>
-        
-      </View>
-      
-      <CustomButton style={styles.but} title={"Checkout  $50"}/>
+      ) : (
+        <View style={styles.emptyCartContainer}>
+          <Ionicons name="cart-outline" size={100} color="gray" />
+          <Text style={styles.emptyCartText}>Cart is empty</Text>
+        </View>
+      )}
+      <CustomButton title={`Checkout ${total.toFixed(2)} Naira`} style={styles.checkoutButton}  onPress={() => {
+      navigation.navigate("Address", {total });
+                  }}/>
     </View>
   );
 };
 
 export default CartScreen;
 
-
-
 const styles = StyleSheet.create({
-    container:{
-      flex:1,
-      paddingTop:50
-    },
-    cart:{
-      fontSize:32,
-      alignSelf:"center"
-    },
-
-    b1:{
-      height:"90%"
-    },
-    but:{
-      marginHorizontal:20,
-      height:50,
-    },
-    ScrollView:{
-      
-    }
-})
+  container: {
+    flex: 1,
+    paddingTop: 50,
+  },
+  cart: {
+    fontSize: 32,
+    alignSelf: 'center',
+  },
+  scrollView: {
+    flex: 1,
+    marginTop: 20,
+  },
+  emptyCartContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 24,
+    marginTop: 20,
+    color: 'gray',
+  },
+  checkoutButton: {
+    marginHorizontal: 20,
+    height: 50,
+    marginBottom: 20,
+  },
+});
