@@ -30,6 +30,16 @@ import { Ionicons } from '@expo/vector-icons';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+
+const MainStackNavigator = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{ headerShown: false }} name="Main" component={HomeScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Food" component={FoodScreen} />
+    </Stack.Navigator>
+  );
+};
+
 // Define Bottom Tab Navigator
 const BottomTabNavigator = () => {
   return (
@@ -54,9 +64,9 @@ const BottomTabNavigator = () => {
     >
       <Tab.Screen 
         name="Main" 
-        component={HomeScreen} 
+        component={MainStackNavigator} 
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: 'rest',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
@@ -95,11 +105,14 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" color={color} size={size} />
           ),
+         
         }}
       />
     </Tab.Navigator>
   );
 };
+
+
 
 
 

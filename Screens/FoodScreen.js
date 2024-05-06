@@ -1,25 +1,87 @@
-import { View, Text,StyleSheet,Image,ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text,StyleSheet,Image,ScrollView,ActivityIndicator } from 'react-native'
+import React,{useState,useEffect} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import JunksCard from '../Components/JunksCard';
 import FoodCard from '../Components/FoodCard';
+import axios from 'axios'; // Import axios for making API calls
+import { CartProvider, useCart } from '../Data/CartContext';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 
-export default function FoodScreen() {
+export default function FoodScreen({ route }) {
+
+  const { restaurant } = route.params;
+
+  // Access restaurant properties
+  const { name, location, openingHours,logo,id } = restaurant;
+  const [loading, setLoading] = useState(false);
+  const [foods, setFoods] = useState([]);
+  const [junks, setJunks] = useState([]);
+
+  
+
+  const handleAddToCart = (food) => {
+    showMessage({
+      message: "Added To Cart",
+      type: "success",
+      style:styles.message,
+    });
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    // Fetch restaurant data from the API
+    axios.get(`https://savvy.pythonanywhere.com/restaurant/junk/${id}/`)
+      .then(response => {
+        // If the request is successful, set the restaurants state with the fetched data
+        setJunks(response.data.Junks);
+        setLoading(false);
+        console.log(response.data.Junks);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error fetching data:', error);
+        // Set restaurants state to an empty array in case of error
+        setJunks([]);
+        setLoading(false);
+      });
+  }, [id]); // Add foods as a dependency
+  
+  useEffect(() => {
+    setLoading(true);
+    // Fetch restaurant data from the API
+    axios.get(`https://savvy.pythonanywhere.com/restaurant/food/${id}/`)
+      .then(response => {
+        // If the request is successful, set the restaurants state with the fetched data
+        setFoods(response.data.Foods);
+        setLoading(false);
+        console.log(response.data.Foods);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error fetching data:', error);
+        // Set restaurants state to an empty array in case of error
+        setFoods([]);
+        setLoading(false);
+      });
+  }, [id]); // Add id as a dependency
+  
+
   return (
+    
     <View style={styles.container}>
         <View style={styles.ibox}>
             <View style={styles.box1}>
-                <Image style={styles.image} source={require("../assets/kilimanjaro.png")}/>
+                <Image style={styles.image} source={{uri: `https://savvy.pythonanywhere.com${logo}`}}/>
             </View>
             <View style={styles.names}>
-                <Text style={styles.text1}>kilimanjaro</Text>
-                <Text style={styles.text2}>Open</Text>
+                <Text style={styles.text1}>{name}</Text>
+                <Text style={styles.text2}>Open {restaurant.opening_hour} -{restaurant.closing_hour}</Text>
             </View>
         </View>
         <View style={styles.names2}>
-            <Text style={styles.text3}>21 china road futo</Text>
+            <Text style={styles.text3}>{location}</Text>
             <Text style={styles.text3}>$800 for delivery</Text>
         </View>
         <View style={styles.rating}>
@@ -27,101 +89,56 @@ export default function FoodScreen() {
             <Text style={styles.text4}>5.0</Text>
             <Text style={styles.text5}>100+  ratings</Text>
         </View>
+
+        {loading ? (
+            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
+          ) : (
         <ScrollView contentContainerStyle={styles.scrollView1}>
         <Text style={styles.text6}>Junks and Proteins</Text>
 
+        
         <ScrollView horizontal contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
-      <JunksCard
-        name="Burger"
-        source={require("../assets/burgs (1).jpg")}
-        category="Junks"
-        price={34}
-        availability={true}
-        
-      />
-      <JunksCard
-        name="Burger"
-        source={require("../assets/burgs (2).jpg")}
-        category="Junks"
-        price={34}
-        availability={true}
-    
-      />
-      <JunksCard
-        name="Burger"
-        source={require("../assets/burgs (3).jpg")}
-        category="Junks"
-        price={34}
-        availability={true}
-    
-      />
-      <JunksCard
-        name="Burger"
-        source={require("../assets/burgs (4).jpg")}
-        category="Junks"
-        price={34}
-        availability={true}
-       
-      />
-      <JunksCard
-        name="Burger"
-        source={require("../assets/burgs (5).jpg")}
-        category="Junks"
-        price={34}
-        availability={true}
-        
-      />
+        { junks.length > 0 ? (
+        junks.map((junk, index) => (
+          <JunksCard
+            key={index}
+            name={junk.name}
+            source={{ uri: `https://savvy.pythonanywhere.com${junk.image}` }}
+            category={junk.category}
+            price={junk.price}
+            availability={junk.availability === "Available"}
+            onAddToCart={() => handleAddToCart(junk)}
+          />
+        ))
+        ) : (
+  <View style={styles.noDataContainer}>
+    <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info1}/>
+    <Text style={styles.textinfo1}>No junks available</Text>
+  </View>
+)}
     </ScrollView>
 
     <Text style={styles.text6}>Foods</Text>
 
-    
-      <FoodCard
-        name="Pizza"
-        image={require("../assets/menu (1).jpg")}
-        rating={4.5}
-        category="Italian"
-        availability={true}
-        price={10.99}
-      
-      />
-      <FoodCard
-        name="Sushi"
-        image={require("../assets/menu (1).jpg")}
-        rating={4.8}
-        category="Japanese"
-        availability={true}
-        price={15.99}
-      
-      />
-      <FoodCard
-        name="Burger"
-        image={require("../assets/menu (1).jpg")}
-        rating={4.7}
-        category="American"
-        availability={true}
-        price={8.99}
-       
-      />
-      <FoodCard
-        name="Taco"
-        image={require("../assets/menu (1).jpg")}
-        rating={4.6}
-        category="Mexican"
-        availability={true}
-        price={7.99}
-       
-      />
-      <FoodCard
-        name="Pad Thai"
-        image={require("../assets/menu (1).jpg")}
-        rating={4.4}
-        category="Thai"
-        availability={true}
-        price={11.99}
-        
-      />
-    </ScrollView>
+    { junks.length > 0 ? (foods.map((food, index) => (
+    <FoodCard
+      key={index}
+      name={food.name}
+      image={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+      rating={food.rating}
+      category={food.category}
+      availability={food.availability === "Available"}
+      price={food.price}
+      onAddToCart={() => handleAddToCart(food)}
+    />
+))) : (
+  <View style={styles.noDataContainer}>
+    <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info} />
+    <Text style={styles.textinfo}>No Foods available</Text>
+  </View>
+)}
+
+    </ScrollView>)}
     
       
     </View>
@@ -200,4 +217,31 @@ const styles = StyleSheet.create({
         padding: 10,
         
       },
+      info:{
+        alignSelf:"center"
+      },
+      noDataContainer:{
+        alignContent:"center",
+        justifyContent:"center"
+      },
+      textinfo:{
+        alignSelf:"center",
+        fontSize:22,
+        color:"gray"
+      },
+      info1:{
+        alignSelf:"center",
+        paddingLeft:110
+      },
+      textinfo1:{
+        alignSelf:"center",
+        fontSize:22,
+        color:"gray",
+        paddingLeft:110
+      },
+      message:{
+        marginTop:64,
+        marginHorizontal:10,
+        borderRadius:10
+      }
 })

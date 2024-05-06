@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Modal, Image, TouchableOpacity } from 'react-native';
+import React, { useState,useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Modal, Image, TouchableOpacity,ActivityIndicator } from 'react-native';
 import IconComponent from '../Components/IconComponent';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
@@ -7,14 +7,39 @@ import RestaurantCard from '../Components/RestaurantCard';
 import { useSelector } from 'react-redux';
 import FoodCard from '../Components/FoodCard';
 import AdsCard from '../Components/AdsCard';
+import axios from 'axios'; // Import axios for making API calls
 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   const [modalVisible, setModalVisible] = useState(true); // Initialize modalVisible state as true
 
   const responseData = useSelector(state => state.responseData);
   const { token, user } = responseData;
+  const [restaurants, setRestaurants] = useState([]);
 
+  const [restID,setREstID]= useState(); 
+  const [loading, setLoading] = useState(false);
+
+  
+
+  useEffect(() => {
+    setLoading(true);
+    // Fetch restaurant data from the API
+    axios.get('https://savvy.pythonanywhere.com/restaurants/')
+      .then(response => {
+        // If the request is successful, set the restaurants state with the fetched data
+        setRestaurants(response.data.restaurants); // Update to response.data.restaurants
+        console.log(restaurants)
+        setLoading(false);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error fetching data:', error);
+        // Set restaurants state to an empty array in case of error
+        setRestaurants([]);
+        setLoading(false);
+      });
+  }, []);
  
   return (
     <View style={styles.container}>
@@ -38,28 +63,61 @@ export default function HomeScreen() {
       </Modal>
       
       <View style={styles.box2}>
-        <IconComponent icon={"locate"} color={"#FF7518"} style={{ backgroundColor: "#FCAE1E", marginRight: 20 }} />
+        <IconComponent icon={"person"} color={"#FF7518"} style={{ backgroundColor: "#FCAE1E", marginRight: 20 }} />
         <View style={styles.textbox}>
-          <Text style={styles.text1}>Address</Text>
-          <Text style={styles.text2}>21 Eberechi lane off Niger</Text>
+          <Text style={styles.text1}>{user.username}</Text>
+          <Text style={styles.text2}>{user.email}</Text>
         </View>
-        <IconComponent icon={"search"} color={"#FF7518"} style={{ backgroundColor: "#FCAE1E", marginLeft: 100 }} />
+        <IconComponent icon={"search"} color={"#FF7518"} style={styles.search} />
       </View>
-      {/* <TextInputWithIcons style={styles.textinput} placeholder={"Search........."} leftIcon={"search-outline"} /> */}
+      {loading ? (
+            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
+          ) : (
       <ScrollView contentContainerStyle={styles.scrollViewContent1} horizontal
       pagingEnabled
       showsHorizontalScrollIndicator={false}>    
         <AdsCard source={require('../assets/ads.jpeg')}/>
         <AdsCard source={require('../assets/ads2.jpeg')}/>
         <AdsCard source={require('../assets/ads3.jpeg')}/>
-      </ScrollView>
+      </ScrollView>)}  
       <Text style={styles.text3}>Available Restaurants</Text>
+      {loading ? (
+            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
+          ) : (
       <ScrollView contentContainerStyle={styles.scrollViewContent} horizontal={false} showsVerticalScrollIndicator={false}>
-        <RestaurantCard imageSource={require('../assets/chrunches.jpeg')} name={"Chrunches"} location={"Lagos"} openingHours={"11.25am - 12.00pm"} />
-        <RestaurantCard imageSource={require('../assets/kilimanjaro.png')} name={"Kilimanjaro"} location={"Lagos"} openingHours={"11.25am - 12.00pm"} />
-        <RestaurantCard imageSource={require('../assets/mr-biggs.png')} name={"Mr Biggs"} location={"Lagos"} openingHours={"11.25am - 12.00pm"} />
-        <RestaurantCard imageSource={require('../assets/tantalizers.png')} name={"Tantalizers"} location={"Lagos"} openingHours={"11.25am - 12.00pm"} />
-      </ScrollView>
+      {restaurants.map((restaurant, index) => {
+        // Render two RestaurantCard components per restview
+        if (index % 2 === 0) {
+          return (
+            <View key={index} style={styles.restview}>
+              <RestaurantCard
+                imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurant.logo}` }}
+                name={restaurant.name}
+                location={restaurant.location}
+                openingHours={`${restaurant.opening_hour} - ${restaurant.closing_hour}`}
+                onPress={() => {
+                  // Pass restaurant data to the "Food" screen
+                  navigation.navigate("Food", { restaurant });
+                }}
+              />
+              {restaurants[index + 1] && ( // Check if there's another restaurant for the second card
+                <RestaurantCard 
+                  imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurants[index + 1].logo}` }}
+                  name={restaurants[index + 1].name}
+                  location={restaurants[index + 1].location}
+                  openingHours={`${restaurants[index + 1].opening_hour} - ${restaurants[index + 1].closing_hour}`}
+                  onPress={() => {
+                    // Pass restaurant data to the "Food" screen
+                    navigation.navigate("Food", { restaurant: restaurants[index + 1] });
+                  }}
+                />
+              )}
+            </View>
+          );
+        }
+        return null; // Skip rendering when index is odd
+      })}
+    </ScrollView>)}
     </View>
   );
 }
@@ -149,5 +207,20 @@ const styles = StyleSheet.create({
   },
   rest: {
     marginHorizontal: 30
-  }
+  },
+  restview:{
+    flexDirection:"row",
+    justifyContent:"space-between"
+  },
+  search:{ 
+    backgroundColor: "#FCAE1E", 
+    position:"relative",
+    position:"absolute",
+    marginLeft:"90%",
+    marginTop:40
+  },
+  spinner:{
+    alignSelf:"center",
+    flex:1
+  },
 });

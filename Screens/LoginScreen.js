@@ -47,14 +47,7 @@ export default function LoginScreen({navigation}) {
 
       setLoading(false);
       dispatch({ type: 'SET_RESPONSE_DATA', payload: response.data });
-      showMessage({
-        message: "Login Successful",
-        description: "Enjoy Your Foods",
-        type: "success",
-        style:styles.message
-      });
       // Handle successful registration, navigate to login screen
-      console.log('Login successful:', response.data);
       navigation.navigate('Home');
     } catch (error) {
       // Handle registration error

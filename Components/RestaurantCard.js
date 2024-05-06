@@ -6,7 +6,7 @@ const RestaurantCard = ({ name, location, imageSource, openingHours,onPress }) =
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <Image
-        source={imageSource}
+        source={typeof imageSource === 'string' ? { uri: imageSource } : imageSource}
         style={styles.image}
       />
       <View style={styles.down}>
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
-    width: '95%',
+    width: '48%',
     aspectRatio: 1,
     marginBottom: 10,
     elevation: 3, // Add shadow effect
