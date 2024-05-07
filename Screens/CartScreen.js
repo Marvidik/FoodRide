@@ -4,11 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import CartItem from '../Components/CartItem';
 import CustomButton from '../Components/CustomButton';
 import { useCart } from '../Data/CartContext';
+import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 
 const CartScreen = ({navigation}) => {
-  const { cartItems } = useCart();
+  const { cartItems,removeFromCart } = useCart();
   const [total, setTotal] = useState(0);
 
   
@@ -16,6 +17,12 @@ const CartScreen = ({navigation}) => {
   const handleRemoveFromCart = (itemId) => {
     removeFromCart(itemId);
     // Optionally, show a message indicating item removed from cart
+    showMessage({
+      message: "Removed From Cart",
+      type: "success",
+      style: styles.message,
+    });
+  
   };
 
   useEffect(() => {
@@ -57,6 +64,7 @@ const CartScreen = ({navigation}) => {
               item={item}
               onIncrement={() => handleIncrement(index)}
               onDecrement={() => handleDecrement(index)}
+              remove={()=>{handleRemoveFromCart(index)}}
             />
           ))}
         </ScrollView>
@@ -103,4 +111,9 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
   },
+  message:{
+    marginTop:64,
+    marginHorizontal:10,
+    borderRadius:10
+  }
 });

@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomButton from './CustomButton';
 
-const CartItem = ({ item, onIncrement, onDecrement }) => {
+const CartItem = ({ item, onIncrement, onDecrement,remove }) => {
   const imageUrl = `https://savvy.pythonanywhere.com${item.image}`;
 
   return (
@@ -22,6 +22,7 @@ const CartItem = ({ item, onIncrement, onDecrement }) => {
           </TouchableOpacity>
         </View>
       </View>
+      <CustomButton title={"remove"} onPress={remove}/>
     </View>
   );
 };
