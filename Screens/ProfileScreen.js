@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import ListItem from '../Components/ListItem';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({navigation}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
@@ -14,10 +14,9 @@ export default function ProfileScreen() {
             <Ionicons name={"pencil"} size={20} style={styles.icon} color={"orange"}/>
       </TouchableOpacity>
 
-      <ListItem info={"Current Orders"} icon={"cart-plus"}/>
-      <ListItem info={"Change Payment Address"} icon={"credit-card"} />
-      <ListItem info={"Change Delivery Address"} icon={"map-marker"}/>
-      <ListItem info={"Logout"} icon={"sign-out"} />
+      <ListItem info={"Current Orders"} icon={"cart-plus"} onPress={()=>{navigation.navigate("Order")}}/>
+      <ListItem info={"Cart"} icon={"cart-plus"} onPress={()=>{navigation.navigate("Cart")}}/>
+      <ListItem info={"Logout"} icon={"sign-out"} onPress={()=>{navigation.navigate("")}}/>
         
     </View>
   )

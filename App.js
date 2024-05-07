@@ -130,9 +130,9 @@ export default function App() {
       <CartProvider>
     <View style={styles.container}>
       <NavigationContainer>
-      <Stack.Navigator initialRouteName="Register">
+      <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Forgottenpassword" component={ForgotPasswordScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Changepassword" component={ChangePasswordScreen} />
         <Stack.Screen options={{ headerShown: false }} name="Otp" component={OTPScreen} />

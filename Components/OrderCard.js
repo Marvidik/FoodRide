@@ -3,16 +3,16 @@ import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomButton from './CustomButton';
 
-const OrderCard = ({source,name,price,description}) => {
+const OrderCard = ({source,name,price,description,onPress,title}) => {
   return (
     <View style={styles.container}>
       <Image source={source} style={styles.image} />
       <View style={styles.details}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={styles.description}>Quantity:  {description}</Text>
         <Text style={styles.price}>Price: ${price}</Text>
       </View>
-      <CustomButton style={styles.buttonContainer} title={"confirm"}/>
+      <CustomButton style={styles.buttonContainer} title={title} onPress={onPress}/>
     </View>
   );
 };

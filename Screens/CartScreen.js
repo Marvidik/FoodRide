@@ -5,9 +5,18 @@ import CartItem from '../Components/CartItem';
 import CustomButton from '../Components/CustomButton';
 import { useCart } from '../Data/CartContext';
 
+
+
 const CartScreen = ({navigation}) => {
   const { cartItems } = useCart();
   const [total, setTotal] = useState(0);
+
+  
+
+  const handleRemoveFromCart = (itemId) => {
+    removeFromCart(itemId);
+    // Optionally, show a message indicating item removed from cart
+  };
 
   useEffect(() => {
     calculateTotalPrice();

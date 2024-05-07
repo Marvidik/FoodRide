@@ -89,19 +89,19 @@ export default function FoodScreen({ route }) {
         </View>
         <View style={styles.names2}>
             <Text style={styles.text3}>{location}</Text>
-            <Text style={styles.text3}>$800 for delivery</Text>
+            <Text style={styles.text3}>Delivery Fee: 860 Naira</Text>
         </View>
-        <View style={styles.rating}>
+        {/* <View style={styles.rating}>
             <Ionicons name={"star-sharp"} size={28} style={styles.icon} color={"#FF7518"} />
             <Text style={styles.text4}>5.0</Text>
             <Text style={styles.text5}>100+  ratings</Text>
-        </View>
+        </View> */}
 
         {loading ? (
             <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
           ) : (
         <ScrollView contentContainerStyle={styles.scrollView1}>
-        <Text style={styles.text6}>Junks and Proteins</Text>
+        <Text style={styles.text6}>Assortment</Text>
 
         
         <ScrollView horizontal contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
