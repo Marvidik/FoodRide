@@ -16,9 +16,29 @@ export default function HomeScreen({navigation}) {
   const responseData = useSelector(state => state.responseData);
   const { token, user } = responseData;
   const [restaurants, setRestaurants] = useState([]);
+  const [ads,setAds]= useState([]);
 
   const [restID,setREstID]= useState(); 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    // Fetch restaurant data from the API
+    axios.get('https://savvy.pythonanywhere.com/ads')
+      .then(response => {
+        // If the request is successful, set the restaurants state with the fetched data
+        setAds(response.data.ads); // Update to response.data.restaurants
+        console.log(ads)
+        setLoading(false);
+      })
+      .catch(error => {
+        // Handle any errors
+        console.error('Error fetching data:', error);
+        // Set restaurants state to an empty array in case of error
+        setAds([]);
+        setLoading(false);
+      });
+  }, []);
 
   
 
@@ -76,9 +96,15 @@ export default function HomeScreen({navigation}) {
       <ScrollView contentContainerStyle={styles.scrollViewContent1} horizontal
       pagingEnabled
       showsHorizontalScrollIndicator={false}>    
-        <AdsCard source={require('../assets/ads.jpeg')}/>
-        <AdsCard source={require('../assets/ads2.jpeg')}/>
-        <AdsCard source={require('../assets/ads3.jpeg')}/>
+      {
+        ads.map((ad,index)=>{
+          return(
+            <AdsCard source={{uri: `https://savvy.pythonanywhere.com${ad.image}` }}/>
+          );
+        })
+      }
+        
+        
       </ScrollView>)}  
       <Text style={styles.text3}>Available Restaurants</Text>
       {loading ? (
