@@ -49,48 +49,60 @@ export default function AddressScreen({ navigation ,route}) {
   useEffect(() => {
     setLoading(true);
     // Fetch restaurant data from the API
-    axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
-      .then(response => {
-        // If the request is successful, set the restaurants state with the fetched data
-        setReferal(response.data.referals); // Update to response.data.restaurants
-        setLoading(false);
-        
-        
-      })
-      .catch(error => {
-        setReferal([]);
-        setLoading(false);
-        console.log(error)
-      });
+    try {
+      axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
+        .then(response => {
+          // If the request is successful, set the referal state with the fetched data
+          setReferal(response.data.referals);
+          setLoading(false);
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error("Error fetching referal data:", error);
+          setReferal([]);
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Error in useEffect:", error);
+    }
   }, []);
+  
 
   const calculateDeliveryFee = () => {
     const deliveryFee = 860;
     const discountPercentage = 0.1; // 10% discount
     const restaurantIds = new Set(); // Initialize a Set to store unique restaurant IDs
-
+  
     cartItems.forEach((item, index) => {
       if (!isNaN(item.restaurant)) { // Check if item.restaurant is a number
         restaurantIds.add(item.restaurant); // Add the restaurant ID to the Set
       }
     });
-
+  
     const numberOfRestaurants = restaurantIds.size; // Get the count of unique restaurant IDs
-    const fee=(numberOfRestaurants -1) * 430
-
+    const fee = (numberOfRestaurants - 1) * 430;
+  
     console.log("Number of Restaurants:", numberOfRestaurants); // Print the number of unique restaurants
-
-    // Check if the user has a point
-    if (referal[0].point > 0) {
-      // Apply discount
-      const discountedFee = deliveryFee - (deliveryFee * discountPercentage);
-      setMaintotal(discountedFee + total + fee)
-      console.log("Discounted Delivery Fee:", discountedFee);
-    } else {
+  
+    try {
+      // Check if the user has a point
+      if (referal[0].point > 0) {
+        // Apply discount
+        const discountedFee = deliveryFee - (deliveryFee * discountPercentage);
+        setMaintotal(discountedFee + total + fee);
+        console.log("Discounted Delivery Fee:", discountedFee);
+      } else {
+        console.log("Delivery Fee:", deliveryFee);
+        setMaintotal(total + deliveryFee + fee);
+      }
+    } catch (error) {
+      console.error("Error calculating delivery fee:", error);
+      // Handle the case where there is no point
       console.log("Delivery Fee:", deliveryFee);
-      setMaintotal(total + deliveryFee + fee)
+      setMaintotal(total + deliveryFee + fee);
     }
   };
+  
 
 const paymentSuccess = async () => {
   try {

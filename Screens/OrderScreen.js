@@ -39,23 +39,34 @@ export default function OrderScreen({Navigation}) {
   };
 
   useEffect(() => {
-    setLoading(true);
-    // Fetch restaurant data from the API
-    axios.get(`https://savvy.pythonanywhere.com/vieworder/${user.id}/`)
-      .then(response => {
-        // If the request is successful, set the restaurants state with the fetched data
-        setOrders(response.data.Orders); // Update to response.data.restaurants
-        setLoading(false);
-         
-      })
-      .catch(error => {
-        // Handle any errors
-        console.error('Error fetching data:', error);
-        // Set restaurants state to an empty array in case of error    
-        setOrders([]);
-        setLoading(false);
-      });
-  }, []);
+    const fetchData = () => {
+      setLoading(true);
+      // Fetch restaurant data from the API
+      axios.get(`https://savvy.pythonanywhere.com/vieworder/${user.id}/`)
+        .then(response => {
+          // If the request is successful, set the orders state with the fetched data
+          setOrders(response.data.Orders);
+          setLoading(false);
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error('Error fetching data:', error);
+          // Set orders state to an empty array in case of error    
+          setOrders([]);
+          setLoading(false);
+        });
+    };
+
+    // Initial data fetch
+    fetchData();
+
+    // Reload data every 5 seconds
+    const intervalId = setInterval(fetchData, 15000);
+
+    // Cleanup function to clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []); 
+
   
 
   return (
@@ -117,7 +128,7 @@ const styles = StyleSheet.create({
       marginBottom:20
     },
     b1:{
-      height:"90%",
+      height:"100%",
       
     },
     but:{
