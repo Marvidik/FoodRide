@@ -55,6 +55,7 @@ const CartScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <Text style={styles.cart}>Cart</Text>
       {cartItems.length > 0 ? (
         <ScrollView style={styles.scrollView}>
@@ -86,7 +87,6 @@ export default CartScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
   },
   cart: {
     fontSize: 32,

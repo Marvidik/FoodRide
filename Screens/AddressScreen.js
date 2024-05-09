@@ -1,18 +1,25 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import CustomButton from '../Components/CustomButton'
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import  { Paystack, paystackProps }  from 'react-native-paystack-webview';
 
-export default function AddressScreen({ navigation }) {
+export default function AddressScreen({ navigation ,route}) {
+
+  const { total } = route.params;
+
+  
 
   const [address, setAddress] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const responseData = useSelector(state => state.responseData);
   const { token, user } = responseData;
+
+  const paystackWebViewRef = useRef(paystackProps.paystackWebViewRef)
 
   useEffect(() => {
     setLoading(true);
@@ -54,6 +61,7 @@ export default function AddressScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
         <View style={styles.box}>
           <Text style={styles.text}>Delivery Address</Text>
@@ -61,7 +69,7 @@ export default function AddressScreen({ navigation }) {
             address.map((add, index) => {
               return (
                 <View style={styles.bin}>
-                  <TouchableOpacity style={styles.address} key={index}>
+                  <TouchableOpacity style={styles.address} key={index} onPress={()=>paystackWebViewRef.current.startTransaction()}>
                   <View style={styles.iconcont}>
                     <Ionicons name={"location"} size={24} style={styles.icon} color={"#FF7518"} />
                   </View>
@@ -72,6 +80,22 @@ export default function AddressScreen({ navigation }) {
                     <Text style={styles.text4}>Click to proceed to payment</Text>
                   </View>
                 </TouchableOpacity>
+                <Paystack  
+                    paystackKey="pk_test_1b10833e646b4e6f6257d04ceb40bda6384c765d"
+                    amount={total}
+                    billingEmail="savvybittechnology@gmail.com"
+                    billingName='FoodRide'
+                    currency='NGN'
+                    activityIndicatorColor="green"
+                    onCancel={(e) => {
+                      // handle response here
+                    }}
+                    onSuccess={(res) => {
+                      // handle response here
+                    }}
+                    autoStart={true}
+                    ref={paystackWebViewRef}
+                  />
                 <TouchableOpacity style={styles.iconcont2}  onPress={() => deleteProfile(add.id)}>
                      <Ionicons name={"trash"} size={24} style={styles.icon} color={"#FF7518"} />
                 </TouchableOpacity>
@@ -91,7 +115,6 @@ export default function AddressScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 44,
     backgroundColor: "white",
     flex: 1
   },

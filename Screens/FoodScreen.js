@@ -76,78 +76,72 @@ export default function FoodScreen({ route }) {
   
 
   return (
-    
     <View style={styles.container}>
-        <View style={styles.ibox}>
-            <View style={styles.box1}>
-                <Image style={styles.image} source={{uri: `https://savvy.pythonanywhere.com${logo}`}}/>
-            </View>
-            <View style={styles.names}>
-                <Text style={styles.text1}>{name}</Text>
-                <Text style={styles.text2}>Open {restaurant.opening_hour} -{restaurant.closing_hour}</Text>
-            </View>
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
+      <View style={styles.ibox}>
+        <View style={styles.box1}>
+          <Image style={styles.image} source={{uri: `https://savvy.pythonanywhere.com${logo}`}}/>
         </View>
-        <View style={styles.names2}>
-            <Text style={styles.text3}>{location}</Text>
-            <Text style={styles.text3}>Delivery Fee: 860 Naira</Text>
+        <View style={styles.names}>
+          <Text style={styles.text1}>{name}</Text>
+          <Text style={styles.text2}>Open {restaurant.opening_hour} -{restaurant.closing_hour}</Text>
         </View>
-        {/* <View style={styles.rating}>
-            <Ionicons name={"star-sharp"} size={28} style={styles.icon} color={"#FF7518"} />
-            <Text style={styles.text4}>5.0</Text>
-            <Text style={styles.text5}>100+  ratings</Text>
-        </View> */}
-
-        {loading ? (
-            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
-          ) : (
+      </View>
+      <View style={styles.names2}>
+        <Text style={styles.text3}>{location}</Text>
+        <Text style={styles.text3}>Delivery Fee: 860 Naira</Text>
+      </View>
+  
+      {loading ? (
+        <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
+      ) : (
         <ScrollView contentContainerStyle={styles.scrollView1}>
-        <Text style={styles.text6}>Assortment</Text>
-
-        
-        <ScrollView horizontal contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
-        { junks.length > 0 ? (
-        junks.map((junk, index) => (
-          <JunksCard
-            key={index}
-            name={junk.name}
-            source={{ uri: `https://savvy.pythonanywhere.com${junk.image}` }}
-            category={junk.category}
-            price={junk.price}
-            availability={junk.availability === "Available"}
-            onAddToCart={() => handleAddToCart(junk)}
-          />
-        ))
-        ) : (
-  <View style={styles.noDataContainer}>
-    <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info1}/>
-    <Text style={styles.textinfo1}>No junks available</Text>
-  </View>
-)}
-    </ScrollView>
-
-    <Text style={styles.text6}>Foods</Text>
-
-    { junks.length > 0 ? (foods.map((food, index) => (
-    <FoodCard
-      key={index}
-      name={food.name}
-      image={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
-      rating={food.rating}
-      category={food.category}
-      availability={food.availability === "Available"}
-      price={food.price}
-      onAddToCart={() => handleAddToCart(food)}
-    />
-))) : (
-  <View style={styles.noDataContainer}>
-    <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info} />
-    <Text style={styles.textinfo}>No Foods available</Text>
-  </View>
-)}
-
-    </ScrollView>)}
-    
-      
+          {/* ScrollView for Assortment */}
+          <ScrollView horizontal contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
+            {foods.map((food, index) => (
+              <View key={index}>
+                {food.category === "Assortment" && (
+                  <JunksCard
+                    name={food.name}
+                    source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+                    category={food.category}
+                    price={food.price}
+                    availability={food.availability === "Available"}
+                    onAddToCart={() => handleAddToCart(food)}
+                  />
+                )}
+              </View>
+            ))}
+          </ScrollView>
+          
+          {/* ScrollView for Foods */}
+          <ScrollView horizontal={false} contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
+            {foods.map((food, index) => (
+              <View key={index}>
+                {food.category === "Foods" && (
+                  <FoodCard
+                    name={food.name}
+                    image={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+                    rating={food.rating}
+                    category={food.category}
+                    availability={food.availability === "Available"}
+                    price={food.price}
+                    onAddToCart={() => handleAddToCart(food)}
+                  />
+                )}
+              </View>
+            ))}
+          </ScrollView>
+          
+          {/* Render a message if no foods available */}
+          {foods.length === 0 && (
+            <View style={styles.noDataContainer}>
+              <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info} />
+              <Text style={styles.textinfo}>No Foods available</Text>
+            </View>
+          )}
+        </ScrollView>
+      )}
     </View>
   )
 }
@@ -157,7 +151,6 @@ export default function FoodScreen({ route }) {
 
 const styles = StyleSheet.create({
     container:{
-        paddingTop:44,
         flex:1
     },
     box1:{

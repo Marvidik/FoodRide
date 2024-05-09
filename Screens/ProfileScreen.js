@@ -34,6 +34,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <Text style={styles.title}>Profile</Text>
       <Image style={styles.image} source={profileImage} />
       <TouchableOpacity style={styles.change} onPress={selectImage}>
@@ -52,7 +53,6 @@ export default function ProfileScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 44,
   },
   title: {
     fontSize: 28,

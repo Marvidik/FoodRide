@@ -28,6 +28,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { CartProvider } from './Data/CartContext';
 
 
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 

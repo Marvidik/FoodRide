@@ -61,6 +61,7 @@ export default function OrderScreen({Navigation}) {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <View style={styles.b1}>
       <Text style={styles.orders}>Orders</Text>
       
@@ -107,7 +108,6 @@ export default function OrderScreen({Navigation}) {
 
 const styles = StyleSheet.create({
     container:{
-      paddingTop:44,
       flex:1
     },
     orders:{

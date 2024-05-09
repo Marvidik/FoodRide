@@ -81,8 +81,9 @@ export default function HomeScreen({navigation}) {
           </View>
         </View>
       </Modal>
-      
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <View style={styles.box2}>
+      
         <IconComponent icon={"person"} color={"#FF7518"} style={{ backgroundColor: "#FCAE1E", marginRight: 20 }} />
         <View style={styles.textbox}>
           <Text style={styles.text1}>{user.username}</Text>
@@ -150,7 +151,6 @@ export default function HomeScreen({navigation}) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 44,
     flex: 1
   },
   centeredView: {
