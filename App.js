@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer,useNavigation} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -27,10 +27,19 @@ import FlashMessage from "react-native-flash-message";
 import { Ionicons } from '@expo/vector-icons'; 
 import { CartProvider } from './Data/CartContext';
 
+import React, { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+
+
 
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
 
 
 const MainStackNavigator = () => {
@@ -124,6 +133,22 @@ const BottomTabNavigator = () => {
 export default function App() {
   
   
+  useEffect(() => {
+    const checkUserData = async () => {
+      try {
+        const userData = await AsyncStorage.getItem('userData');
+        if (userData) {
+          console.log("User Found:", userData);
+        } else {
+          console.log("No user Found");
+        }
+      } catch (error) {
+        console.error('Error retrieving user data:', error);
+      }
+    };
+  
+    checkUserData();
+  }, []);
 
 
  
