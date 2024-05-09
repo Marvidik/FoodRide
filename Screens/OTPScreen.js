@@ -58,7 +58,7 @@ export default function OTPScreen({navigation}) {
       setLoading(false);
       showMessage({
         message: "OTP ERROR",
-        description: " OTP is Incorrect",
+        description: " OTP ecoutered a error please retry",
         type: "danger",
         style:styles.message
       });

@@ -3,14 +3,14 @@ import React from 'react'
 import { Ionicons,FontAwesome } from '@expo/vector-icons';
 import CustomButton from '../Components/CustomButton';
 
-export default function ConfirmScreen() {
+export default function ConfirmScreen({navigation}) {
   return (
     <View style={styles.container}>
         <View style={styles.box}>
             <FontAwesome name="check-circle" size={200} color="#FF7518" style={styles.icon} />
         </View>
       
-      <CustomButton title={"Done"} style={styles.but}/>
+      <CustomButton title={"Done"} style={styles.but} onPress={()=>{navigation.navigate("HomeEntry")}}/>
     </View>
   )
 }

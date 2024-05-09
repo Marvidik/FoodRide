@@ -6,20 +6,29 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import  { Paystack, paystackProps }  from 'react-native-paystack-webview';
+import { useCart } from '../Data/CartContext';
+
+
 
 export default function AddressScreen({ navigation ,route}) {
 
-  const { total } = route.params;
-
-  
-
+  const{ total } = route.params;
+  const { cartItems,removeFromCart,clearCart } = useCart();
   const [address, setAddress] = useState([]);
+  const [referal,setReferal] =useState([]);
   const [loading, setLoading] = useState(false);
+  const [paystackVisible, setPaystackVisible] = useState(false); // State to control Paystack visibility
 
   const responseData = useSelector(state => state.responseData);
   const { token, user } = responseData;
 
   const paystackWebViewRef = useRef(paystackProps.paystackWebViewRef)
+
+  const [maintotal ,setMaintotal]=useState();
+
+  const [profileid,setProfileid]= useState();
+
+  
 
   useEffect(() => {
     setLoading(true);
@@ -33,14 +42,99 @@ export default function AddressScreen({ navigation ,route}) {
       .catch(error => {
         setAddress([]);
         setLoading(false);
+        
       });
-  });
+  }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    // Fetch restaurant data from the API
+    axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
+      .then(response => {
+        // If the request is successful, set the restaurants state with the fetched data
+        setReferal(response.data.referals); // Update to response.data.restaurants
+        setLoading(false);
+        
+        
+      })
+      .catch(error => {
+        setReferal([]);
+        setLoading(false);
+        console.log(error)
+      });
+  }, []);
+
+  const calculateDeliveryFee = () => {
+    const deliveryFee = 860;
+    const discountPercentage = 0.1; // 10% discount
+    const restaurantIds = new Set(); // Initialize a Set to store unique restaurant IDs
+
+    cartItems.forEach((item, index) => {
+      if (!isNaN(item.restaurant)) { // Check if item.restaurant is a number
+        restaurantIds.add(item.restaurant); // Add the restaurant ID to the Set
+      }
+    });
+
+    const numberOfRestaurants = restaurantIds.size; // Get the count of unique restaurant IDs
+    const fee=(numberOfRestaurants -1) * 430
+
+    console.log("Number of Restaurants:", numberOfRestaurants); // Print the number of unique restaurants
+
+    // Check if the user has a point
+    if (referal[0].point > 0) {
+      // Apply discount
+      const discountedFee = deliveryFee - (deliveryFee * discountPercentage);
+      setMaintotal(discountedFee + total + fee)
+      console.log("Discounted Delivery Fee:", discountedFee);
+    } else {
+      console.log("Delivery Fee:", deliveryFee);
+      setMaintotal(total + deliveryFee + fee)
+    }
+  };
+
+const paymentSuccess = async () => {
+  try {
+    console.log(cartItems)
+    const orderPromises = cartItems.map(async (cartItem) => {
+      const response = await axios.post('https://savvy.pythonanywhere.com/addorder/', {
+        user: user.id, // Assuming user is part of the cartItem object
+        profile: profileid, // Assuming profile is part of the cartItem object
+        real_food: cartItem.id, // Assuming real_food is part of the cartItem object
+        delivered: false,
+        quantity: cartItem.quantity
+      });
+      console.log("Order added successfully:", response.data);
+      clearCart();
+            // Re-navigate the user to the Confirm Screen
+      navigation.navigate("ConfirmScreen");
+      showMessage({
+        message: "Success",
+        type: "success",
+        style:styles.message
+      });
+      return response.data;
+    });
+
+    const orders = await Promise.all(orderPromises);
+    console.log("All orders added successfully:", orders);
+    return orders;
+  } catch (error) {
+    console.error("Error adding orders:", error);
+    showMessage({
+      message: "Error Making Orders",
+      type: "danger",
+      style:styles.message
+    });
+  }
+};
+
+  
+  
 
   const deleteProfile = async (profileId) => {
     try {
       const response = await fetch(`https://savvy.pythonanywhere.com/profiles/${profileId}/`, {
-        method: 'DELETE',
+        method: 'DELETE', 
       });
   
       if (!response.ok) {
@@ -55,12 +149,31 @@ export default function AddressScreen({ navigation ,route}) {
       });
     } catch (error) {
       console.error('Error deleting profile:', error.message);
-      
     }
   };
 
+
+
   return (
     <View style={styles.container}>
+      {paystackVisible && ( // Conditional rendering for Paystack component
+        <Paystack  
+          paystackKey="pk_test_1b10833e646b4e6f6257d04ceb40bda6384c765d"
+          amount={maintotal}
+          billingEmail="savvybittechnology@gmail.com"
+          billingName='FoodRide'
+          currency='NGN'
+          activityIndicatorColor="orange"
+          onCancel={(e) => {
+            // handle response here
+          }}
+          onSuccess={(res) => {
+            paymentSuccess();
+          }}
+          autoStart={true}
+          ref={paystackWebViewRef}
+        />
+      )}
       <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
         <View style={styles.box}>
@@ -69,38 +182,35 @@ export default function AddressScreen({ navigation ,route}) {
             address.map((add, index) => {
               return (
                 <View style={styles.bin}>
-                  <TouchableOpacity style={styles.address} key={index} onPress={()=>paystackWebViewRef.current.startTransaction()}>
-                  <View style={styles.iconcont}>
-                    <Ionicons name={"location"} size={24} style={styles.icon} color={"#FF7518"} />
-                  </View>
-                  <View style={styles.textcont}>
-                    <Text style={styles.text2}>Delivery Address</Text>
-                    <Text style={styles.text3}>{add.address}</Text>
-                    <Text style={styles.text3}>{add.phone}</Text>
-                    <Text style={styles.text4}>Click to proceed to payment</Text>
-                  </View>
-                </TouchableOpacity>
-                <Paystack  
-                    paystackKey="pk_test_1b10833e646b4e6f6257d04ceb40bda6384c765d"
-                    amount={total}
-                    billingEmail="savvybittechnology@gmail.com"
-                    billingName='FoodRide'
-                    currency='NGN'
-                    activityIndicatorColor="green"
-                    onCancel={(e) => {
-                      // handle response here
+                  <TouchableOpacity 
+                    style={styles.address} 
+                    key={index} 
+                    onPress={() => {
+                      setProfileid(add.id)
+                      calculateDeliveryFee();
+                      if (paystackWebViewRef.current) {
+                        paystackWebViewRef.current.startTransaction(); // Start Paystack transaction if ref is defined
+                      } else {
+                        console.error("paystackWebViewRef is not initialized");
+                      }
+                      setPaystackVisible(true); // Set paystackVisible to true upon clicking address
                     }}
-                    onSuccess={(res) => {
-                      // handle response here
-                    }}
-                    autoStart={true}
-                    ref={paystackWebViewRef}
-                  />
-                <TouchableOpacity style={styles.iconcont2}  onPress={() => deleteProfile(add.id)}>
-                     <Ionicons name={"trash"} size={24} style={styles.icon} color={"#FF7518"} />
-                </TouchableOpacity>
+                  >
+                    <View style={styles.iconcont}>
+                      <Ionicons name={"location"} size={24} style={styles.icon} color={"#FF7518"} />
+                    </View>
+                    <View style={styles.textcont}>
+                      <Text style={styles.text2}>Delivery Address</Text>
+                      <Text style={styles.text3}>{add.address}</Text>
+                      <Text style={styles.text3}>{add.phone}</Text>
+                      <Text style={styles.text4}>Click to proceed to payment</Text>
+                    </View>
+                  </TouchableOpacity>
+                  
+                  <TouchableOpacity style={styles.iconcont2}  onPress={() => deleteProfile(add.id)}>
+                       <Ionicons name={"trash"} size={24} style={styles.icon} color={"#FF7518"} />
+                  </TouchableOpacity>
                 </View>    
-                
               );
             })
           }
@@ -112,6 +222,7 @@ export default function AddressScreen({ navigation ,route}) {
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container: {

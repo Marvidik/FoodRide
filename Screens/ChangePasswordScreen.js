@@ -58,7 +58,7 @@ export default function ChangePasswordScreen({navigation}) {
       // Handle registration error
       showMessage({
         message: "PASSWORD CHANGED ERROR",
-        description: "An Error Occured While Changing Password",
+        description: "An Error Occured While Changing Password please retry",
         type: "danger",
         style:styles.message
       });

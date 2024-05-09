@@ -28,13 +28,9 @@ export default function HomeScreen({navigation}) {
       .then(response => {
         // If the request is successful, set the restaurants state with the fetched data
         setAds(response.data.ads); // Update to response.data.restaurants
-        console.log(ads)
         setLoading(false);
       })
       .catch(error => {
-        // Handle any errors
-        console.error('Error fetching data:', error);
-        // Set restaurants state to an empty array in case of error
         setAds([]);
         setLoading(false);
       });
@@ -49,12 +45,9 @@ export default function HomeScreen({navigation}) {
       .then(response => {
         // If the request is successful, set the restaurants state with the fetched data
         setRestaurants(response.data.restaurants); // Update to response.data.restaurants
-        console.log(restaurants)
         setLoading(false);
       })
       .catch(error => {
-        // Handle any errors
-        console.error('Error fetching data:', error);
         // Set restaurants state to an empty array in case of error
         setRestaurants([]);
         setLoading(false);
@@ -63,24 +56,6 @@ export default function HomeScreen({navigation}) {
  
   return (
     <View style={styles.container}>
-      {/* Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(false);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Image source={require('../assets/ads.jpeg')} style={styles.adImage} />
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
-              <Text style={styles.closeText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
       <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <View style={styles.box2}>
       
@@ -89,7 +64,7 @@ export default function HomeScreen({navigation}) {
           <Text style={styles.text1}>{user.username}</Text>
           <Text style={styles.text2}>{user.email}</Text>
         </View>
-        <IconComponent icon={"search"} color={"#FF7518"} style={styles.search} />
+        {/* <IconComponent icon={"search"} color={"#FF7518"} style={styles.search} /> */}
       </View>
       {loading ? (
             <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />

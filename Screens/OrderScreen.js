@@ -45,7 +45,6 @@ export default function OrderScreen({Navigation}) {
       .then(response => {
         // If the request is successful, set the restaurants state with the fetched data
         setOrders(response.data.Orders); // Update to response.data.restaurants
-        console.log(orders)
         setLoading(false);
          
       })

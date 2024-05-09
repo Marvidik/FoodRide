@@ -45,7 +45,7 @@ export default function AddressChangeScreen({navigation}) {
         style:styles.message
       });
       console.log('Change successful:', response.data);
-      navigation.navigate('Address');
+      navigation.navigate('Cart');
     } catch (error) {
       // Handle registration error
       showMessage({

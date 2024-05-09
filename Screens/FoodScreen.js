@@ -32,29 +32,8 @@ export default function FoodScreen({ route }) {
       type: "success",
       style: styles.message,
     });
-    console.log(food);
   };
-  
-
-  useEffect(() => {
-    setLoading(true);
-    // Fetch restaurant data from the API
-    axios.get(`https://savvy.pythonanywhere.com/restaurant/junk/${id}/`)
-      .then(response => {
-        // If the request is successful, set the restaurants state with the fetched data
-        setJunks(response.data.Junks);
-        setLoading(false);
-        console.log(response.data.Junks);
-      })
-      .catch(error => {
-        // Handle any errors
-        console.error('Error fetching data:', error);
-        // Set restaurants state to an empty array in case of error
-        setJunks([]);
-        setLoading(false);
-      });
-  }, [id]); // Add foods as a dependency
-  
+    
   useEffect(() => {
     setLoading(true);
     // Fetch restaurant data from the API
@@ -63,11 +42,8 @@ export default function FoodScreen({ route }) {
         // If the request is successful, set the restaurants state with the fetched data
         setFoods(response.data.Foods);
         setLoading(false);
-        console.log(response.data.Foods);
       })
       .catch(error => {
-        // Handle any errors
-        console.error('Error fetching data:', error);
         // Set restaurants state to an empty array in case of error
         setFoods([]);
         setLoading(false);
