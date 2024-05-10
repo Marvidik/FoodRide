@@ -80,7 +80,7 @@ const BottomTabNavigator = () => {
         name="Main" 
         component={MainStackNavigator} 
         options={{
-          tabBarLabel: 'rest',
+          tabBarLabel: 'Restaurants',
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />

@@ -165,9 +165,9 @@ const paymentSuccess = async () => {
     <View style={styles.container}>
       {paystackVisible && ( // Conditional rendering for Paystack component
         <Paystack  
-          paystackKey="pk_test_1b10833e646b4e6f6257d04ceb40bda6384c765d"
+          paystackKey="pk_live_a63261768652861c38842863f81d121298c68147"
           amount={maintotal}
-          billingEmail="savvybittechnology@gmail.com"
+          billingEmail="contact.foodride@gmail.com"
           billingName='FoodRide'
           currency='NGN'
           activityIndicatorColor="orange"

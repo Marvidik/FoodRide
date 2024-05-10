@@ -10,7 +10,7 @@ const FoodCard = ({ name, image, rating, category, availability, price, onAddToC
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.category}>Category: {category}</Text>
         <Text style={styles.availability}>Availability: {availability ? 'Available' : 'Not Available'}</Text>
-        <Text style={styles.price}>Price: ${price}</Text>
+        <Text style={styles.price}>Price: {price} Naira</Text>
         <CustomButton title="Add to Cart" onPress={onAddToCart} style={styles.but} icon={"cart"}/>
       </View>
     </View>

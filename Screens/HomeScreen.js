@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState,useEffect,useRef } from 'react';
 import { View, Text, StyleSheet, ScrollView, Modal, Image, TouchableOpacity,ActivityIndicator } from 'react-native';
 import IconComponent from '../Components/IconComponent';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
@@ -8,6 +8,12 @@ import { useSelector } from 'react-redux';
 import FoodCard from '../Components/FoodCard';
 import AdsCard from '../Components/AdsCard';
 import axios from 'axios'; // Import axios for making API calls
+import { Linking } from 'react-native';
+
+const openWhatsAppChat = () => {
+  Linking.openURL('whatsapp://send?phone=09152358248');
+};
+
 
 
 export default function HomeScreen({navigation}) {
@@ -21,21 +27,49 @@ export default function HomeScreen({navigation}) {
   const [restID,setREstID]= useState(); 
   const [loading, setLoading] = useState(false);
 
+  const scrollViewRef = useRef();
+  const adsCount = ads.length;
+  let currentIndex = 0;
+  const scrollIntervalDelay = 3000; // 3 seconds
+
   useEffect(() => {
-    setLoading(true);
-    // Fetch restaurant data from the API
-    axios.get('https://savvy.pythonanywhere.com/ads')
-      .then(response => {
-        // If the request is successful, set the restaurants state with the fetched data
-        setAds(response.data.ads); // Update to response.data.restaurants
-        setLoading(false);
-      })
-      .catch(error => {
+    const fetchAds = async () => {
+      try {
+        setLoading(true); // Assuming you have `setLoading` somewhere
+        const response = await axios.get('https://savvy.pythonanywhere.com/ads');
+        setAds(response.data.ads);
+        setLoading(false); // Assuming you have `setLoading` somewhere
+      } catch (error) {
+        console.error('Error fetching ads:', error);
         setAds([]);
-        setLoading(false);
-      });
+        setLoading(false); // Assuming you have `setLoading` somewhere
+      }
+    };
+
+    fetchAds();
   }, []);
 
+  useEffect(() => {
+    const scrollAds = () => {
+      if (!scrollViewRef.current || ads.length === 0) return; // Handle potential errors
+
+      const nextIndex = (currentIndex + 1) % ads.length;
+      const offsetX = nextIndex * 430;
+
+      // Check if we are at the last ad
+      if (nextIndex === 0) {
+        scrollViewRef.current.scrollTo({ x: offsetX, y: 0, animated: true })
+        
+      } else {
+        scrollViewRef.current.scrollTo({ x: 430, y: 0, animated: true })
+        scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true }) 
+      }
+    };
+
+    const scrollInterval = setInterval(scrollAds, scrollIntervalDelay);
+
+    return () => clearInterval(scrollInterval);
+  }, [ads.length, currentIndex, scrollIntervalDelay]);
   
 
   useEffect(() => {
@@ -64,13 +98,18 @@ export default function HomeScreen({navigation}) {
           <Text style={styles.text1}>{user.username}</Text>
           <Text style={styles.text2}>{user.email}</Text>
         </View>
-        {/* <IconComponent icon={"search"} color={"#FF7518"} style={styles.search} /> */}
+        
+
+        <TouchableOpacity onPress={openWhatsAppChat} style={styles.search} >
+          <IconComponent icon={"chatbubble"} color={"#FF7518"} />
+        </TouchableOpacity>
+
+
       </View>
       {loading ? (
             <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
           ) : (
-      <ScrollView contentContainerStyle={styles.scrollViewContent1} horizontal
-      pagingEnabled
+      <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollViewContent1} horizontal pagingEnabled
       showsHorizontalScrollIndicator={false}>    
       {
         ads.map((ad,index)=>{
@@ -218,7 +257,7 @@ const styles = StyleSheet.create({
     position:"relative",
     position:"absolute",
     marginLeft:"90%",
-    marginTop:40
+    marginTop:35
   },
   spinner:{
     alignSelf:"center",

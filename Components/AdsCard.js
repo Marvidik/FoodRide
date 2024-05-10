@@ -18,9 +18,8 @@ const styles = StyleSheet.create({
         marginTop:90,
         alignContent:"center",
         justifyContent:"center",
-        width:"80%",
-        elevation:5,
-        backgroundColor:"black"
+        width:400,
+        
         
     },
     image:{
