@@ -4,10 +4,10 @@
     "slug": "FoodRide",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo.jpeg",
+    "icon": "./assets/foodridepng.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo.jpeg",
+      "image": "./assets/foodridepng.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -119,11 +119,6 @@ const paymentSuccess = async () => {
       clearCart();
             // Re-navigate the user to the Confirm Screen
       navigation.navigate("ConfirmScreen");
-      showMessage({
-        message: "Success",
-        type: "success",
-        style:styles.message
-      });
       return response.data;
     });
 
