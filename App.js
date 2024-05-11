@@ -21,7 +21,7 @@ import AddressScreen from './Screens/AddressScreen';
 import AddressChangeScreen from './Screens/AddressChangeScreen';
 import ConfirmScreen from './Screens/ConfirmScreen';
 import { Provider } from 'react-redux';
-import store from './Data/store';
+import store, {setResponseData} from './Data/store';
 
 import FlashMessage from "react-native-flash-message";
 import { Ionicons } from '@expo/vector-icons'; 
@@ -29,6 +29,8 @@ import { CartProvider } from './Data/CartContext';
 
 import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch,useSelector } from 'react-redux';
+
 
 
 
@@ -131,16 +133,41 @@ const BottomTabNavigator = () => {
 
 
 export default function App() {
+  return (
+    <Provider store={store}>
+      <CartProvider>
+        <View style={styles.container}>
+          <NavigationContainer>
+            <AppContent />
+          </NavigationContainer>
+          <StatusBar style="auto" />
+        </View>
+        <FlashMessage position="top" />
+      </CartProvider>
+    </Provider>
+  );
+}
+
+const AppContent = () => {
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const responseData = useSelector(state => state.responseData);
   
-  
+
   useEffect(() => {
     const checkUserData = async () => {
       try {
         const userData = await AsyncStorage.getItem('userData');
         if (userData) {
           console.log("User Found:", userData);
+          // If user data found, navigate to Home screen or any other appropriate screen
+          dispatch(setResponseData(JSON.parse(userData)));
+          console.log(responseData.user); // Access user data from the store
+          navigation.navigate('Home');
         } else {
           console.log("No user Found");
+          // If user data not found, navigate to Login screen
+          navigation.navigate('Login');
         }
       } catch (error) {
         console.error('Error retrieving user data:', error);
@@ -150,28 +177,16 @@ export default function App() {
     checkUserData();
   }, []);
 
-
- 
   return (
-    <Provider store={store}>
-      <CartProvider>
-    <View style={styles.container}>
-      <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Forgottenpassword" component={ForgotPasswordScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Changepassword" component={ChangePasswordScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Otp" component={OTPScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="changesuccess" component={SuccessScreen} />
-        <Stack.Screen options={{ headerShown: false }} name="Home" component={BottomTabNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
-      <StatusBar style="auto" />
-    </View>
-    <FlashMessage position="top" />
-    </CartProvider>
-    </Provider>
+      <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Forgottenpassword" component={ForgotPasswordScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Changepassword" component={ChangePasswordScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Otp" component={OTPScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="changesuccess" component={SuccessScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Home" component={BottomTabNavigator} />
+    </Stack.Navigator>
   );
 }
 

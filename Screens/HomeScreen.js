@@ -101,7 +101,8 @@ export default function HomeScreen({navigation}) {
         
 
         <TouchableOpacity onPress={openWhatsAppChat} style={styles.search} >
-          <IconComponent icon={"chatbubble"} color={"#FF7518"} />
+          <Image source={require("../assets/whats.jpeg")} style={styles.image}/>
+          {/* <IconComponent icon={"chatbubble"} color={"#FF7518"} /> */}
         </TouchableOpacity>
 
 
@@ -253,7 +254,7 @@ const styles = StyleSheet.create({
     justifyContent:"space-between"
   },
   search:{ 
-    backgroundColor: "#FCAE1E", 
+   
     position:"relative",
     position:"absolute",
     marginLeft:"90%",
@@ -263,4 +264,9 @@ const styles = StyleSheet.create({
     alignSelf:"center",
     flex:1
   },
+  image:{
+    height:48,
+    width:48,
+    borderRadius:20,
+  }
 });

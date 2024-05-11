@@ -38,13 +38,14 @@ export default function AddressScreen({ navigation ,route}) {
         // If the request is successful, set the restaurants state with the fetched data
         setAddress(response.data.profile); // Update to response.data.restaurants
         setLoading(false);
+        console.log("kk")
       })
       .catch(error => {
         setAddress([]);
         setLoading(false);
         
       });
-  }, []);
+  });
 
   useEffect(() => {
     setLoading(true);
@@ -223,6 +224,8 @@ const paymentSuccess = async () => {
           }
         </View>
       </ScrollView>
+      <Text style={styles.fee}>Delivery Fee:  ₦860</Text>
+      <Text style={styles.fee2}>we add an additional 430 for any additioal restaurant ordered from</Text>
       <CustomButton title={"Add New Address"} style={styles.but} onPress={() => {
         navigation.navigate("Addresschange");
       }} />
@@ -246,7 +249,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDEADE",
     marginHorizontal: 5,
     marginTop: 40,
-    borderRadius: 40,
+    borderRadius: 10,
     elevation: 20,
     flexDirection: "row",
     width:"80%"
@@ -316,5 +319,17 @@ const styles = StyleSheet.create({
     marginTop:64,
     marginHorizontal:10,
     borderRadius:10
+  },
+  fee:{
+    paddingLeft:20,
+    paddingBottom:10,
+    fontSize:30,
+    color:"grey"
+  },
+  fee2:{
+    paddingLeft:20,
+    paddingBottom:10,
+    fontSize:20,
+    color:"grey"
   }
 })

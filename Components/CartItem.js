@@ -11,7 +11,7 @@ const CartItem = ({ item, onIncrement, onDecrement,remove }) => {
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+        <Text style={styles.price}>₦{item.price.toFixed(2)}</Text>
         <View style={styles.quantityContainer}>
           <TouchableOpacity onPress={onDecrement} style={styles.quantityButton}>
             <Text style={styles.quantityButtonText}>-</Text>

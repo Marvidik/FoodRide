@@ -1,4 +1,3 @@
-// store.js
 import { createStore } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,7 +7,10 @@ export const CLEAR_RESPONSE_DATA = 'CLEAR_RESPONSE_DATA';
 
 // Initial state
 const initialState = {
-  responseData: null,
+  responseData: {
+    token: null,
+    user: null,
+  },
 };
 
 // Reducer function
@@ -17,7 +19,7 @@ const reducer = (state = initialState, action) => {
     case SET_RESPONSE_DATA:
       return { ...state, responseData: action.payload };
     case CLEAR_RESPONSE_DATA:
-      return { ...state, responseData: null };
+      return { ...state, responseData: initialState.responseData };
     default:
       return state;
   }
@@ -37,7 +39,7 @@ export const clearResponseData = () => ({
 const store = createStore(reducer);
 
 // Retrieve user data from AsyncStorage on app launch
-const initializeApp = async () => {
+export const initializeApp = async () => {
   try {
     const userData = await AsyncStorage.getItem('userData');
     if (userData) {
@@ -48,7 +50,5 @@ const initializeApp = async () => {
     console.error('Error initializing app:', error);
   }
 };
-
-initializeApp();
 
 export default store;

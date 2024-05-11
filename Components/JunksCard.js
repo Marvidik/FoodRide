@@ -10,7 +10,7 @@ const JunksCard = ({ name, source, rating, category, availability, price, onAddT
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.category}>Category: {category}</Text>
         <Text style={styles.availability}>Availability: {availability}</Text>
-        <Text style={styles.price}>Price: {price} Naira</Text>
+        <Text style={styles.price}>Price: ₦{price}</Text>
         <CustomButton title="Add to Cart" onPress={onAddToCart} style={styles.but} icon={"cart"}/>
       </View>
     </View>

@@ -10,7 +10,7 @@ const OrderCard = ({source,name,price,description,onPress,title}) => {
       <View style={styles.details}>
         <Text style={styles.name}>{name}</Text>
         <Text style={styles.description}>Quantity:  {description}</Text>
-        <Text style={styles.price}>Price: ${price}</Text>
+        <Text style={styles.price}>Price: ₦{price}</Text>
       </View>
       <CustomButton style={styles.buttonContainer} title={title} onPress={onPress}/>
     </View>
