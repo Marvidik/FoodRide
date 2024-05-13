@@ -61,7 +61,7 @@ export default function HomeScreen({navigation}) {
         scrollViewRef.current.scrollTo({ x: offsetX, y: 0, animated: true })
         
       } else {
-        scrollViewRef.current.scrollTo({ x: 430, y: 0, animated: true })
+        scrollViewRef.current.scrollTo({ x: 440, y: 0, animated: true })
         scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true }) 
       }
     };
@@ -92,18 +92,14 @@ export default function HomeScreen({navigation}) {
     <View style={styles.container}>
       <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <View style={styles.box2}>
-      
-        <IconComponent icon={"person"} color={"#FF7518"} style={{ backgroundColor: "#FCAE1E", marginRight: 20 }} />
+      <Image source={require("../assets/haha.png")} style={styles.image1}/>
         <View style={styles.textbox}>
-          <Text style={styles.text1}>{user.username}</Text>
-          <Text style={styles.text2}>{user.email}</Text>
+          <Text style={styles.text1}>FoodRide</Text>
+          <Text style={styles.text2}>contact.foodride@gmail.com</Text>
         </View>
         
 
-        <TouchableOpacity onPress={openWhatsAppChat} style={styles.search} >
-          <Image source={require("../assets/whats.jpeg")} style={styles.image}/>
-          {/* <IconComponent icon={"chatbubble"} color={"#FF7518"} /> */}
-        </TouchableOpacity>
+        
 
 
       </View>
@@ -160,6 +156,10 @@ export default function HomeScreen({navigation}) {
         return null; // Skip rendering when index is odd
       })}
     </ScrollView>)}
+    {/* WhatsApp chat button */}
+    <TouchableOpacity onPress={openWhatsAppChat} style={styles.whatsappButton} >
+      <Image source={require("../assets/whats.jpeg")} style={styles.image}/>
+    </TouchableOpacity>
     </View>
   );
 }
@@ -254,9 +254,6 @@ const styles = StyleSheet.create({
     justifyContent:"space-between"
   },
   search:{ 
-   
-    position:"relative",
-    position:"absolute",
     marginLeft:"90%",
     marginTop:35
   },
@@ -268,5 +265,20 @@ const styles = StyleSheet.create({
     height:48,
     width:48,
     borderRadius:20,
-  }
+  },
+  image1:{
+    height:58,
+    width:58,
+    borderRadius:20,
+    marginRight:10
+  },
+  whatsappButton: {
+    position: 'absolute',
+    bottom: '5%', // Adjust as needed
+    right: '5%', // Adjust as needed
+    backgroundColor: 'white',
+    borderRadius: 30,
+    padding: 10,
+    elevation: 5,
+  },
 });

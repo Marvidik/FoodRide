@@ -83,7 +83,7 @@ export default function LoginScreen({ navigation }) {
             <TextInputWithIcons style={styles.textinput} placeholder={"Username"}
               onChangeText={setUsername} />
             <TextInputWithIcons style={styles.textinput} placeholder={"Password"}
-              onChangeText={setPassword} secureTextEntry />
+              onChangeText={setPassword} rightIcon />
 
             <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={styles.login}>Register</Text>

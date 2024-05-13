@@ -60,14 +60,12 @@ export default function FoodScreen({ route }) {
         </View>
         <View style={styles.names}>
           <Text style={styles.text1}>{name}</Text>
+          <Text style={styles.text3}>{location}</Text>
           <Text style={styles.text2}>Open {restaurant.opening_hour} -{restaurant.closing_hour}</Text>
         </View>
       </View>
-      <View style={styles.names2}>
-        <Text style={styles.text3}>{location}</Text>
-        <Text style={styles.text3}>Delivery Fee: 860 Naira</Text>
-      </View>
-  
+      
+      <Text style={styles.text0}>Categories</Text>
       {loading ? (
         <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
       ) : (
@@ -82,7 +80,7 @@ export default function FoodScreen({ route }) {
                     source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
                     category={food.category}
                     price={food.price}
-                    availability={food.availability === "Available"}
+                    availability={food.availability}
                     onAddToCart={() => handleAddToCart(food)}
                   />
                 )}
@@ -90,8 +88,11 @@ export default function FoodScreen({ route }) {
             ))}
           </ScrollView>
           
+
+          
           {/* ScrollView for Foods */}
           <ScrollView horizontal={false} contentContainerStyle={styles.scrollView} showsHorizontalScrollIndicator={false}>
+          <Text style={styles.text0}>Menu</Text>
             {foods.map((food, index) => (
               <View key={index}>
                 {food.category === "Foods" && (
@@ -144,8 +145,15 @@ const styles = StyleSheet.create({
     },
     names:{
         paddingLeft:20,
-        paddingTop:15
+        paddingTop:15,
+
     },
+    text0:{
+      fontSize:28,
+      fontWeight:"700",
+      color:"#512213",
+      paddingLeft:20
+  },
     text1:{
         fontSize:28,
         fontWeight:"700",
@@ -177,7 +185,8 @@ const styles = StyleSheet.create({
     },
     ibox:{
         flexDirection:"row",
-        marginTop:30
+        marginTop:30,
+        marginBottom:20
     },
     names2:{
         paddingLeft:20,
@@ -190,7 +199,9 @@ const styles = StyleSheet.create({
         alignItems:"center"
     },
     scrollView: {
-        padding: 10,
+        paddingTop: 10,
+        
+
         
       },
       info:{

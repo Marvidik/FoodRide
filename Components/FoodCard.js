@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   availability: {
     fontSize: 16,
     marginBottom: 5,
+    color:"#512213"
   },
   price: {
     fontSize: 18,

@@ -3,6 +3,7 @@ import React, { useState, useContext  } from 'react';
 import axios from 'axios'; // Import axios for making API calls
 import { useDispatch } from 'react-redux';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import TextInputWithIcons from '../Components/TextInputWithIcons';
 
 
 export default function RegisterScreen({ navigation }) {
@@ -103,39 +104,17 @@ export default function RegisterScreen({ navigation }) {
           <Text style={styles.text1}>Register</Text>
           <Text style={styles.text2}>Create Your New Account</Text>
 
-          <TextInput
-            style={styles.textinput}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-          />
-          <TextInput
-            style={styles.textinput}
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
-          />
-          <TextInput
-            style={styles.textinput}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-          />
-          <TextInput
-            style={styles.textinput}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-          />
-          <TextInput
-            style={styles.textinput}
-            placeholder="Referal (OPTIONAL)"
-            value={referral_name}
-            onChangeText={setReferal}
-            
-          />
+          <TextInputWithIcons style={styles.textinput} placeholder={"Email"}
+              onChangeText={setEmail} value={email}/>
+          <TextInputWithIcons style={styles.textinput} placeholder={"Username"}
+              onChangeText={setUsername} value={username}/>
+          <TextInputWithIcons style={styles.textinput} placeholder={"Password"}
+              onChangeText={setPassword} value={password} rightIcon/>
+              <TextInputWithIcons style={styles.textinput} placeholder={"Confirm Password"}
+              onChangeText={setConfirmPassword} value={confirmPassword} rightIcon/>
+              <TextInputWithIcons style={styles.textinput} placeholder={"Referal (OPTIONAL)"}
+              onChangeText={setReferal} value={referral_name}/>
+
 
           <TouchableOpacity  onPress={()=> navigation.navigate('Login')}>
           <Text style={styles.login}>Login</Text>

@@ -22,7 +22,7 @@ const CartItem = ({ item, onIncrement, onDecrement,remove }) => {
           </TouchableOpacity>
         </View>
       </View>
-      <CustomButton title={"remove"} onPress={remove}/>
+      <CustomButton title={"X"} icon={"trash"} onPress={remove}/>
     </View>
   );
 };

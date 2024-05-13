@@ -67,7 +67,11 @@ export default function ProfileScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
-      {profileImage && <Image style={styles.image} source={{ uri: profileImage }} />}
+      {profileImage ? (
+      <Image style={styles.image} source={{ uri: profileImage }} />
+    ) : (
+      <Image  style={styles.image} source={require("../assets/profile.jpeg")} />
+    )}
       <TouchableOpacity style={styles.change} onPress={selectImage}>
         <Text style={styles.text}>Change Image</Text>
         <Ionicons name={"pencil"} size={20} style={styles.icon} color={"orange"} />
@@ -75,6 +79,7 @@ export default function ProfileScreen({ navigation }) {
 
       <ListItem info={"Current Orders"} icon={"cart-plus"} onPress={() => { navigation.navigate("Order") }} />
       <ListItem info={"Cart"} icon={"cart-plus"} onPress={() => { navigation.navigate("Cart") }} />
+      <ListItem info={"Change Password"} icon={"lock"} onPress={() => { navigation.navigate("Forgottenpassword") }} />
       <ListItem info={"Logout"} icon={"sign-out"} onPress={handleLogout} />
     </View>
   );

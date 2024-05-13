@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     overflow: 'hidden',
     backgroundColor: '#FFFFFF',
-    width: 180,
+    width: "49%",
     aspectRatio: 1,
     marginBottom: 10,
     elevation: 3, // Add shadow effect

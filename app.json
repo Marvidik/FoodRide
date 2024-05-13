@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hackerdev.FoodRide"
     },
     "android": {
       "adaptiveIcon": {
