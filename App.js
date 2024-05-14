@@ -114,19 +114,6 @@ const BottomTabNavigator = () => {
         }}
       />
       <Tab.Screen 
-        name="Profile" 
-        component={ProfileScreen} 
-        options={{
-          tabBarLabel: 'Profile',
-          headerShown: false,
-          
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" color={color} size={size} />
-          ),
-         
-        }}
-      />
-      <Tab.Screen 
         name="search" 
         component={SearchScreen} 
         options={{
@@ -135,6 +122,19 @@ const BottomTabNavigator = () => {
           
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="search" color={color} size={size} />
+          ),
+         
+        }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={ProfileScreen} 
+        options={{
+          tabBarLabel: 'Profile',
+          headerShown: false,
+          
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" color={color} size={size} />
           ),
          
         }}
