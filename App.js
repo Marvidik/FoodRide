@@ -20,6 +20,7 @@ import ProfileScreen from './Screens/ProfileScreen';
 import AddressScreen from './Screens/AddressScreen';
 import AddressChangeScreen from './Screens/AddressChangeScreen';
 import ConfirmScreen from './Screens/ConfirmScreen';
+import SearchScreen from './Screens/SearchScreen';
 import { Provider } from 'react-redux';
 import store, {setResponseData} from './Data/store';
 
@@ -30,6 +31,7 @@ import { CartProvider } from './Data/CartContext';
 import React, { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch,useSelector } from 'react-redux';
+
 
 
 
@@ -120,6 +122,19 @@ const BottomTabNavigator = () => {
           
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" color={color} size={size} />
+          ),
+         
+        }}
+      />
+      <Tab.Screen 
+        name="search" 
+        component={SearchScreen} 
+        options={{
+          tabBarLabel: 'Search',
+          headerShown: false,
+          
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="search" color={color} size={size} />
           ),
          
         }}
