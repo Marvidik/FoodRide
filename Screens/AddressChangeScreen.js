@@ -10,6 +10,7 @@ export default function AddressChangeScreen({navigation}) {
   const [address, setAddress] = useState('');
   const [userid,setUserid]= useState('');
   const [phone,setPhone]=useState();
+  const [phone1,setPhone1]=useState();
   const [loading, setLoading] = useState(false);
 
   const responseData = useSelector(state => state.responseData);
@@ -34,6 +35,7 @@ export default function AddressChangeScreen({navigation}) {
         user: userid,
         address,
         phone,
+        phone1,
       });
 
       setLoading(false);
@@ -72,8 +74,8 @@ export default function AddressChangeScreen({navigation}) {
           <Text style={styles.text2}>Change your delivery address</Text>
 
           <TextInputWithIcons style={styles.textinput} placeholder={"Address"} leftIcon={"location"} value={address} onChangeText={setAddress}/>
-          <TextInputWithIcons style={styles.textinput} placeholder={"Phone NUmber"} leftIcon={"phone-portrait"} value={phone} onChangeText={setPhone}/>
-          
+          <TextInputWithIcons style={styles.textinput} placeholder={"Phone Number"} leftIcon={"phone-portrait"} value={phone} onChangeText={setPhone}/>
+          <TextInputWithIcons style={styles.textinput} placeholder={"Phone Number2(Optional)"} leftIcon={"phone-portrait"} value={phone1} onChangeText={setPhone1}/>
           
 
           <CustomButton style={styles.but} title={"Save"}  onPress={Changeaddress}/>
