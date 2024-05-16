@@ -70,7 +70,7 @@ export default function OrderScreen({ navigation }) {
         <View style={{backgroundColor:"#FF7518",height:40}}></View>
         <View style={styles.emptyCartContainer}>
           <Ionicons name="log-in" size={100} color="gray" />
-          <Text style={styles.emptyCartText}>Login</Text>
+          <Text style={styles.emptyCartText}>Login To View Your Orders</Text>
         </View>
         <CustomButton title={"Login"} style={styles.but} onPress={() => {
         navigation.navigate("Login");

@@ -174,7 +174,7 @@ const paymentSuccess = async () => {
       <View style={styles.notlog}>
         <View style={styles.emptyCartContainer}>
           <Ionicons name="log-in" size={100} color="gray" />
-          <Text style={styles.emptyCartText}>Login</Text>
+          <Text style={styles.emptyCartText}>Login To complete your Order</Text>
         </View>
         <CustomButton title={"Login"} style={styles.but} onPress={() => {
         navigation.navigate("Login");
