@@ -53,7 +53,6 @@ export default function FoodScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <View style={styles.ibox}>
         <View style={styles.box1}>
           <Image style={styles.image} source={{uri: `https://savvy.pythonanywhere.com${logo}`}}/>
@@ -134,7 +133,6 @@ const styles = StyleSheet.create({
         marginLeft:20,
         backgroundColor:'#FFFFFF',
         elevation:10,
-        marginTop:10,
         borderRadius:10,
         width:120,
     },
@@ -185,7 +183,7 @@ const styles = StyleSheet.create({
     },
     ibox:{
         flexDirection:"row",
-        marginTop:30,
+        marginTop:10,
         marginBottom:20
     },
     names2:{

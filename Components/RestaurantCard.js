@@ -48,14 +48,14 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 5,
+    marginBottom: 1,
     paddingLeft:5,
     color: "#FF7518",
     fontWeight:"700"
   },
   location: {
     fontSize: 14,
-    marginBottom: 5,
+    marginBottom: 1,
     color: '#777',
     paddingLeft:5
   },

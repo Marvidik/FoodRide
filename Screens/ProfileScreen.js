@@ -4,9 +4,17 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import ListItem from '../Components/ListItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useDispatch,useSelector } from 'react-redux';
+import store, {setResponseData} from '../Data/store';
 
 export default function ProfileScreen({ navigation }) {
   const [profileImage, setProfileImage] = useState(null);
+
+  const responseData = useSelector(state => state.responseData);
+  
+  const { token, user } = responseData;
+
+  
 
   // Function to handle image selection
   const selectImage = async () => {
@@ -66,46 +74,61 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <Text style={styles.title}>Profile</Text>
-      {profileImage ? (
-      <Image style={styles.image} source={{ uri: profileImage }} />
-    ) : (
-      <Image  style={styles.image} source={require("../assets/profile.jpeg")} />
-    )}
-      <TouchableOpacity style={styles.change} onPress={selectImage}>
-        <Text style={styles.text}>Change Image</Text>
-        <Ionicons name={"pencil"} size={20} style={styles.icon} color={"orange"} />
-      </TouchableOpacity>
+      <View style={styles.prof}>
+        <View>
+              {profileImage ? (
+            <Image style={styles.image} source={{ uri: profileImage }} />
+          ) : (
+            <Image  style={styles.image} source={require("../assets/profile.jpeg")} />
+          )}
+            <TouchableOpacity style={styles.change} onPress={selectImage}>
+              <Text style={styles.text}>Change Image</Text>
+              <Ionicons name={"pencil"} size={20} style={styles.icon} color={"orange"} />
+            </TouchableOpacity>
+        </View>
+        <View style={styles.user}>
+        <Text style={styles.username}>Username: {user ? user.username : "Not Log in"}</Text>
+        <Text style={styles.email}>Email: {user ? user.email : "Not Log in"}</Text>
+        </View>
+      
+      </View>
+     
 
       <ListItem info={"Current Orders"} icon={"cart-plus"} onPress={() => { navigation.navigate("Order") }} />
       <ListItem info={"Cart"} icon={"cart-plus"} onPress={() => { navigation.navigate("Cart") }} />
       <ListItem info={"Change Password"} icon={"lock"} onPress={() => { navigation.navigate("Forgottenpassword") }} />
-      <ListItem info={"Logout"} icon={"sign-out"} onPress={handleLogout} />
+      { user ? <ListItem info={"Logout"} icon={"sign-out"} onPress={handleLogout} /> : <ListItem info={"Login"} icon={"sign-in"} onPress={() => {
+                  // Pass restaurant data to the "Food" screen
+                  navigation.navigate("Login");
+                }} />}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop:64,
-    alignItems: "center",
-    justifyContent: "center",
+    
   },
   title: {
-    fontSize: 28,
-    fontWeight: "700",
-    color: "grey",
-    paddingBottom: 5, // Adjusted from paddingTop to paddingBottom
+    alignSelf:"center",
+    fontSize:32,
+    paddingTop:15,
+    color:"#512213",
+    marginBottom:20
   },
   image: {
     height: 150,
     width: 150,
     borderRadius: 75,
-    marginTop: 15, // Reduced from 30
+    marginTop: 0,
+    marginLeft:20
   },
   change: {
     flexDirection: "row",
     paddingTop: 5,
+    marginLeft:30
   },
   text: {
     color: "#FF7518",
@@ -114,4 +137,19 @@ const styles = StyleSheet.create({
   icon: {
     marginLeft: 5,
   },
+  prof:{
+    flexDirection:"row"
+  },
+  user:{
+    paddingTop:30,
+    paddingLeft:10
+  },
+  username:{
+    fontSize:22,
+    color:"#512213",
+  },
+  email:{
+    color:"grey",
+    fontSize:16,
+  }
 });

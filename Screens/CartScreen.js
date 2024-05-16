@@ -91,6 +91,7 @@ const styles = StyleSheet.create({
   cart: {
     fontSize: 32,
     alignSelf: 'center',
+    paddingTop:15,
   },
   scrollView: {
     flex: 1,

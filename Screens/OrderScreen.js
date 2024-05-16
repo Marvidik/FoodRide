@@ -1,23 +1,18 @@
-import { View, Text,StyleSheet, ScrollView,ActivityIndicator } from 'react-native'
-import React, { useState,useEffect, useRef } from 'react'
+import { View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import OrderCard from '../Components/OrderCard'
 import CustomButton from '../Components/CustomButton';
 import { useSelector } from 'react-redux';
-import FoodCard from '../Components/FoodCard';
-import AdsCard from '../Components/AdsCard';
 import axios from 'axios'; // Import axios for making API calls
-import { showMessage, hideMessage } from "react-native-flash-message";
+import { showMessage } from "react-native-flash-message";
+import { Ionicons } from '@expo/vector-icons';
 
-export default function OrderScreen({Navigation}) {
+export default function OrderScreen({ navigation }) {
   const responseData = useSelector(state => state.responseData);
-  const { token, user } = responseData;
-  const [orders,setOrders]= useState([]); 
+  const { user } = responseData;
+  const [orders, setOrders] = useState([]); 
   const [loading, setLoading] = useState(false);
-  const [confirmed,setConfirmed] =useState(false);
-  const [butloading,setButloading]=useState(false);
 
-
-  
   const handleButtonClick = async (id) => {
     try {
       // Make the PATCH request to the API
@@ -39,6 +34,8 @@ export default function OrderScreen({Navigation}) {
   };
 
   useEffect(() => {
+    if (!user) return; // Return if user data doesn't exist
+
     const fetchData = () => {
       setLoading(true);
       // Fetch restaurant data from the API
@@ -60,84 +57,127 @@ export default function OrderScreen({Navigation}) {
     // Initial data fetch
     fetchData();
 
-    // Reload data every 5 seconds
+    // Reload data every 15 seconds
     const intervalId = setInterval(fetchData, 15000);
 
     // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, []); 
+  }, [user]); // useEffect will run only when user changes
 
-  
+  if (!user) {
+    return (
+      <View style={styles.notlog}>
+        <View style={{backgroundColor:"#FF7518",height:40}}></View>
+        <View style={styles.emptyCartContainer}>
+          <Ionicons name="log-in" size={100} color="gray" />
+          <Text style={styles.emptyCartText}>Login</Text>
+        </View>
+        <CustomButton title={"Login"} style={styles.but} onPress={() => {
+        navigation.navigate("Login");
+      }} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <View style={styles.b1}>
-      <Text style={styles.orders}>Orders</Text>
-      
-      {loading ? (
-            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
-          ) : (
-      <ScrollView showsVerticalScrollIndicator={false}>
-      
-      {orders.map((order, index) => {
-        if (!order.delivered) {
-          const details = order.food_details ? order.food_details : order.junk_details;
-          return (
-            <OrderCard
-              key={index}
-              name={details.name}
-              source={{ uri: `https://savvy.pythonanywhere.com${details.image}` }}
-              price={details.price * order.quantity}
-              description={order.quantity}
-              onPress={() => handleButtonClick(order.id)}
-              title={"confirm order"}
-            />
-          );
-        } else {
-          const details = order.food_details ? order.food_details : order.junk_details;
-          return (
-            <OrderCard
-              key={index}
-              name={details.name}
-              source={{ uri: `https://savvy.pythonanywhere.com${details.image}` }}
-              price={details.price * order.quantity}
-              description={order.quantity}
-              title={"Order Received"}   
-            />
-          );
-        }
-      })}
-      </ScrollView>)}
+        <Text style={styles.orders}>Orders</Text>
+        
+        {loading ? (
+          <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {orders.map((order, index) => {
+              if (!order.delivered) {
+                const details = order.food_details ? order.food_details : order.junk_details;
+                return (
+                  <OrderCard
+                    key={index}
+                    name={details.name}
+                    source={{ uri: `https://savvy.pythonanywhere.com${details.image}` }}
+                    price={details.price * order.quantity}
+                    description={order.quantity}
+                    onPress={() => handleButtonClick(order.id)}
+                    title={"confirm order"}
+                  />
+                );
+              } else {
+                const details = order.food_details ? order.food_details : order.junk_details;
+                return (
+                  <OrderCard
+                    key={index}
+                    name={details.name}
+                    source={{ uri: `https://savvy.pythonanywhere.com${details.image}` }}
+                    price={details.price * order.quantity}
+                    description={order.quantity}
+                    title={"Order Received"}   
+                  />
+                );
+              }
+            })}
+          </ScrollView>
+        )}
       </View>
-      
     </View>
   )
 }
 
-
 const styles = StyleSheet.create({
-    container:{
-      flex:1
-    },
-    orders:{
-      alignSelf:"center",
-      fontSize:32,
-      paddingTop:15,
-      color:"#512213",
-      marginBottom:20
-    },
-    b1:{
-      height:"100%",
-      
-    },
-    but:{
-      marginHorizontal:20,
-      height:50,
-    },
-    message:{
-      marginTop:64,
-      marginHorizontal:10,
-      borderRadius:10
-    }
-})
+  container: {
+    flex: 1
+  },
+  notLoggedInText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'red',
+    alignSelf: 'center',
+    marginTop: 50
+  },
+  orders: {
+    alignSelf: "center",
+    fontSize: 32,
+    paddingTop: 15,
+    color: "#512213",
+    marginBottom: 20
+  },
+  b1: {
+    height: "100%",
+  },
+  but: {
+    marginHorizontal: 20,
+    height: 50,
+  },
+  message: {
+    marginTop: 64,
+    marginHorizontal: 10,
+    borderRadius: 10
+  },
+  notlog:{
+    alignContent:"center",
+    justifyContent:"center",
+    flex:1
+  },
+  not:{
+    fontSize:32,
+    color:"grey",
+    alignSelf:"center",
+    marginBottom:20
+  },
+  emptyCartContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 24,
+    marginTop: 20,
+    color: 'gray',
+  },
+  but:{
+    marginBottom:10,
+    height:50,
+    marginHorizontal:20
+  }
+});

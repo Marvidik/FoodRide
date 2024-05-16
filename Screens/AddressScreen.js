@@ -31,45 +31,50 @@ export default function AddressScreen({ navigation ,route}) {
   
 
   useEffect(() => {
-    setLoading(true);
-    // Fetch restaurant data from the API
-    axios.get(`https://savvy.pythonanywhere.com/profile/${user.id}/`)
-      .then(response => {
-        // If the request is successful, set the restaurants state with the fetched data
-        setAddress(response.data.profile); // Update to response.data.restaurants
-        setLoading(false);
-        console.log("kk")
-      })
-      .catch(error => {
-        setAddress([]);
-        setLoading(false);
-        
-      });
-  });
-
-  useEffect(() => {
-    setLoading(true);
-    // Fetch restaurant data from the API
-    try {
-      axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
+    if (user) { // Check if user data exists
+      setLoading(true);
+      // Fetch restaurant data from the API
+      axios.get(`https://savvy.pythonanywhere.com/profile/${user.id}/`)
         .then(response => {
-          // If the request is successful, set the referal state with the fetched data
-          setReferal(response.data.referals);
+          // If the request is successful, set the restaurants state with the fetched data
+          setAddress(response.data.profile); // Update to response.data.restaurants
           setLoading(false);
+          console.log("kk")
         })
         .catch(error => {
-          // Handle any errors
-          console.error("Error fetching referal data:", error);
-          setReferal([]);
+          setAddress([]);
           setLoading(false);
+          
         });
-    } catch (error) {
-      console.error("Error in useEffect:", error);
     }
-  }, []);
+  }, [user]); // useEffect will run only when user changes
+  
+  useEffect(() => {
+    if (user) { // Check if user data exists
+      setLoading(true);
+      // Fetch restaurant data from the API
+      try {
+        axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
+          .then(response => {
+            // If the request is successful, set the referal state with the fetched data
+            setReferal(response.data.referals);
+            setLoading(false);
+          })
+          .catch(error => {
+            // Handle any errors
+            console.error("Error fetching referal data:", error);
+            setReferal([]);
+            setLoading(false);
+          });
+      } catch (error) {
+        console.error("Error in useEffect:", error);
+      }
+    }
+  }, [user]);
   
 
   const calculateDeliveryFee = () => {
+    if (!user) return;
     const deliveryFee = 860;
     const discountPercentage = 0.1; // 10% discount
     const restaurantIds = new Set(); // Initialize a Set to store unique restaurant IDs
@@ -106,6 +111,7 @@ export default function AddressScreen({ navigation ,route}) {
   
 
 const paymentSuccess = async () => {
+  if (!user) return;
   try {
     console.log(cartItems)
     const orderPromises = cartItems.map(async (cartItem) => {
@@ -140,6 +146,7 @@ const paymentSuccess = async () => {
   
 
   const deleteProfile = async (profileId) => {
+    if (!user) return;
     try {
       const response = await fetch(`https://savvy.pythonanywhere.com/profiles/${profileId}/`, {
         method: 'DELETE', 
@@ -162,9 +169,24 @@ const paymentSuccess = async () => {
 
 
 
+  if (!user) {
+    return (
+      <View style={styles.notlog}>
+        <View style={styles.emptyCartContainer}>
+          <Ionicons name="log-in" size={100} color="gray" />
+          <Text style={styles.emptyCartText}>Login</Text>
+        </View>
+        <CustomButton title={"Login"} style={styles.but} onPress={() => {
+        navigation.navigate("Login");
+      }} />
+      </View>
+    );
+  }
+
+  // Render address list if user data is found
   return (
     <View style={styles.container}>
-      {paystackVisible && ( // Conditional rendering for Paystack component
+      {paystackVisible && (
         <Paystack  
           paystackKey="pk_live_a63261768652861c38842863f81d121298c68147"
           amount={maintotal}
@@ -182,7 +204,7 @@ const paymentSuccess = async () => {
           ref={paystackWebViewRef}
         />
       )}
-      <View style={{backgroundColor:"#FF7518",height:40}}></View>
+      
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
         <View style={styles.box}>
           <Text style={styles.text}>Delivery Address</Text>
@@ -225,7 +247,7 @@ const paymentSuccess = async () => {
         </View>
       </ScrollView>
       <Text style={styles.fee}>Delivery Fee:  ₦860</Text>
-      <Text style={styles.fee2}>we add an additional 430 for any additioal restaurant ordered from</Text>
+      <Text style={styles.fee2}>we add an additional ₦430 for any additioal restaurant ordered from</Text>
       <CustomButton title={"Add New Address"} style={styles.but} onPress={() => {
         navigation.navigate("Addresschange");
       }} />
@@ -301,7 +323,7 @@ const styles = StyleSheet.create({
   text4: {
     fontSize: 18,
     color: "#512213",
-    paddingTop: 30
+    paddingTop: 15
   },
   textcont: {
     paddingTop: 30,
@@ -331,5 +353,31 @@ const styles = StyleSheet.create({
     paddingBottom:10,
     fontSize:20,
     color:"grey"
+  },
+  notlog:{
+    alignContent:"center",
+    justifyContent:"center",
+    flex:1
+  },
+  not:{
+    fontSize:32,
+    color:"grey",
+    alignSelf:"center",
+    marginBottom:20
+  },
+  emptyCartContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 24,
+    marginTop: 20,
+    color: 'gray',
+  },
+  but:{
+    marginBottom:30,
+    height:50,
+    marginHorizontal:20
   }
 })

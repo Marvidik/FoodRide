@@ -5,7 +5,7 @@ import { NavigationContainer,useNavigation} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import SplashScreen from './Screens/SplashScreen';
+
 import RegisterScreen from './Screens/RegisterScreen';
 import LoginScreen from './Screens/LoginScreen';
 import ForgotPasswordScreen from './Screens/ForgotPasswordScreen';
@@ -20,7 +20,6 @@ import ProfileScreen from './Screens/ProfileScreen';
 import AddressScreen from './Screens/AddressScreen';
 import AddressChangeScreen from './Screens/AddressChangeScreen';
 import ConfirmScreen from './Screens/ConfirmScreen';
-import SearchScreen from './Screens/SearchScreen';
 import { Provider } from 'react-redux';
 import store, {setResponseData} from './Data/store';
 
@@ -50,8 +49,8 @@ const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="HomeEntry" component={HomeScreen} />
-      <Stack.Screen options={{ headerShown: false }} name="Food" component={FoodScreen} />
-      <Stack.Screen options={{ headerShown: false }} name="Address" component={AddressScreen} />
+      <Stack.Screen  name="Food" component={FoodScreen} />
+      <Stack.Screen  name="Address" component={AddressScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Addresschange" component={AddressChangeScreen} />
       <Stack.Screen options={{ headerShown: false }} name="ConfirmScreen" component={ConfirmScreen} />
     </Stack.Navigator>
@@ -64,11 +63,24 @@ const BottomTabNavigator = () => {
     <Tab.Navigator
     screenOptions={{
       tabBarActiveTintColor: "#FF7518",
+      // tabBarStyle: {
+      //   backgroundColor: 'white',
+      //   borderTopWidth: 1,
+      //   borderTopColor: '#FCAE1E',
+      //   marginHorizontal: 10,
+      //   marginBottom: 10,
+      //   borderRadius: 12,
+      //   height:60,
+        
+      // },
       tabBarInactiveTintColor: "#512213",
         tabBarItemStyle: {
-          backgroundColor: '#fff', // Background color of the tab bar
-          borderTopWidth: 1, // Optional: Add border on top of the tab bar
+          backgroundColor: 'white',
+          borderTopWidth: 1,
           borderTopColor: '#FCAE1E',
+          marginHorizontal: 20,
+          marginBottom: 30,
+          borderRadius: 12,
          
         },
         labelStyle: {
@@ -111,19 +123,6 @@ const BottomTabNavigator = () => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="receipt" color={color} size={size} />
           ),
-        }}
-      />
-      <Tab.Screen 
-        name="search" 
-        component={SearchScreen} 
-        options={{
-          tabBarLabel: 'Search',
-          headerShown: false,
-          
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search" color={color} size={size} />
-          ),
-         
         }}
       />
       <Tab.Screen 
@@ -182,7 +181,7 @@ const AppContent = () => {
         } else {
           console.log("No user Found");
           // If user data not found, navigate to Login screen
-          navigation.navigate('Login');
+          navigation.navigate('Home');
         }
       } catch (error) {
         console.error('Error retrieving user data:', error);
@@ -193,14 +192,15 @@ const AppContent = () => {
   }, []);
 
   return (
-    <Stack.Navigator initialRouteName="Login">
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen options={{ headerShown: false }} name="Home" component={BottomTabNavigator} />
       <Stack.Screen options={{ headerShown: false }} name="Login" component={LoginScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Register" component={RegisterScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Forgottenpassword" component={ForgotPasswordScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Changepassword" component={ChangePasswordScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Otp" component={OTPScreen} />
       <Stack.Screen options={{ headerShown: false }} name="changesuccess" component={SuccessScreen} />
-      <Stack.Screen options={{ headerShown: false }} name="Home" component={BottomTabNavigator} />
+      
     </Stack.Navigator>
   );
 }
