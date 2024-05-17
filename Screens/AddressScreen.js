@@ -154,7 +154,7 @@ export default function AddressScreen({ navigation, route }) {
     <View style={styles.container}>
       <View style={{ backgroundColor: "#FF7518", height: 80, flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity onPress={() => { navigation.navigate("Cart") }}>
-          <Ionicons name="arrow-back" size={50} color="white" style={{ paddingTop: 20, paddingLeft: 10 }} />
+          <Ionicons name="arrow-back" size={30} color="white" style={{ paddingTop: 20, paddingLeft: 10 }} />
         </TouchableOpacity>
         <Text style={styles.text}>Delivery Address</Text>
       </View>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 28,
     color: "white",
-    paddingLeft: 50,
+    paddingLeft:80,
     paddingTop: 20,
   },
   address: {

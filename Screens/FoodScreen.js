@@ -55,7 +55,7 @@ export default function FoodScreen({ route ,navigation}) {
     <View style={styles.container}>
       <View style={{backgroundColor:"#FF7518",height:80,justifyContent:"center"}}>
         <TouchableOpacity onPress={() => { navigation.navigate("HomeEntry") }}>
-            <Ionicons name="arrow-back" size={50} color="white" style={{paddingTop:20,paddingLeft:10}} />
+            <Ionicons name="arrow-back" size={30} color="white" style={{paddingTop:20,paddingLeft:10}} />
         </TouchableOpacity>
       </View>
       <View style={styles.ibox}>
