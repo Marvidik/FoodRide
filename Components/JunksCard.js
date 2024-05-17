@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     flex:1,
     borderRadius: 10,
     overflow: 'hidden',
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {

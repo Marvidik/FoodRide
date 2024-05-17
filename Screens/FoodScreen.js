@@ -203,9 +203,6 @@ const styles = StyleSheet.create({
     },
     scrollView: {
         paddingTop: 10,
-        
-
-        
       },
       info:{
         alignSelf:"center"

@@ -19,7 +19,7 @@ const FoodCard = ({ name, image, rating, category, availability, price, onAddToC
 
 const styles = StyleSheet.create({
   card: {
-    width: '90%',
+    width: '95%',
     flex:1,
     borderRadius: 10,
     overflow: 'hidden',
