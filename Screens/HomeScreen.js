@@ -1,5 +1,5 @@
-import React, { useState,useEffect,useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, Modal, Image, TouchableOpacity,ActivityIndicator,TextInput } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, ScrollView, Modal, Image, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
 import IconComponent from '../Components/IconComponent';
 import TextInputWithIcons from '../Components/TextInputWithIcons';
 import CustomButton from '../Components/CustomButton';
@@ -18,14 +18,11 @@ const openWhatsAppChat = () => {
   Linking.openURL('whatsapp://send?phone=09152358248');
 };
 
-
-
-export default function HomeScreen({navigation}) {
-
-  // Search ifos
+export default function HomeScreen({ navigation }) {
+  // Search info
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState(null);
-  const [empty, setEmpty] =useState("")
+  const [empty, setEmpty] = useState("");
 
   const { addToCart } = useCart();
 
@@ -64,14 +61,15 @@ export default function HomeScreen({navigation}) {
   const handleInputChange = (text) => {
     setSearchQuery(text);
   };
+
   const [modalVisible, setModalVisible] = useState(true); // Initialize modalVisible state as true
+  const [checkingConnection, setCheckingConnection] = useState(false);
+  const [isConnected, setIsConnected] = useState(true);
 
   const responseData = useSelector(state => state.responseData);
   const { token, user } = responseData;
   const [restaurants, setRestaurants] = useState([]);
-  const [ads,setAds]= useState([]);
-
-  const [restID,setREstID]= useState(); 
+  const [ads, setAds] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const scrollViewRef = useRef();
@@ -80,21 +78,50 @@ export default function HomeScreen({navigation}) {
   const scrollIntervalDelay = 3000; // 3 seconds
 
   useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        setLoading(true); // Assuming you have `setLoading` somewhere
-        const response = await axios.get('https://savvy.pythonanywhere.com/ads');
-        setAds(response.data.ads);
-        setLoading(false); // Assuming you have `setLoading` somewhere
-      } catch (error) {
-        console.error('Error fetching ads:', error);
-        setAds([]);
-        setLoading(false); // Assuming you have `setLoading` somewhere
-      }
-    };
-
-    fetchAds();
+    checkConnectionAndFetchData();
   }, []);
+
+  const checkConnectionAndFetchData = async () => {
+    setCheckingConnection(true);
+    setIsConnected(true);
+
+    try {
+      await fetchAds();
+      await fetchRestaurants();
+    } catch (error) {
+      setIsConnected(false);
+    } finally {
+      setCheckingConnection(false);
+    }
+  };
+
+  const fetchAds = async () => {
+    try {
+      setLoading(true); // Start loading
+      const response = await axios.get('https://savvy.pythonanywhere.com/ads');
+      setAds(response.data.ads);
+      setLoading(false); // Stop loading
+    } catch (error) {
+      console.error('Error fetching ads:', error);
+      setAds([]);
+      setLoading(false); // Stop loading
+      throw error;
+    }
+  };
+
+  const fetchRestaurants = async () => {
+    try {
+      setLoading(true); // Start loading
+      const response = await axios.get('https://savvy.pythonanywhere.com/restaurants/');
+      setRestaurants(response.data.restaurants);
+      setLoading(false); // Stop loading
+    } catch (error) {
+      console.error('Error fetching restaurants:', error);
+      setRestaurants([]);
+      setLoading(false); // Stop loading
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const scrollAds = () => {
@@ -106,10 +133,9 @@ export default function HomeScreen({navigation}) {
       // Check if we are at the last ad
       if (nextIndex === 0) {
         scrollViewRef.current.scrollTo({ x: offsetX, y: 0, animated: true })
-        
       } else {
         scrollViewRef.current.scrollTo({ x: 440, y: 0, animated: true })
-        scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true }) 
+        scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true })
       }
     };
 
@@ -117,29 +143,12 @@ export default function HomeScreen({navigation}) {
 
     return () => clearInterval(scrollInterval);
   }, [ads.length, currentIndex, scrollIntervalDelay]);
-  
 
-  useEffect(() => {
-    setLoading(true);
-    // Fetch restaurant data from the API
-    axios.get('https://savvy.pythonanywhere.com/restaurants/')
-      .then(response => {
-        // If the request is successful, set the restaurants state with the fetched data
-        setRestaurants(response.data.restaurants); // Update to response.data.restaurants
-        setLoading(false);
-      })
-      .catch(error => {
-        // Set restaurants state to an empty array in case of error
-        setRestaurants([]);
-        setLoading(false);
-      });
-  }, []);
- 
   return (
     <View style={styles.container}>
-      <View style={{backgroundColor:"#FF7518",height:40}}></View>
+      <View style={{ backgroundColor: "#FF7518", height: 40 }}></View>
       <View style={styles.box2}>
-      <Image source={require("../assets/haha.png")} style={styles.image1}/>
+        <Image source={require("../assets/haha.png")} style={styles.image1} />
         <View style={styles.textbox}>
           <Text style={styles.text1}>FoodRide</Text>
           <Text style={styles.text2}>contact.foodride@gmail.com</Text>
@@ -154,128 +163,132 @@ export default function HomeScreen({navigation}) {
           value={searchQuery}
         />
       </View>
-      
-      { searchQuery==="" ? (
-     <View style={{flex:1}}>
-     {loading ? (
-            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
-          ) : (
-      <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollViewContent1} horizontal pagingEnabled
-      showsHorizontalScrollIndicator={false}>    
-      {
-        ads.map((ad,index)=>{
-          return(
-            <AdsCard source={{uri: `https://savvy.pythonanywhere.com${ad.image}` }}/>
-          );
-        })
-      }
-        
-        
-      </ScrollView>)}  
-      <Text style={styles.text3}>Available Restaurants</Text>
-      {loading ? (
-            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
-          ) : (
-      <ScrollView contentContainerStyle={styles.scrollViewContent} horizontal={false} showsVerticalScrollIndicator={false}>
-      {restaurants.map((restaurant, index) => {
-        // Render two RestaurantCard components per restview
-        if (index % 2 === 0) {
-          return (
-            <View key={index} style={styles.restview}>
-              <RestaurantCard
-                imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurant.logo}` }}
-                name={restaurant.name}
-                location={restaurant.location}
-                openingHours={`${restaurant.opening_hour} - ${restaurant.closing_hour}`}
-                onPress={() => {
-                  // Pass restaurant data to the "Food" screen
-                  navigation.navigate("Food", { restaurant });
-                }}
-              />
-              {restaurants[index + 1] && ( // Check if there's another restaurant for the second card
-                <RestaurantCard 
-                  imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurants[index + 1].logo}` }}
-                  name={restaurants[index + 1].name}
-                  location={restaurants[index + 1].location}
-                  openingHours={`${restaurants[index + 1].opening_hour} - ${restaurants[index + 1].closing_hour}`}
-                  onPress={() => {
-                    // Pass restaurant data to the "Food" screen
-                    navigation.navigate("Food", { restaurant: restaurants[index + 1] });
-                  }}
-                />
-              )}
-            </View>
-          );
-        }
-        return null; // Skip rendering when index is odd
-      })}
-    </ScrollView>)}
-     </View>):(
 
-     <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {searchResults ? (
-          searchResults.restaurants && searchResults.restaurants.length > 0 ? (
-            searchResults.restaurants.map((restaurant, index) => (
-              <View key={index}>
-                <Text style={styles.restaurantName}>{restaurant.restaurant}</Text>
-                {restaurant.foods.map((food, foodIndex) => (
-                  foodIndex % 2 === 0 && (
-                    <View key={foodIndex} style={styles.cardRow}>
-                      <JunksCard
-                        name={food.name}
-                        source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
-                        category={food.category}
-                        price={food.price}
-                        availability={food.availability}
-                        onAddToCart={() => handleAddToCart(food)}
-                      />
-                      {restaurant.foods[foodIndex + 1] && (
-                        <JunksCard
-                          name={restaurant.foods[foodIndex + 1].name}
-                          source={{ uri: `https://savvy.pythonanywhere.com${restaurant.foods[foodIndex + 1].image}` }}
-                          category={restaurant.foods[foodIndex + 1].category}
-                          price={restaurant.foods[foodIndex + 1].price}
-                          availability={restaurant.foods[foodIndex + 1].availability}
-                          onAddToCart={() => handleAddToCart(restaurant.foods[foodIndex + 1])}
-                        />
-                      )}
-                    </View>
-                  )
-                ))}
-              </View>
-            ))
+      {searchQuery === "" ? (
+        <View style={{ flex: 1 }}>
+          {loading ? (
+            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
           ) : (
-            searchResults.foods && searchResults.foods.length > 0 ? (
-              <View style={styles.cardRow}>
-                {searchResults.foods.map((food, index) => (
-                  <JunksCard
-                    key={index}
-                    name={food.name}
-                    source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
-                    category={food.category}
-                    price={food.price}
-                    availability={food.availability}
-                    onAddToCart={() => handleAddToCart(food)}
-                  />
-                ))}
-              </View>
+            isConnected ? (
+              <>
+                <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollViewContent1} horizontal pagingEnabled showsHorizontalScrollIndicator={false}>
+                  {ads.map((ad, index) => (
+                    <AdsCard key={index} source={{ uri: `https://savvy.pythonanywhere.com${ad.image}` }} />
+                  ))}
+                </ScrollView>
+                <Text style={styles.text3}>Available Restaurants</Text>
+                <ScrollView contentContainerStyle={styles.scrollViewContent} horizontal={false} showsVerticalScrollIndicator={false}>
+                  {restaurants.map((restaurant, index) => {
+                    // Render two RestaurantCard components per restview
+                    if (index % 2 === 0) {
+                      return (
+                        <View key={index} style={styles.restview}>
+                          <RestaurantCard
+                            imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurant.logo}` }}
+                            name={restaurant.name}
+                            location={restaurant.location}
+                            openingHours={`${restaurant.opening_hour} - ${restaurant.closing_hour}`}
+                            onPress={() => {
+                              // Pass restaurant data to the "Food" screen
+                              navigation.navigate("Food", { restaurant });
+                            }}
+                          />
+                          {restaurants[index + 1] && ( // Check if there's another restaurant for the second card
+                            <RestaurantCard
+                              imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurants[index + 1].logo}` }}
+                              name={restaurants[index + 1].name}
+                              location={restaurants[index + 1].location}
+                              openingHours={`${restaurants[index + 1].opening_hour} - ${restaurants[index + 1].closing_hour}`}
+                              onPress={() => {
+                                // Pass restaurant data to the "Food" screen
+                                navigation.navigate("Food", { restaurant: restaurants[index + 1] });
+                              }}
+                            />
+                          )}
+                        </View>
+                      );
+                    }
+                    return null; // Skip rendering when index is odd
+                  })}
+                </ScrollView>
+              </>
             ) : (
-              <View style={styles.emptyCartContainer}>
-                <Ionicons name="search-outline" size={100} color="gray" />
-                <Text style={styles.emptyCartText}>No Search Information</Text>
+              <View style={styles.noConnectionContainer}>
+                <Text style={styles.noConnectionText}>No Internet Connection</Text>
+                <TouchableOpacity onPress={checkConnectionAndFetchData} style={styles.retryButton}>
+                  {checkingConnection ? (
+                    <ActivityIndicator color="#FFF" />
+                  ) : (
+                    <Text style={styles.retryButtonText}>Retry</Text>
+                  )}
+                </TouchableOpacity>
               </View>
             )
-          )
-        ) : null}
-      </ScrollView>
-     
-     
-     )}
-      
-    {/* WhatsApp chat button */}
-    <TouchableOpacity onPress={openWhatsAppChat} style={styles.whatsappButton} >
-      <Image source={require("../assets/whats.jpeg")} style={styles.image}/>
-    </TouchableOpacity>
+          )}
+        </View>
+      ) : (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {searchResults ? (
+            searchResults.restaurants && searchResults.restaurants.length > 0 ? (
+              searchResults.restaurants.map((restaurant, index) => (
+                <View key={index}>
+                  <Text style={styles.restaurantName}>{restaurant.restaurant}</Text>
+                  {restaurant.foods.map((food, foodIndex) => (
+                    foodIndex % 2 === 0 && (
+                      <View key={foodIndex} style={styles.cardRow}>
+                        <JunksCard
+                          name={food.name}
+                          source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+                          category={food.category}
+                          price={food.price}
+                          availability={food.availability}
+                          onAddToCart={() => handleAddToCart(food)}
+                        />
+                        {restaurant.foods[foodIndex + 1] && (
+                          <JunksCard
+                            name={restaurant.foods[foodIndex + 1].name}
+                            source={{ uri: `https://savvy.pythonanywhere.com${restaurant.foods[foodIndex + 1].image}` }}
+                            category={restaurant.foods[foodIndex + 1].category}
+                            price={restaurant.foods[foodIndex + 1].price}
+                            availability={restaurant.foods[foodIndex + 1].availability}
+                            onAddToCart={() => handleAddToCart(restaurant.foods[foodIndex + 1])}
+                          />
+                        )}
+                      </View>
+                    )
+                  ))}
+                </View>
+              ))
+            ) : (
+              searchResults.foods && searchResults.foods.length > 0 ? (
+                <View style={styles.cardRow}>
+                  {searchResults.foods.map((food, index) => (
+                    <JunksCard
+                      key={index}
+                      name={food.name}
+                      source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+                      category={food.category}
+                      price={food.price}
+                      availability={food.availability}
+                      onAddToCart={() => handleAddToCart(food)}
+                    />
+                  ))}
+                </View>
+              ) : (
+                <View style={styles.emptyCartContainer}>
+                  <Ionicons name="search-outline" size={100} color="gray" />
+                  <Text style={styles.emptyCartText}>No Search Information</Text>
+                </View>
+              )
+            )
+          ) : null}
+        </ScrollView>
+      )}
+
+      {/* WhatsApp chat button */}
+      <TouchableOpacity onPress={openWhatsAppChat} style={styles.whatsappButton}>
+        <Image source={require("../assets/whats.jpeg")} style={styles.image} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -289,7 +302,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: 'rgba(0, 0, 0, 0.5)', // Transparent background color
-    
   },
   modalView: {
     margin: 20,
@@ -304,7 +316,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width:"90%"
+    width: "90%"
   },
   adImage: {
     width: '100%',
@@ -318,14 +330,13 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     alignSelf: 'center',
-    marginBottom:10,
-    width:80,
-    alignItems:"center"
+    marginBottom: 10,
+    width: 80,
+    alignItems: "center"
   },
   closeText: {
     color: 'white',
     fontWeight: 'bold',
-    
   },
   box2: {
     paddingLeft: 20,
@@ -360,33 +371,33 @@ const styles = StyleSheet.create({
   },
   scrollViewContent: {
     paddingHorizontal: 20,
-    margingTop: 10
+    marginTop: 10
   },
   rest: {
     marginHorizontal: 30
   },
-  restview:{
-    flexDirection:"row",
-    justifyContent:"space-between"
+  restview: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
-  search:{ 
-    marginLeft:"90%",
-    marginTop:35
+  search: {
+    marginLeft: "90%",
+    marginTop: 35
   },
-  spinner:{
-    alignSelf:"center",
-    flex:1
+  spinner: {
+    alignSelf: "center",
+    flex: 1
   },
-  image:{
-    height:48,
-    width:48,
-    borderRadius:20,
+  image: {
+    height: 48,
+    width: 48,
+    borderRadius: 20,
   },
-  image1:{
-    height:58,
-    width:58,
-    borderRadius:20,
-    marginRight:10
+  image1: {
+    height: 58,
+    width: 58,
+    borderRadius: 20,
+    marginRight: 10
   },
   whatsappButton: {
     position: 'absolute',
@@ -437,9 +448,29 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: 'gray',
   },
-  message:{
-    marginTop:64,
-    marginHorizontal:10,
-    borderRadius:10
+  message: {
+    marginTop: 64,
+    marginHorizontal: 10,
+    borderRadius: 10
+  },
+  noConnectionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noConnectionText: {
+    fontSize: 24,
+    color: 'gray',
+    marginBottom: 20,
+  },
+  retryButton: {
+    backgroundColor: '#FF7518',
+    padding: 10,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  retryButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   }
 });
