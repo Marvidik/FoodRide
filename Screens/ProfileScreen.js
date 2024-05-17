@@ -77,20 +77,19 @@ export default function ProfileScreen({ navigation }) {
       <View style={{backgroundColor:"#FF7518",height:40}}></View>
       <Text style={styles.title}>Profile</Text>
       <View style={styles.prof}>
-        <View>
+        <View style={{height:150}}>
               {profileImage ? (
             <Image style={styles.image} source={{ uri: profileImage }} />
           ) : (
             <Image  style={styles.image} source={require("../assets/profile.jpeg")} />
           )}
             <TouchableOpacity style={styles.change} onPress={selectImage}>
-              <Text style={styles.text}>Change Image</Text>
-              <Ionicons name={"pencil"} size={20} style={styles.icon} color={"orange"} />
+              <Ionicons name={"camera"} size={50} style={styles.icon} color={"#FF7518"} />
             </TouchableOpacity>
         </View>
         <View style={styles.user}>
-        <Text style={styles.username}>Username: {user ? user.username : "Not Log in"}</Text>
-        <Text style={styles.email}>Email: {user ? user.email : "Not Log in"}</Text>
+        <Text style={styles.username}>Username: {user ? user.username : "Not Logged in"}</Text>
+        <Text style={styles.email}>Email: {user ? user.email : "Not Logged in"}</Text>
         </View>
       
       </View>
@@ -123,12 +122,13 @@ const styles = StyleSheet.create({
     width: 150,
     borderRadius: 75,
     marginTop: 0,
-    marginLeft:20
+    alignSelf:"center"
   },
   change: {
     flexDirection: "row",
     paddingTop: 5,
-    marginLeft:30
+    marginLeft:30,
+    alignSelf:"center"
   },
   text: {
     color: "#FF7518",
@@ -136,20 +136,22 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginLeft: 5,
-  },
-  prof:{
-    flexDirection:"row"
+    position:"relative",
+    bottom:50,
+    left:30
   },
   user:{
-    paddingTop:30,
-    paddingLeft:10
+    paddingLeft:10,
+    paddingTop:10
   },
   username:{
     fontSize:22,
     color:"#512213",
+    alignSelf:"center"
   },
   email:{
     color:"grey",
     fontSize:16,
+    alignSelf:"center"
   }
 });

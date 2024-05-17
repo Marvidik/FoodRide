@@ -60,8 +60,8 @@ export default function ForgotPasswordScreen({navigation}) {
     <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
       <View style={styles.content}>
         <Image style={styles.image} source={require('../assets/logosmall.jpeg')} />
-        <Text style={styles.text1}>Fogotten Password</Text>
-        <Text style={styles.text3}>Don't worry it happens Input your Email </Text>
+        <Text style={styles.text1}>Change Password</Text>
+        <Text style={styles.text3}>To change your password Input the Email </Text>
         <Text style={styles.text2}>associated with your account</Text>
 
         <TextInputWithIcons style={styles.textinput} placeholder={"Email"}  value={email}

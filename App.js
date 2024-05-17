@@ -49,8 +49,8 @@ const MainStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="HomeEntry" component={HomeScreen} />
-      <Stack.Screen  name="Food" component={FoodScreen} />
-      <Stack.Screen  name="Address" component={AddressScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Food" component={FoodScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Address" component={AddressScreen} />
       <Stack.Screen options={{ headerShown: false }} name="Addresschange" component={AddressChangeScreen} />
       <Stack.Screen options={{ headerShown: false }} name="ConfirmScreen" component={ConfirmScreen} />
     </Stack.Navigator>

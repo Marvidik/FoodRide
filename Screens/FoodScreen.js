@@ -1,4 +1,4 @@
-import { View, Text,StyleSheet,Image,ScrollView,ActivityIndicator } from 'react-native'
+import { View, Text,StyleSheet,Image,ScrollView,ActivityIndicator, TouchableOpacity } from 'react-native'
 import React,{useState,useEffect} from 'react'
 import { Ionicons } from '@expo/vector-icons'; 
 import JunksCard from '../Components/JunksCard';
@@ -10,7 +10,7 @@ import { showMessage, hideMessage } from "react-native-flash-message";
 
 
 
-export default function FoodScreen({ route }) {
+export default function FoodScreen({ route ,navigation}) {
 
   const { restaurant } = route.params;
 
@@ -53,6 +53,11 @@ export default function FoodScreen({ route }) {
 
   return (
     <View style={styles.container}>
+      <View style={{backgroundColor:"#FF7518",height:80,justifyContent:"center"}}>
+        <TouchableOpacity onPress={() => { navigation.navigate("HomeEntry") }}>
+            <Ionicons name="arrow-back" size={50} color="white" style={{paddingTop:20,paddingLeft:10}} />
+        </TouchableOpacity>
+      </View>
       <View style={styles.ibox}>
         <View style={styles.box1}>
           <Image style={styles.image} source={{uri: `https://savvy.pythonanywhere.com${logo}`}}/>

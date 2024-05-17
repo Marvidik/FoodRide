@@ -3,10 +3,13 @@ import { View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import icons from Expo Icons library
 
 const TextInputWithIcons = ({ leftIcon, rightIcon, placeholder, style, ...rest }) => {
-  const [secureText, setSecureText] = useState(rest.secureTextEntry || false);
+  // Determine if the secureText state should be used based on the presence of the rightIcon
+  const [secureText, setSecureText] = useState(!!rightIcon);
 
   const toggleSecureText = () => {
-    setSecureText(!secureText);
+    if (rightIcon) {
+      setSecureText(!secureText);
+    }
   };
 
   return (
@@ -15,7 +18,7 @@ const TextInputWithIcons = ({ leftIcon, rightIcon, placeholder, style, ...rest }
       <TextInput
         placeholder={placeholder}
         style={styles.input}
-        secureTextEntry={secureText}
+        secureTextEntry={rightIcon ? secureText : false}
         {...rest}
       />
       {rightIcon && (
