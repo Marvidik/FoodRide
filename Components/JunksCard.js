@@ -3,15 +3,24 @@ import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CustomButton from './CustomButton'; // Assuming you have a CustomButton component
 
 const JunksCard = ({ name, source, rating, category, availability, price, onAddToCart }) => {
+  const isAvailable = availability === "Available";
+
   return (
     <View style={styles.card}>
-      <Image source={ source } style={styles.image} />
+      <Image source={source} style={styles.image} />
       <View style={styles.details}>
         <Text style={styles.title}>{name}</Text>
         {/* <Text style={styles.category}>Category: {category}</Text> */}
         <Text style={styles.availability}>Availability: {availability}</Text>
         <Text style={styles.price}>Price: ₦{price}</Text>
-        <CustomButton title="Add to Cart" onPress={onAddToCart} style={styles.but} icon={"cart"}/>
+        <CustomButton
+          title="Add to Cart"
+          onPress={isAvailable ? onAddToCart : null}
+          style={[styles.button, !isAvailable && styles.buttonDisabled]}
+          textStyle={!isAvailable && styles.buttonTextDisabled}
+          icon={"cart"}
+          disabled={!isAvailable}
+        />
       </View>
     </View>
   );
@@ -20,7 +29,7 @@ const JunksCard = ({ name, source, rating, category, availability, price, onAddT
 const styles = StyleSheet.create({
   card: {
     width: 180,
-    flex:1,
+    flex: 1,
     borderRadius: 10,
     overflow: 'hidden',
     marginHorizontal: 10,
@@ -47,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     marginBottom: 5,
-    color:"#512213"
+    color: "#512213",
   },
   category: {
     fontSize: 12,
@@ -57,15 +66,22 @@ const styles = StyleSheet.create({
   availability: {
     fontSize: 12,
     marginBottom: 3,
-    color:"#512213"
+    color: "#512213",
   },
   price: {
     fontSize: 14,
     fontWeight: 'bold',
     color: '#27ae60',
   },
-  but: {
+  button: {
     marginTop: 5,
+    backgroundColor: '#FF7518',
+  },
+  buttonDisabled: {
+    backgroundColor: '#ccc',
+  },
+  buttonTextDisabled: {
+    color: '#666',
   },
 });
 
