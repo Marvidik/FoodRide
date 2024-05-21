@@ -14,7 +14,7 @@ export default function FoodScreen({ route, navigation }) {
   const [loading, setLoading] = useState(false);
   const [foods, setFoods] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState(null);
+  const [searchResults, setSearchResults] = useState([]);
 
   const { addToCart } = useCart();
 
@@ -34,7 +34,7 @@ export default function FoodScreen({ route, navigation }) {
       if (searchQuery) {
         search();
       } else {
-        setSearchResults(null); // Reset search results when query is cleared
+        setSearchResults([]); // Reset search results when query is cleared
       }
     }, 500); // Adjust the delay time as needed
 
@@ -43,10 +43,10 @@ export default function FoodScreen({ route, navigation }) {
 
   const search = async () => {
     try {
-      const response = await axios.get(`https://savvy.pythonanywhere.com/search/${searchQuery}`);
+      const response = await axios.get(`https://savvy.pythonanywhere.com/foodsearch/${id}/${searchQuery}`);
       const data = await response.data;
-      setSearchResults(data);
-      console.log(data); // Log the response
+      setSearchResults(data.foods);
+      console.log(searchResults); // Log the response
     } catch (error) {
       console.error('Error fetching search results:', error);
     }
@@ -71,6 +71,36 @@ export default function FoodScreen({ route, navigation }) {
         setLoading(false);
       });
   }, [id]); // Add id as a dependency
+
+  const renderList = (data) => (
+    <FlatList
+      data={data}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item }) => (
+        <View style={styles.itemContainer}>
+          <JunksCard
+            name={item.name}
+            source={{ uri: `https://savvy.pythonanywhere.com${item.image}` }}
+            rating={item.rating}
+            availability={item.availability}
+            price={item.price}
+            onAddToCart={() => handleAddToCart(item)}
+          />
+        </View>
+      )}
+      numColumns={2}
+      ListEmptyComponent={
+        <View style={styles.noDataContainer}>
+          <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info} />
+          <Text style={styles.textinfo}>
+            {searchQuery ? 'No Foods found' : 'No Foods available'}
+          </Text>
+        </View>
+      }
+      contentContainerStyle={styles.scrollView1}
+      showsHorizontalScrollIndicator={false}
+    />
+  );
 
   return (
     <View style={styles.container}>
@@ -99,37 +129,10 @@ export default function FoodScreen({ route, navigation }) {
         />
       </View>
 
-      
       {loading ? (
         <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
       ) : (
-        <FlatList
-          data={searchQuery ? searchResults : foods}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              <JunksCard
-                name={item.name}
-                source={{ uri: `https://savvy.pythonanywhere.com${item.image}` }}
-                rating={item.rating}
-                category={item.category}
-                availability={item.availability === "Available"}
-                price={item.price}
-                onAddToCart={() => handleAddToCart(item)}
-              />
-            </View>
-          )}
-          numColumns={2}
-          // ListHeaderComponent={<Text style={styles.text0}>Menu</Text>}
-          ListEmptyComponent={
-            <View style={styles.noDataContainer}>
-              <Ionicons name="information-circle-outline" size={150} color="#FF7518" style={styles.info} />
-              <Text style={styles.textinfo}>No Foods available</Text>
-            </View>
-          }
-          contentContainerStyle={styles.scrollView1}
-          showsHorizontalScrollIndicator={false}
-        />
+        searchQuery !== "" ? renderList(searchResults) : renderList(foods)
       )}
     </View>
   );
