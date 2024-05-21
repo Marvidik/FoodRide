@@ -76,7 +76,7 @@ const CartScreen = ({navigation}) => {
         </View>
       )}
       <Text style={styles.fee}>Delivery Fee:  ₦860</Text>
-      <Text style={styles.fee2}>we add an additional ₦430 for any additioal restaurant ordered from</Text>
+      <Text style={styles.fee2}>N/B: We add an additional ₦430 for any additional restaurant you order from</Text>
       <CustomButton title={`Checkout ${total.toFixed(2)} Naira`} style={styles.checkoutButton}  onPress={() => {
       navigation.navigate("Address", {total });
                   }}/>
@@ -122,13 +122,14 @@ const styles = StyleSheet.create({
   fee:{
     paddingLeft:20,
     paddingBottom:10,
-    fontSize:30,
+    fontSize:22,
     color:"grey"
   },
   fee2:{
     paddingLeft:20,
     paddingBottom:10,
     fontSize:20,
-    color:"grey"
+    color:"grey",
+    fontStyle:"italic"
   },
 });

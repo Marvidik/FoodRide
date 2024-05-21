@@ -21,6 +21,7 @@ export default function AddressScreen({ navigation, route }) {
   const [maintotal, setMaintotal] = useState();
   const [profileid, setProfileid] = useState();
   const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const bb= "pk_live_a63261768652861c38842863f81d121298c68147  contact.foodride@gmail.com"
 
   useEffect(() => {
     if (user) {
@@ -160,9 +161,9 @@ export default function AddressScreen({ navigation, route }) {
       </View>
       {paystackVisible && (
         <Paystack
-          paystackKey="pk_live_a63261768652861c38842863f81d121298c68147"
+          paystackKey="pk_test_1b10833e646b4e6f6257d04ceb40bda6384c765d"
           amount={maintotal}
-          billingEmail="contact.foodride@gmail.com"
+          billingEmail="savvybittechnology@gmail.com"
           billingName='FoodRide'
           currency='NGN'
           activityIndicatorColor="orange"
@@ -351,12 +352,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 15,
+    marginTop:40
+    
   },
   radioButtonSelected: {
     height: 12,
     width: 12,
     borderRadius: 6,
     backgroundColor: '#FF7518',
+    
   },
   radioButtonUnselected: {
     height: 12,

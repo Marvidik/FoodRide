@@ -19,11 +19,11 @@ const JunksCard = ({ name, source, rating, category, availability, price, onAddT
 
 const styles = StyleSheet.create({
   card: {
-    width: 150,
+    width: 180,
     flex:1,
     borderRadius: 10,
     overflow: 'hidden',
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
