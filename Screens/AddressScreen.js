@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { showMessage, hideMessage } from "react-native-flash-message";
 import { Paystack, paystackProps } from 'react-native-paystack-webview';
 import { useCart } from '../Data/CartContext';
+import { PayWithFlutterwave } from 'flutterwave-react-native';
 
 export default function AddressScreen({ navigation, route }) {
   const { total } = route.params;
@@ -136,6 +137,34 @@ export default function AddressScreen({ navigation, route }) {
       console.error('Error deleting profile:', error.message);
     }
   };
+  const handleOnRedirect = async (data) => {
+    console.log(data);
+    if (data.status === 'successful') {
+      try {
+        const orders = await paymentSuccess();
+        showMessage({
+          message: "Orders placed successfully",
+          type: "success",
+          style: styles.message,
+        });
+      } catch (error) {
+        showMessage({
+          message: "Error Making Orders",
+          type: "danger",
+          style: styles.message,
+        });
+      }
+    }
+  };
+
+  const generateTransactionRef = (length = 10) => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return `flw_tx_ref_${result}`;
+  };
 
   if (!user) {
     return (
@@ -159,24 +188,6 @@ export default function AddressScreen({ navigation, route }) {
         </TouchableOpacity>
         <Text style={styles.text}>Delivery Address</Text>
       </View>
-      {paystackVisible && (
-        <Paystack
-          paystackKey="pk_test_1b10833e646b4e6f6257d04ceb40bda6384c765d"
-          amount={maintotal}
-          billingEmail="savvybittechnology@gmail.com"
-          billingName='FoodRide'
-          currency='NGN'
-          activityIndicatorColor="orange"
-          onCancel={(e) => {
-            // handle response here
-          }}
-          onSuccess={(res) => {
-            paymentSuccess();
-          }}
-          autoStart={true}
-          ref={paystackWebViewRef}
-        />
-      )}
 
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
         <View style={styles.box}>
@@ -213,15 +224,28 @@ export default function AddressScreen({ navigation, route }) {
           ))}
         </View>
       </ScrollView>
-      <CustomButton title={"Proceed to Payment"} style={styles.but} onPress={() => {
-                  console.log(profileid);
-                  if (paystackWebViewRef.current) {
-                    paystackWebViewRef.current.startTransaction();
-                  } else {
-                    console.error("paystackWebViewRef is not initialized");
-                  }
-                  setPaystackVisible(true); }} />
-
+      <PayWithFlutterwave
+        onRedirect={handleOnRedirect}
+        options={{
+          tx_ref: generateTransactionRef(),
+          authorization: 'FLWPUBK_TEST-a6fe3998bf650a2b54884d220bd118e4-X', // Replace with your actual public key
+          customer: {
+            email: "user@gmail.com",
+          },
+          amount: parseFloat(maintotal), // Ensure the amount is parsed to float
+          currency: 'NGN',
+          payment_options: 'card',
+        }}
+        customButton={(props) => (
+          <TouchableOpacity
+            style={styles.paymentButton}
+            onPress={props.onPress}
+            disabled={props.disabled}
+          >
+            <Text style={styles.paymentButtonText}>Pay NGN {maintotal}</Text>
+          </TouchableOpacity>
+        )}
+      />
       <TouchableOpacity onPress={() => {  navigation.navigate("Addresschange"); }}>
       <Text style={{color:"#FF7518",alignSelf:"center",paddingBottom:20,paddingTop:10}}>Add New Address</Text>
       </TouchableOpacity>
@@ -367,5 +391,20 @@ const styles = StyleSheet.create({
     width: 12,
     borderRadius: 6,
     backgroundColor: 'white',
+  },
+  paymentButton: {
+    justifyContent:"center",
+    backgroundColor: '#FF7518',
+    padding: 10,
+    alignItems: 'center',
+    width:"80%",
+    alignSelf:"center",
+    height:50,
+    borderRadius:10
+  },
+  paymentButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    alignSelf:"center"
   },
 });
