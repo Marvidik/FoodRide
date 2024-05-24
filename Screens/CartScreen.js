@@ -77,9 +77,12 @@ const CartScreen = ({navigation}) => {
       )}
       <Text style={styles.fee}>Delivery Fee:  ₦860</Text>
       <Text style={styles.fee2}>N/B: We add an additional ₦430 for any additional restaurant you order from</Text>
+
+      { cartItems.length > 0 ? (
       <CustomButton title={`Checkout ${total.toFixed(2)} Naira`} style={styles.checkoutButton}  onPress={() => {
       navigation.navigate("Address", {total });
-                  }}/>
+                  }}/>):(<CustomButton title={`Cart Empty`} style={styles.cartButton} 
+                                />)}
     </View>
   );
 };
@@ -132,4 +135,10 @@ const styles = StyleSheet.create({
     color:"grey",
     fontStyle:"italic"
   },
+  cartButton:{
+    marginHorizontal: 20,
+    height: 50,
+    marginBottom: 20,
+    backgroundColor:"grey"
+  }
 });
