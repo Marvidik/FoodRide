@@ -138,8 +138,7 @@ export default function AddressScreen({ navigation, route }) {
     }
   };
   const handleOnRedirect = async (data) => {
-    console.log(data);
-    if (data.status === 'successful') {
+    if (data.status === 'completed') {
       try {
         const orders = await paymentSuccess();
         showMessage({
@@ -154,6 +153,12 @@ export default function AddressScreen({ navigation, route }) {
           style: styles.message,
         });
       }
+    }else{
+      showMessage({
+        message: "Payments Cancelled",
+        type: "danger",
+        style: styles.message,
+      });
     }
   };
 
