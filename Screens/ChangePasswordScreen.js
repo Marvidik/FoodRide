@@ -38,7 +38,7 @@ export default function ChangePasswordScreen({navigation}) {
       setLoading(true);
 
       // Make API call to register user
-      const response = await axios.post('https://savvy.pythonanywhere.com/password/reset/confirm/', {
+      const response = await axios.post('https://foodride.viziddecors.com/password/reset/confirm/', {
         email,
         password,
         confirm_password

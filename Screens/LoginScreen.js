@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }) {
       setLoading(true);
 
       // Make API call to login user
-      const response = await axios.post('https://savvy.pythonanywhere.com/login/', {
+      const response = await axios.post('https://foodride.viziddecors.com/login/', {
         username,
         password
       });

@@ -62,7 +62,7 @@ export default function RegisterScreen({ navigation }) {
       setLoading(true);
 
       // Make API call to register user
-      const response = await axios.post('https://savvy.pythonanywhere.com/signup/', {
+      const response = await axios.post('https://foodride.viziddecors.com/signup/', {
         email,
         username,
         password,

@@ -27,7 +27,7 @@ export default function AddressScreen({ navigation, route }) {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      axios.get(`https://savvy.pythonanywhere.com/profile/${user.id}/`)
+      axios.get(`https://foodride.viziddecors.com/profile/${user.id}/`)
         .then(response => {
           const fetchedAddresses = response.data.profile;
           setAddress(fetchedAddresses);
@@ -49,7 +49,7 @@ export default function AddressScreen({ navigation, route }) {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
+      axios.get(`https://foodride.viziddecors.com/referal/${user.id}`)
         .then(response => {
           setReferal(response.data.referals);
           setLoading(false);
@@ -93,7 +93,7 @@ export default function AddressScreen({ navigation, route }) {
     if (!user) return;
     try {
       const orderPromises = cartItems.map(async (cartItem) => {
-        const response = await axios.post('https://savvy.pythonanywhere.com/addorder/', {
+        const response = await axios.post('https://foodride.viziddecors.com/addorder/', {
           user: user.id,
           profile: profileid,
           real_food: cartItem.id,
@@ -119,7 +119,7 @@ export default function AddressScreen({ navigation, route }) {
   const deleteProfile = async (profileId) => {
     if (!user) return;
     try {
-      const response = await fetch(`https://savvy.pythonanywhere.com/profiles/${profileId}/`, {
+      const response = await fetch(`https://foodride.viziddecors.com/profiles/${profileId}/`, {
         method: 'DELETE',
       });
 
@@ -233,9 +233,9 @@ export default function AddressScreen({ navigation, route }) {
         onRedirect={handleOnRedirect}
         options={{
           tx_ref: generateTransactionRef(),
-          authorization: 'FLWPUBK_TEST-a6fe3998bf650a2b54884d220bd118e4-X', // Replace with your actual public key
+          authorization: 'FLWPUBK-6328851f0e2e38e16b668b5edfcb42a0-X', // Replace with your actual public key
           customer: {
-            email: "user@gmail.com",
+            email: user.email,
           },
           amount: parseFloat(maintotal), // Ensure the amount is parsed to float
           currency: 'NGN',
