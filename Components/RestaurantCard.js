@@ -16,7 +16,7 @@ const RestaurantCard = ({ name, location, imageSource, openingHours,onPress }) =
             <Text style={styles.hours}>{openingHours}</Text>
         </View>
         <View>
-            <Ionicons name={"bicycle"} size={45} style={styles.icon} color={ "#FF7518"} />
+            {/* <Ionicons name={"bicycle"} size={45} style={styles.icon} color={ "#FF7518"} /> */}
         </View>
       </View>
       
