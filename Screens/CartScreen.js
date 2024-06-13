@@ -29,7 +29,7 @@ const CartScreen = ({navigation}) => {
     }
   }, []);
 
-  
+  console.log(cartItems)
 
   const handleRemoveFromCart = (itemId) => {
     removeFromCart(itemId);

@@ -238,7 +238,7 @@ export default function HomeScreen({ navigation }) {
                       <View key={foodIndex} style={styles.cardRow}>
                         <JunksCard
                           name={food.name}
-                          source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+                          source={{ uri: `https://foodride.viziddecors.com${food.image}` }}
                           category={food.category}
                           price={food.price}
                           availability={food.availability}
@@ -247,7 +247,7 @@ export default function HomeScreen({ navigation }) {
                         {restaurant.foods[foodIndex + 1] && (
                           <JunksCard
                             name={restaurant.foods[foodIndex + 1].name}
-                            source={{ uri: `https://savvy.pythonanywhere.com${restaurant.foods[foodIndex + 1].image}` }}
+                            source={{ uri: `https://foodride.viziddecors.com${restaurant.foods[foodIndex + 1].image}` }}
                             category={restaurant.foods[foodIndex + 1].category}
                             price={restaurant.foods[foodIndex + 1].price}
                             availability={restaurant.foods[foodIndex + 1].availability}
@@ -266,7 +266,7 @@ export default function HomeScreen({ navigation }) {
                     <JunksCard
                       key={index}
                       name={food.name}
-                      source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
+                      source={{ uri: `https://foodride.viziddecors.com${food.image}` }}
                       category={food.category}
                       price={food.price}
                       availability={food.availability}

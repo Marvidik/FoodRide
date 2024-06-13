@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import CustomButton from './CustomButton';
 
 const CartItem = ({ item, onIncrement, onDecrement,remove }) => {
-  const imageUrl = `https://savvy.pythonanywhere.com${item.image}`;
+  const imageUrl = `https://foodride.viziddecors.com${item.image}`;
 
   return (
     <View style={styles.container}>
