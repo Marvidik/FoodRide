@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
   text1: {
-    fontSize: 28,
+    fontSize: 22,
     fontWeight: "700",
     color: "#512213"
   },

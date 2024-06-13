@@ -18,6 +18,7 @@ export default function AddressChangeScreen({navigation}) {
 
   const Changeaddress = async () => {
     setUserid(user.id)
+    console.log(userid);
     try {
       if(address=== ""){
         showMessage({
@@ -33,9 +34,9 @@ export default function AddressChangeScreen({navigation}) {
       // Make API call to register user
       const response = await axios.post('https://foodride.viziddecors.com/profile/user/add/', {
         user: userid,
-        address,
-        phone,
-        phone1,
+        address:address,
+        phone:phone,
+        phone1:phone1,
       });
 
       setLoading(false);
@@ -58,7 +59,7 @@ export default function AddressChangeScreen({navigation}) {
       });
       setLoading(false);
       console.log(error)
-      console.log(address,userid)
+
     }
   };
 
@@ -70,8 +71,8 @@ export default function AddressChangeScreen({navigation}) {
       <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
         <View style={styles.content}>
           <Image style={styles.image} source={require('../assets/logosmall.jpeg')} />
-          <Text style={styles.text1}>Change Address</Text>
-          <Text style={styles.text2}>Change your delivery address</Text>
+          <Text style={styles.text1}>Add Address</Text>
+          <Text style={styles.text2}>Add your delivery address</Text>
 
           <TextInputWithIcons style={styles.textinput} placeholder={"Address"} leftIcon={"location"} value={address} onChangeText={setAddress}/>
           <TextInputWithIcons style={styles.textinput} placeholder={"Phone Number"} leftIcon={"phone-portrait"} value={phone} onChangeText={setPhone}/>

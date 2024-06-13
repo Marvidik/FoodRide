@@ -13,7 +13,7 @@ export default function ChangePasswordScreen({navigation}) {
   const [loading, setLoading] = useState(false);
 
   const responseData = useSelector(state => state.responseData);
-
+ 
 
   const Changepass = async () => {
     setEmail(responseData)
@@ -38,7 +38,7 @@ export default function ChangePasswordScreen({navigation}) {
       setLoading(true);
 
       // Make API call to register user
-      const response = await axios.post('https://foodride.viziddecors.com/password/reset/confirm/', {
+      const response = await axios.post('https://foodride.viziddecors.com/password/reset/confirm', {
         email,
         password,
         confirm_password
@@ -53,7 +53,7 @@ export default function ChangePasswordScreen({navigation}) {
         style:styles.message
       });
       console.log('Change successful:', response.data);
-      navigation.navigate('Login');
+      navigation.navigate('Home');
     } catch (error) {
       // Handle registration error
       showMessage({
@@ -62,7 +62,9 @@ export default function ChangePasswordScreen({navigation}) {
         type: "danger",
         style:styles.message
       });
+      
       setLoading(false);
+      console.log('error', response.error);
     }
   };
   return (

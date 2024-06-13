@@ -27,7 +27,7 @@ export default function AddressScreen({ navigation, route }) {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      axios.get(`https://foodride.viziddecors.com/profile/${user.id}/`)
+      axios.get(`https://foodride.viziddecors.com/profile/${user.id}`)
         .then(response => {
           const fetchedAddresses = response.data.profile;
           setAddress(fetchedAddresses);
@@ -44,7 +44,7 @@ export default function AddressScreen({ navigation, route }) {
           setLoading(false);
         });
     }
-  }, [user]);
+  },);
 
   useEffect(() => {
     if (user) {
@@ -185,6 +185,7 @@ export default function AddressScreen({ navigation, route }) {
     );
   }
 
+  if (address){
   return (
     <View style={styles.container}>
       <View style={{ backgroundColor: "#FF7518", height: 80, flexDirection: "row", alignItems: "center" }}>
@@ -256,7 +257,28 @@ export default function AddressScreen({ navigation, route }) {
       </TouchableOpacity>
           
     </View>
+  );}
+  return (
+    <View style={styles.container}>
+      <View style={{ backgroundColor: "#FF7518", height: 80, flexDirection: "row", alignItems: "center" }}>
+      <TouchableOpacity onPress={() => { navigation.navigate("Cart") }}>
+        <Ionicons name="arrow-back" size={30} color="white" style={{ paddingTop: 20, paddingLeft: 10 }} />
+      </TouchableOpacity>
+      <Text style={styles.text}>Delivery Address</Text>
+    </View>
+    
+    <View style={styles.emptyCartContainer}>
+      <Ionicons  name="location-outline" size={100} color="#FF7518" />
+        <Text style={styles.emptyCartText}>No address</Text>
+      </View>
+      <TouchableOpacity>
+      <CustomButton  onPress={() => {  navigation.navigate("Addresschange"); }}  title={"Add Address"} style={{color:"#FF7518",alignSelf:"center",paddingTop:10,marginBottom:30,width:150,height:50}}/>
+      </TouchableOpacity>
+        
+
+    </View>
   );
+
 }
 
 const styles = StyleSheet.create({
@@ -411,5 +433,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     alignSelf:"center"
+  },
+  emptyCartContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyCartText: {
+    fontSize: 24,
+    marginTop: 20,
+    color: 'gray',
   },
 });
