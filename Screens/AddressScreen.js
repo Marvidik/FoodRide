@@ -23,6 +23,24 @@ export default function AddressScreen({ navigation, route }) {
   const [profileid, setProfileid] = useState();
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const bb= "pk_live_a63261768652861c38842863f81d121298c68147  contact.foodride@gmail.com"
+  const [price,setPrice] = useState();
+
+  useEffect(() => {
+    {
+   
+      axios.get(`https://foodride.viziddecors.com/latest-price/`)
+        .then(response => {
+          setPrice(response.data.latest_price.fee);
+          console.log(response.data.latest_price.fee)
+        })
+        .catch(error => {
+          console.error("Error fetching referal data:", error);
+          setPrice([]);
+         
+        });
+    }
+  }, []);
+
 
   useEffect(() => {
     if (user) {
@@ -64,7 +82,7 @@ export default function AddressScreen({ navigation, route }) {
 
   const calculateDeliveryFee = () => {
     if (!user) return;
-    const deliveryFee = 860;
+    const deliveryFee = price;
     const discountPercentage = 0.1; // 10% discount
     const restaurantIds = new Set(); // Initialize a Set to store unique restaurant IDs
 
@@ -75,7 +93,7 @@ export default function AddressScreen({ navigation, route }) {
     });
 
     const numberOfRestaurants = restaurantIds.size; // Get the count of unique restaurant IDs
-    const fee = (numberOfRestaurants - 1) * 430;
+    const fee = (numberOfRestaurants - 1) * (price/2);
 
     try {
       if (referal[0].point > 0) {

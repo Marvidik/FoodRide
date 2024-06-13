@@ -5,12 +5,29 @@ import CartItem from '../Components/CartItem';
 import CustomButton from '../Components/CustomButton';
 import { useCart } from '../Data/CartContext';
 import { showMessage, hideMessage } from "react-native-flash-message";
-
+import axios from 'axios';
 
 
 const CartScreen = ({navigation}) => {
   const { cartItems,removeFromCart } = useCart();
   const [total, setTotal] = useState(0);
+  const [price,setPrice] = useState();
+
+  useEffect(() => {
+    {
+   
+      axios.get(`https://foodride.viziddecors.com/latest-price/`)
+        .then(response => {
+          setPrice(response.data.latest_price.fee);
+          console.log(response.data.latest_price.fee)
+        })
+        .catch(error => {
+          console.error("Error fetching referal data:", error);
+          setPrice([]);
+         
+        });
+    }
+  }, []);
 
   
 
@@ -75,8 +92,8 @@ const CartScreen = ({navigation}) => {
           <Text style={styles.emptyCartText}>Cart is empty</Text>
         </View>
       )}
-      <Text style={styles.fee}>Delivery Fee:  ₦860</Text>
-      <Text style={styles.fee2}>N/B: We add an additional ₦430 for any additional restaurant you order from</Text>
+      <Text style={styles.fee}>Delivery Fee:  ₦{price}</Text>
+      <Text style={styles.fee2}>N/B: We add an additional ₦{price/2} for any additional restaurant you order from</Text>
 
       { cartItems.length > 0 ? (
       <CustomButton title={`Checkout ${total.toFixed(2)} Naira`} style={styles.checkoutButton}  onPress={() => {
