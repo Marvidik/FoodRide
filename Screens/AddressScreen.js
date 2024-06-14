@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView,ActivityIndicator } from 'react-native';
 import React, { useState, useEffect, useRef } from 'react';
 import CustomButton from '../Components/CustomButton';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,6 +24,7 @@ export default function AddressScreen({ navigation, route }) {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const bb= "pk_live_a63261768652861c38842863f81d121298c68147  contact.foodride@gmail.com"
   const [price,setPrice] = useState();
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     {
@@ -109,6 +110,7 @@ export default function AddressScreen({ navigation, route }) {
 
   const paymentSuccess = async () => {
     if (!user) return;
+    setLoader(true);
     try {
       const orderPromises = cartItems.map(async (cartItem) => {
         const response = await axios.post('https://foodride.viziddecors.com/addorder/', {
@@ -118,7 +120,9 @@ export default function AddressScreen({ navigation, route }) {
           delivered: false,
           quantity: cartItem.quantity,
         });
+        
         clearCart();
+        setLoader(false);
         navigation.navigate("ConfirmScreen");
         return response.data;
       });
@@ -205,6 +209,7 @@ export default function AddressScreen({ navigation, route }) {
 
   if (address){
   return (
+    
     <View style={styles.container}>
       <View style={{ backgroundColor: "#FF7518", height: 80, flexDirection: "row", alignItems: "center" }}>
         <TouchableOpacity onPress={() => { navigation.navigate("Cart") }}>
@@ -214,6 +219,14 @@ export default function AddressScreen({ navigation, route }) {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
+      {loader ? (
+        <View>
+            <ActivityIndicator style={styles.spinner} size="large" color="#FF7518" />
+            <Text style={styles.processing}>Processing Order</Text>
+        </View>
+        
+        
+      ) : (
         <View style={styles.box}>
           {address.map((add, index) => (
             <View style={styles.bin} key={index}>
@@ -246,7 +259,7 @@ export default function AddressScreen({ navigation, route }) {
               </TouchableOpacity>
             </View>
           ))}
-        </View>
+        </View>)}
       </ScrollView>
       <PayWithFlutterwave
         onRedirect={handleOnRedirect}
@@ -461,5 +474,11 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginTop: 20,
     color: 'gray',
+  },
+  processing: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#512213",
+    alignSelf:"center"
   },
 });

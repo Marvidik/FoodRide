@@ -16,7 +16,7 @@ export default function OrderScreen({ navigation }) {
   const handleButtonClick = async (id) => {
     try {
       // Make the PATCH request to the API
-      const response = await axios.patch(`https://foodride.viziddecors.com/delivered/${id}/`, {
+      const response = await axios.patch(`https://foodride.viziddecors.com/delivered/${id}`, {
         // Add any data you want to send in the request body
         // For example:
         // key: value
@@ -39,7 +39,7 @@ export default function OrderScreen({ navigation }) {
     const fetchData = () => {
       setLoading(true);
       // Fetch restaurant data from the API
-      axios.get(`https://foodride.viziddecors.com/vieworder/${user.id}/`)
+      axios.get(`https://foodride.viziddecors.com/vieworder/${user.id}`)
         .then(response => {
           // If the request is successful, set the orders state with the fetched data
           setOrders(response.data.Orders);
