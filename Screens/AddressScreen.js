@@ -63,7 +63,7 @@ export default function AddressScreen({ navigation, route }) {
           setLoading(false);
         });
     }
-  },);
+  },[user]);
 
   useEffect(() => {
     if (user) {
@@ -159,6 +159,20 @@ export default function AddressScreen({ navigation, route }) {
       console.error('Error deleting profile:', error.message);
     }
   };
+  const reducereferal = async (profileId) => {
+    if (!user) return;
+    try {
+      const response = await fetch(`https://foodride.viziddecors.com/reducereferal/${user.id}`, {
+        method: 'PATCH',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete profile');
+      }
+    } catch (error) {
+      console.error('Error reducing points:', error.message);
+    }
+  };
   const handleOnRedirect = async (data) => {
     if (data.status === 'completed') {
       try {
@@ -168,6 +182,11 @@ export default function AddressScreen({ navigation, route }) {
           type: "success",
           style: styles.message,
         });
+        try{
+          reducereferal();
+        }catch{
+          consoole.log("Error Call reducereferal functionm")
+        }
       } catch (error) {
         showMessage({
           message: "Error Making Orders",
@@ -177,10 +196,30 @@ export default function AddressScreen({ navigation, route }) {
       }
     }else{
       showMessage({
-        message: "Payments Cancelled",
+        message: "Payments was  Not Completed",
         type: "danger",
         style: styles.message,
       });
+    }
+    // Close the Flutterwave payment card
+    if (paystackWebViewRef.current) {
+      paystackWebViewRef.current.close();
+    }
+  };
+  const handleOnAbort = () => {
+    showMessage({
+      message: "Payment was aborted",
+      type: "danger",
+      style: styles.message,
+    });
+    try{
+      reducereferal();
+    }catch{
+      consoole.log("Error Call reducereferal functionm")
+    }
+     // Close the Flutterwave payment card
+     if (paystackWebViewRef.current) {
+      paystackWebViewRef.current.close();
     }
   };
 
@@ -263,6 +302,7 @@ export default function AddressScreen({ navigation, route }) {
       </ScrollView>
       <PayWithFlutterwave
         onRedirect={handleOnRedirect}
+        onAbort={handleOnAbort}
         options={{
           tx_ref: generateTransactionRef(),
           authorization: 'FLWPUBK-6328851f0e2e38e16b668b5edfcb42a0-X', // Replace with your actual public key
