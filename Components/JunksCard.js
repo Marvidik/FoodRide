@@ -2,11 +2,11 @@ import React from 'react';
 import { View, Image, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import CustomButton from './CustomButton'; // Assuming you have a CustomButton component
 
-const JunksCard = ({ name, source, rating, category, availability, price, onAddToCart }) => {
+const JunksCard = ({ name, source, rating, category, availability, price, onAddToCart,stt }) => {
   const isAvailable = availability === "Available";
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card,stt]}>
       <Image source={source} style={styles.image} />
       <View style={styles.details}>
         <Text style={styles.title}>{name}</Text>

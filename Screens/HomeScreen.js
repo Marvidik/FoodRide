@@ -270,6 +270,7 @@ export default function HomeScreen({ navigation }) {
                       category={food.category}
                       price={food.price}
                       availability={food.availability}
+                      stt={styles.tt}
                       onAddToCart={() => handleAddToCart(food)}
                     />
                   ))}
@@ -434,7 +435,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   cardRow: {
-    flexDirection: 'row',
+    paddingBottom:10,
     justifyContent: 'space-between',
     marginBottom: 20,
   },
@@ -472,5 +473,9 @@ const styles = StyleSheet.create({
   retryButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  tt:{
+    width:"90%",
+    marginBottom:20
   }
 });
