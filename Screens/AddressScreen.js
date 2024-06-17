@@ -232,6 +232,11 @@ export default function AddressScreen({ navigation, route }) {
     return `flw_tx_ref_${result}`;
   };
 
+  useEffect(() => {
+    
+    calculateDeliveryFee();
+  }, [calculateDeliveryFee]);
+
   if (!user) {
     return (
       <View style={styles.notlog}>
@@ -266,6 +271,7 @@ export default function AddressScreen({ navigation, route }) {
         
         
       ) : (
+        
         <View style={styles.box}>
           {address.map((add, index) => (
             <View style={styles.bin} key={index}>
@@ -274,7 +280,7 @@ export default function AddressScreen({ navigation, route }) {
                 onPress={() => {
                   setSelectedAddressId(add.id);
                   setProfileid(add.id);
-                  calculateDeliveryFee();
+                  
                 }}
               >
                 <View style={selectedAddressId === add.id ? styles.radioButtonSelected : styles.radioButtonUnselected} />
