@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,Platform, AppState } from 'react-native';
 
 import { NavigationContainer,useNavigation} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -27,10 +27,16 @@ import FlashMessage from "react-native-flash-message";
 import { Ionicons } from '@expo/vector-icons'; 
 import { CartProvider } from './Data/CartContext';
 
-import React, { useEffect } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch,useSelector } from 'react-redux';
 
+
+
+
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants'
 
 
 
@@ -41,6 +47,7 @@ import { useDispatch,useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
 
 
 
@@ -147,6 +154,40 @@ const BottomTabNavigator = () => {
 
 
 export default function App() {
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [channels, setChannels] = useState([]);
+  const [notification, setNotification] = useState(undefined);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
+
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: false,   
+    }),
+  });  
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => token && setExpoPushToken(token));
+
+    if (Platform.OS === 'android') {
+      Notifications.getNotificationChannelsAsync().then(value => setChannels(value ?? []));
+    }
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      notificationListener.current && Notifications.removeNotificationSubscription(notificationListener.current);
+      responseListener.current && Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
   return (
     <Provider store={store}>
       <CartProvider>
@@ -162,10 +203,112 @@ export default function App() {
   );
 }
 
+
+
+
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    try {
+      const projectId = Constants?.expoConfig?.extra?.eas?.projectId ?? Constants?.easConfig?.projectId;
+      if (!projectId) {
+        throw new Error('Project ID not found');
+      }
+      token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+      console.log(token);
+    } catch (e) {
+      token = `${e}`;
+    }
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
+}
+
+
 const AppContent = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const responseData = useSelector(state => state.responseData);
+  const [lastNotificationId, setLastNotificationId] = useState(null);
+  
+
+    
+
+  useEffect(() => {
+    fetchNotification();
+
+    // Schedule periodic notification checks every 5 minutes (adjust as needed)
+    const interval = setInterval(fetchNotification, 0.1  * 60 * 1000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(interval); 
+  });
+
+  const fetchNotification = async () => {
+    try {
+      const response = await fetch('https://foodride.viziddecors.com/last-notification/');
+      const data = await response.json();
+
+      if (data.id !== lastNotificationId) {
+        await scheduleNotification(data);
+      }
+    } catch (error) {
+      console.error('Error fetching notification:', error);
+    }
+  };
+
+  const scheduleNotification = async (data) => {
+    try {
+      // Check if the last stored notification ID is different from the new one
+      const storedLastNotificationId = await AsyncStorage.getItem('lastNotificationId');
+      if (storedLastNotificationId !== data.id.toString()) {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: data.title,
+            body: data.message,
+            data: { id: data.id }, 
+          },
+          trigger: null,
+        });
+
+        // Store the new notification ID in AsyncStorage
+        await AsyncStorage.setItem('lastNotificationId', data.id.toString());
+        setLastNotificationId(data.id);
+      }
+    } catch (error) {
+      console.error('Error scheduling notification:', error);
+    }
+  };
+
+  
+    
+  fetchNotification();
+  
+  
+  
   
 
   useEffect(() => {

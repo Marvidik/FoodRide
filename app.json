@@ -6,6 +6,9 @@
     "orientation": "portrait",
     "icon": "./assets/new.png",
     "userInterfaceStyle": "light",
+    "notification":{
+      "icon":"./assets/new.png"
+    },
     "splash": {
       "image": "./assets/new.png",
       "resizeMode": "contain",
@@ -34,7 +37,15 @@
       }
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/new.png",
+          "color": "#ffffff",
+          "defaultChannel": "FoodRide"
+        }
+      ]
     ]
   }
 }
