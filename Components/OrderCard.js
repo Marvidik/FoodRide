@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignSelf:"flex-start",
     color:"#512213",
+    fontFamily:"defont"
   },
   description: {
     fontSize: 14,
@@ -54,7 +55,8 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontWeight: 'bold',
-    color:"green"
+    color:"green",
+    fontFamily:"defont"
   },
   buttonContainer: {
     marginLeft: 'auto',

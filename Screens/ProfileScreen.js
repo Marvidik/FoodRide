@@ -115,7 +115,8 @@ const styles = StyleSheet.create({
     fontSize:32,
     paddingTop:15,
     color:"#512213",
-    marginBottom:20
+    marginBottom:20,
+    fontFamily:"defont"
   },
   image: {
     height: 150,
@@ -133,6 +134,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#FF7518",
     fontSize: 20,
+    fontFamily:"defont"
   },
   icon: {
     marginLeft: 5,
@@ -142,16 +144,19 @@ const styles = StyleSheet.create({
   },
   user:{
     paddingLeft:10,
-    paddingTop:10
+    paddingTop:10,
+   
   },
   username:{
     fontSize:22,
     color:"#512213",
-    alignSelf:"center"
+    alignSelf:"center",
+    fontFamily:"defont"
   },
   email:{
     color:"grey",
     fontSize:16,
-    alignSelf:"center"
+    alignSelf:"center",
+    fontFamily:"defont"
   }
 });

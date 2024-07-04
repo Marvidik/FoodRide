@@ -349,12 +349,14 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 18,
-    color: "grey"
+    color: "grey",
+    fontFamily:"defont"
   },
   text2: {
     fontSize: 18,
     color: "black",
-    fontWeight: "600"
+    fontWeight: "600",
+    fontFamily:"defont"
   },
   text3: {
     fontSize: 20,
@@ -363,6 +365,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingTop: 20,
     paddingBottom: 20,
+    fontFamily:"defont"
   },
   textinput: {
     marginHorizontal: 20,

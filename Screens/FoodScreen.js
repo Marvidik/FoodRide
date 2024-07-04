@@ -167,15 +167,18 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 22,
     fontWeight: "700",
-    color: "#512213"
+    color: "#512213",
+    fontFamily:"defont"
   },
   text2: {
     color: "#FF7518",
-    fontSize: 20
+    fontSize: 20,
+    fontFamily:"defont"
   },
   text3: {
     color: "grey",
-    fontSize: 18
+    fontSize: 18,
+    fontFamily:"defont"
   },
   text4: {
     color: "black",

@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 10,
-    color:"#512213"
+    color:"#512213",
+    fontFamily:"defont"
   },
   rating: {
     marginBottom: 10,
@@ -60,12 +61,14 @@ const styles = StyleSheet.create({
   availability: {
     fontSize: 16,
     marginBottom: 5,
-    color:"#512213"
+    color:"#512213",
+    fontFamily:"defont"
   },
   price: {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#27ae60',
+    fontFamily:"defont"
   },
   but:{
     marginTop:20

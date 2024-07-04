@@ -118,11 +118,13 @@ const styles = StyleSheet.create({
     color: '#FF7518',
     alignSelf: 'center',
     paddingTop: 20,
+    fontFamily:"defont"
   },
   text2: {
     fontSize: 18,
     color: 'grey',
     marginBottom: 30,
+    fontFamily:"defont"
   },
   box1: {
     flexDirection: 'row',
@@ -132,6 +134,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FF7518',
     paddingLeft: 5,
+    fontFamily:"defont"
   },
   button: {
     marginTop: 70,

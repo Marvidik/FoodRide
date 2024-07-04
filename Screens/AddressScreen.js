@@ -47,6 +47,7 @@ export default function AddressScreen({ navigation, route }) {
         .then(response => {
           const fetchedAddresses = response.data.profile;
           setAddress(fetchedAddresses);
+          console.log(address)
           setLoading(false);
           if (fetchedAddresses.length > 0) {
             const firstAddressId = fetchedAddresses[0].id;
@@ -248,7 +249,7 @@ export default function AddressScreen({ navigation, route }) {
     );
   }
 
-  if (address){
+  if (address.length > 0){
   return (
     
     <View style={styles.container}>
@@ -327,7 +328,7 @@ export default function AddressScreen({ navigation, route }) {
         )}
       />
       <TouchableOpacity onPress={() => {  navigation.navigate("Addresschange"); }}>
-      <Text style={{color:"#FF7518",alignSelf:"center",paddingBottom:20,paddingTop:10}}>Add New Address</Text>
+      <Text style={{color:"#FF7518",alignSelf:"center",paddingBottom:20,paddingTop:10,fontFamily:"defont"}}>Add New Address</Text>
       </TouchableOpacity>
           
     </View>
@@ -346,7 +347,7 @@ export default function AddressScreen({ navigation, route }) {
         <Text style={styles.emptyCartText}>No address</Text>
       </View>
       <TouchableOpacity>
-      <CustomButton  onPress={() => {  navigation.navigate("Addresschange"); }}  title={"Add Address"} style={{color:"#FF7518",alignSelf:"center",paddingTop:10,marginBottom:30,width:150,height:50}}/>
+      <CustomButton  onPress={() => {  navigation.navigate("Addresschange"); }}  title={"Add Address"} style={{color:"#FF7518",alignSelf:"center",paddingTop:10,marginBottom:30,width:150,height:50,fontFamily:"defont"}}/>
       </TouchableOpacity>
         
 
@@ -366,6 +367,7 @@ const styles = StyleSheet.create({
     color: "white",
     paddingLeft:80,
     paddingTop: 20,
+    fontFamily:"defont"
   },
   address: {
     height: 150,
@@ -415,15 +417,18 @@ const styles = StyleSheet.create({
   text2: {
     fontSize: 18,
     fontWeight: "700",
+    fontFamily:"defont"
   },
   text3: {
     fontSize: 18,
     color: "grey",
+    
   },
   text4: {
     fontSize: 18,
     color: "#512213",
     paddingTop: 15,
+    fontFamily:"defont"
   },
   textcont: {
     paddingTop: 30,

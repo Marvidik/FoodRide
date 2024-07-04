@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 5, // Adjust margin as needed
+    fontFamily:"defont"
   },
   icon: {
     color: '#fff',

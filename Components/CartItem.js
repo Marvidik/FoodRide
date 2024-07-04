@@ -51,12 +51,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    color:"#512213"
+    color:"#512213",
+    fontFamily:"defont"
   },
   price: {
     fontSize: 16,
     marginBottom: 5,
-    color:"green"
+    color:"green",
+    fontFamily:"defont"
   },
   quantityContainer: {
     flexDirection: 'row',

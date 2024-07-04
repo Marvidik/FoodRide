@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     alignSelf: 'center',
     paddingTop:15,
+    fontFamily:"defont"
   },
   scrollView: {
     flex: 1,
@@ -143,14 +144,15 @@ const styles = StyleSheet.create({
     paddingLeft:20,
     paddingBottom:10,
     fontSize:22,
-    color:"grey"
+    color:"grey",
+    fontFamily:"defont"
   },
   fee2:{
     paddingLeft:20,
     paddingBottom:10,
     fontSize:20,
     color:"grey",
-    fontStyle:"italic"
+    fontFamily:"defont"
   },
   cartButton:{
     marginHorizontal: 20,

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,Platform, AppState } from 'react-native';
+import { StyleSheet, Text, View,Platform } from 'react-native';
 
 import { NavigationContainer,useNavigation} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -31,7 +31,9 @@ import React, { useEffect,useState,useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useDispatch,useSelector } from 'react-redux';
 
+import {useFonts} from 'expo-font';
 
+import { registerBackgroundFetchAsync } from './Data/backgroundTasks';
 
 
 
@@ -139,7 +141,6 @@ const BottomTabNavigator = () => {
         options={{
           tabBarLabel: 'Profile',
           headerShown: false,
-          
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person" color={color} size={size} />
           ),
@@ -161,6 +162,13 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
 
+  const [Loaded] =useFonts({
+    defont:require("./assets/fonts/Poppins/Poppins-Regular.ttf"),
+  });
+
+  useEffect(() => {
+  registerBackgroundFetchAsync();
+}, []);
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({

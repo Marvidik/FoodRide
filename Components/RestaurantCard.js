@@ -51,13 +51,15 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     paddingLeft:5,
     color: "#FF7518",
-    fontWeight:"700"
+    fontWeight:"700",
+    fontFamily:"defont"
   },
   location: {
     fontSize: 14,
     marginBottom: 1,
     color: '#777',
-    paddingLeft:5
+    paddingLeft:5,
+    
   },
   hours: {
     fontSize: 14,

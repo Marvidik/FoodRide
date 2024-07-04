@@ -152,11 +152,13 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 28,
     color: "#FF7518",
+    fontFamily:"defont"
   },
   text2: {
     fontSize: 18,
     color: "grey",
     marginBottom: 30,
+    fontFamily:"defont"
   },
   textinput: {
     marginHorizontal: 20,
@@ -192,7 +194,8 @@ const styles = StyleSheet.create({
   login:{
     paddingLeft:300,
     fontSize:22,
-    color:'#FF7518'
+    color:'#FF7518',
+    fontFamily:"defont"
   },
   message:{
     marginTop:64,

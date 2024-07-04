@@ -140,7 +140,8 @@ const styles = StyleSheet.create({
     fontSize: 32,
     paddingTop: 15,
     color: "#512213",
-    marginBottom: 20
+    marginBottom: 20,
+    fontFamily:"defont"
   },
   b1: {
     height: "100%",

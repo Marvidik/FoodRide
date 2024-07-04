@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
     text: {
       flex: 1,
       paddingHorizontal: 20,
+      fontFamily:"defont"
     },
   });
   

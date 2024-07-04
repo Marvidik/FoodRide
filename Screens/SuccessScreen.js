@@ -33,12 +33,14 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: "grey",
         marginBottom: 30,
-        paddingHorizontal:30
+        paddingHorizontal:30,
+        fontFamily:"defont"
       },
     text3: {
         fontSize: 18,
         color: "grey",
-        paddingHorizontal:30
+        paddingHorizontal:30,
+        fontFamily:"defont"
     },
     but: {
         marginTop:20,

@@ -98,17 +98,20 @@ const styles = StyleSheet.create({
     text1: {
       fontSize: 28,
       color: "#FF7518",
+      fontFamily:"defont"
     },
     text2: {
       fontSize: 18,
       color: "grey",
       marginBottom: 30,
-      paddingHorizontal:30
+      paddingHorizontal:30,
+      fontFamily:"defont"
     },
     text3: {
         fontSize: 18,
         color: "grey",
-        paddingHorizontal:30
+        paddingHorizontal:30,
+        fontFamily:"defont"
       },
     textinput: {
       marginHorizontal: 20,

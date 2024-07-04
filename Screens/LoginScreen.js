@@ -91,7 +91,7 @@ export default function LoginScreen({ navigation }) {
 
             <CustomButton style={styles.but} title={"Login"} onPress={Login} />
             <TouchableOpacity onPress={() => navigation.navigate('Forgottenpassword')}>
-              <Text style={{ color: "orange" }}>Forgotten Password</Text>
+              <Text style={{ color: "orange",fontFamily:"defont" }}>Forgotten Password</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -120,11 +120,13 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 28,
     color: "#FF7518",
+    fontFamily:"defont"
   },
   text2: {
     fontSize: 18,
     color: "grey",
     marginBottom: 30,
+    fontFamily:"defont"
   },
   textinput: {
     marginHorizontal: 20,
@@ -140,7 +142,8 @@ const styles = StyleSheet.create({
   login: {
     paddingLeft: 300,
     fontSize: 22,
-    color: '#FF7518'
+    color: '#FF7518',
+    fontFamily:"defont"
   },
   spinner: {
     alignSelf: "center",
