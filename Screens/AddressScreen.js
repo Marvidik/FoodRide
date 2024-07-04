@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { showMessage, hideMessage } from "react-native-flash-message";
-import { Paystack, paystackProps } from 'react-native-paystack-webview';
 import { useCart } from '../Data/CartContext';
 import { PayWithFlutterwave } from 'flutterwave-react-native';
 
@@ -15,10 +14,8 @@ export default function AddressScreen({ navigation, route }) {
   const [address, setAddress] = useState([]);
   const [referal, setReferal] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [paystackVisible, setPaystackVisible] = useState(false); // State to control Paystack visibility
   const responseData = useSelector(state => state.responseData);
   const { token, user } = responseData;
-  const paystackWebViewRef = useRef(paystackProps.paystackWebViewRef);
   const [maintotal, setMaintotal] = useState();
   const [profileid, setProfileid] = useState();
   const [selectedAddressId, setSelectedAddressId] = useState(null);
