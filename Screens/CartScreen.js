@@ -93,7 +93,7 @@ const CartScreen = ({navigation}) => {
         </View>
       )}
       <Text style={styles.fee}>Delivery Fee:  ₦{price}</Text>
-      <Text style={styles.fee2}>N/B: We add an additional ₦{price/2} for any additional restaurant ordered from</Text>
+      <Text style={styles.fee2}>N/B: An extra fee of  ₦{price/2} will be charged for any additional restaurant ordered from.</Text>
 
       { cartItems.length > 0 ? (
       <CustomButton title={`Checkout ${total.toFixed(2)} Naira`} style={styles.checkoutButton}  onPress={() => {
