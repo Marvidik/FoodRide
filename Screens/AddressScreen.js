@@ -29,7 +29,7 @@ export default function AddressScreen({ navigation, route }) {
       axios.get(`https://foodride.viziddecors.com/latest-price/`)
         .then(response => {
           setPrice(response.data.latest_price.fee);
-          console.log(response.data.latest_price.fee)
+          
         })
         .catch(error => {
           console.error("Error fetching referal data:", error);
@@ -41,27 +41,39 @@ export default function AddressScreen({ navigation, route }) {
 
 
   useEffect(() => {
-    if (user) {
-      setLoading(true);
-      axios.get(`https://foodride.viziddecors.com/profile/${user.id}`)
-        .then(response => {
-          const fetchedAddresses = response.data.profile;
-          setAddress(fetchedAddresses);
-          console.log(address)
-          setLoading(false);
-          if (fetchedAddresses.length > 0) {
-            const firstAddressId = fetchedAddresses[0].id;
-            setSelectedAddressId(firstAddressId);
-            setProfileid(firstAddressId);
-            calculateDeliveryFee();
-          }
-        })
-        .catch(error => {
-          setAddress([]);
-          setLoading(false);
-        });
-    }
-  },[user]);
+    const fetchData = () => {
+      if (user) {
+        setLoading(true);
+        axios.get(`https://foodride.viziddecors.com/profile/${user.id}`)
+          .then(response => {
+            const fetchedAddresses = response.data.profile;
+            setAddress(fetchedAddresses);
+           
+            setLoading(false);
+            if (fetchedAddresses.length > 0) {
+              const firstAddressId = fetchedAddresses[0].id;
+              setSelectedAddressId(firstAddressId);
+              setProfileid(firstAddressId);
+              calculateDeliveryFee();
+            }
+          })
+          .catch(error => {
+            setAddress([]);
+            setLoading(false);
+          });
+      }
+    };
+  
+    // Fetch data immediately on mount
+    fetchData();
+  
+    // Set up interval to fetch data every 5 seconds
+    const intervalId = setInterval(fetchData, 5000);
+  
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [user]);
+  
 
   useEffect(() => {
     if (user) {

@@ -33,8 +33,9 @@ const styles = StyleSheet.create({
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 2,
-      marginTop:20,
-      marginHorizontal:20
+      marginTop:10,
+      marginHorizontal:20,
+      marginBottom:20
     },
     iconLeft: {
       width: 40,

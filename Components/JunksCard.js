@@ -28,7 +28,7 @@ const JunksCard = ({ name, source, rating, category, availability, price, onAddT
 
 const styles = StyleSheet.create({
   card: {
-    width: 180,
+    width:"88%",
     flex: 1,
     borderRadius: 10,
     overflow: 'hidden',

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity,ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import ListItem from '../Components/ListItem';
@@ -94,7 +94,7 @@ export default function ProfileScreen({ navigation }) {
       
       </View>
      
-
+      <ScrollView style={styles.scrollview}>
       <ListItem info={"Current Orders"} icon={"cart-plus"} onPress={() => { navigation.navigate("Order") }} />
       <ListItem info={"Cart"} icon={"cart-plus"} onPress={() => { navigation.navigate("Cart") }} />
       <ListItem info={"Change Password"} icon={"lock"} onPress={() => { navigation.navigate("Forgottenpassword") }} />
@@ -102,13 +102,16 @@ export default function ProfileScreen({ navigation }) {
                   // Pass restaurant data to the "Food" screen
                   navigation.navigate("Login");
                 }} />}
+                
+      </ScrollView>
+      
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    
+    flex:1
   },
   title: {
     alignSelf:"center",
@@ -158,5 +161,9 @@ const styles = StyleSheet.create({
     fontSize:16,
     alignSelf:"center",
     fontFamily:"defont"
-  }
+  },
+  scrollview: {
+    flex: 1,
+    padding: 10,
+  },
 });

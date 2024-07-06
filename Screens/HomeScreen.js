@@ -187,7 +187,7 @@ export default function HomeScreen({ navigation }) {
                             imageSource={{ uri: `https://foodride.viziddecors.com${restaurant.logo}` }}
                             name={restaurant.name}
                             location={restaurant.location}
-                            openingHours={`${restaurant.opening_hour} - ${restaurant.closing_hour}`}
+                            // openingHours={`${restaurant.opening_hour} - ${restaurant.closing_hour}`}
                             onPress={() => {
                               // Pass restaurant data to the "Food" screen
                               navigation.navigate("Food", { restaurant });
@@ -198,7 +198,7 @@ export default function HomeScreen({ navigation }) {
                               imageSource={{ uri: `https://foodride.viziddecors.com${restaurants[index + 1].logo}` }}
                               name={restaurants[index + 1].name}
                               location={restaurants[index + 1].location}
-                              openingHours={`${restaurants[index + 1].opening_hour} - ${restaurants[index + 1].closing_hour}`}
+                              // openingHours={`${restaurants[index + 1].opening_hour} - ${restaurants[index + 1].closing_hour}`}
                               onPress={() => {
                                 // Pass restaurant data to the "Food" screen
                                 navigation.navigate("Food", { restaurant: restaurants[index + 1] });

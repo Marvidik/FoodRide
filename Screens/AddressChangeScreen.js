@@ -17,8 +17,7 @@ export default function AddressChangeScreen({navigation}) {
   const { token, user } = responseData;
 
   const Changeaddress = async () => {
-    setUserid(user.id)
-    console.log(userid);
+    
     try {
       if(address=== ""){
         showMessage({
@@ -33,7 +32,7 @@ export default function AddressChangeScreen({navigation}) {
       
       // Make API call to register user
       const response = await axios.post('https://foodride.viziddecors.com/profile/user/add/', {
-        user: userid,
+        user: user.id,
         address:address,
         phone:phone,
         phone1:phone1,
@@ -47,18 +46,18 @@ export default function AddressChangeScreen({navigation}) {
         type: "success",
         style:styles.message
       });
-      console.log('Change successful:', response.data);
       navigation.navigate('Cart');
     } catch (error) {
       // Handle registration error
       showMessage({
-        message: "ADDRESS CHANGED ERROR",
-        description: "An Error Occured While Changing Address",
+        message: "ADDRESS ADDS ERROR",
+        description: "An Error Occured While Adding Address",
         type: "danger",
         style:styles.message
       });
       setLoading(false);
       console.log(error)
+      console.log(user.id,address,phone,phone1)
 
     }
   };

@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   login:{
-    paddingLeft:300,
+    paddingLeft:"70%",
     fontSize:22,
     color:'#FF7518',
     fontFamily:"defont"

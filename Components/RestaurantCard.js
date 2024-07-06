@@ -34,16 +34,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     elevation: 3, // Add shadow effect
     alignSelf:"center",
-    marginTop:20
+    marginTop:20,
+    
   },
   image: {
     flex: 1,
     resizeMode: 'cover',
     alignSelf:"center",
-    width:"95%"
+    width:"95%",
+    
+    
   },
   details: {
-    padding: 10,
+    
   },
   name: {
     fontSize: 18,
@@ -52,7 +55,8 @@ const styles = StyleSheet.create({
     paddingLeft:5,
     color: "#FF7518",
     fontWeight:"700",
-    fontFamily:"defont"
+    fontFamily:"defont",
+    widthy:"70%"
   },
   location: {
     fontSize: 14,
@@ -69,7 +73,8 @@ const styles = StyleSheet.create({
   down:{
     flexDirection:"row",
     justifyContent:"space-between",
-    alignItems:"center"
+    alignItems:"center",
+    
   },
   icon:{
     paddingRight:20,

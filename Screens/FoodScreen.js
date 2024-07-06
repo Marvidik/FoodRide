@@ -116,7 +116,8 @@ export default function FoodScreen({ route, navigation }) {
         <View style={styles.names}>
           <Text style={styles.text1}>{name}</Text>
           <Text style={styles.text3}>{location}</Text>
-          <Text style={styles.text2}>Open {restaurant.opening_hour} - {restaurant.closing_hour}</Text>
+          <Text style={styles.text2}>Open {restaurant.opening_hour}AM </Text>
+          <Text style={styles.text2}>close  {restaurant.closing_hour}PM</Text>
         </View>
       </View>
       <View style={styles.searchContainer}>
@@ -173,7 +174,8 @@ const styles = StyleSheet.create({
   text2: {
     color: "#FF7518",
     fontSize: 20,
-    fontFamily:"defont"
+    fontFamily:"defont",
+    width:"100%"
   },
   text3: {
     color: "grey",

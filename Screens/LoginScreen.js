@@ -137,10 +137,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 50,
     marginBottom: 50,
-    width: 370
+    width: "90%"
   },
   login: {
-    paddingLeft: 300,
+    paddingLeft: "70%",
     fontSize: 22,
     color: '#FF7518',
     fontFamily:"defont"
