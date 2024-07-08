@@ -23,7 +23,8 @@
         "foregroundImage": "./assets/new.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hackerdev.FoodRide"
+      "package": "com.hackerdev.FoodRide",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/new.png"
