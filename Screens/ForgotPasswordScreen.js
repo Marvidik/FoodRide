@@ -23,7 +23,7 @@ export default function ForgotPasswordScreen({navigation}) {
       setLoading(true);
 
       // Make API call to register user
-      const response = await axios.post('https://foodride.viziddecors.com/password/reset/', {
+      const response = await axios.post('https://savvy.pythonanywhere.com/password/reset/', {
         email
       });
 

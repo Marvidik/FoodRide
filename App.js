@@ -278,7 +278,7 @@ const AppContent = () => {
 
   const fetchNotification = async () => {
     try {
-      const response = await fetch('https://foodride.viziddecors.com/last-notification/');
+      const response = await fetch('https://savvy.pythonanywhere.com/last-notification/');
       const data = await response.json();
 
       if (data.id !== lastNotificationId) {

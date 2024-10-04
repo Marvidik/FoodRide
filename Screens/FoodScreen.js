@@ -43,7 +43,7 @@ export default function FoodScreen({ route, navigation }) {
 
   const search = async () => {
     try {
-      const response = await axios.get(`https://foodride.viziddecors.com/foodsearch/${id}/${searchQuery}`);
+      const response = await axios.get(`https://savvy.pythonanywhere.com/foodsearch/${id}/${searchQuery}`);
       const data = await response.data;
       setSearchResults(data.foods);
       console.log(searchResults); // Log the response
@@ -59,7 +59,7 @@ export default function FoodScreen({ route, navigation }) {
   useEffect(() => {
     setLoading(true);
     // Fetch restaurant data from the API
-    axios.get(`https://foodride.viziddecors.com/restaurant/food/${id}`)
+    axios.get(`https://savvy.pythonanywhere.com/restaurant/food/${id}`)
       .then(response => {
         // If the request is successful, set the foods state with the fetched data
         setFoods(response.data.Foods);
@@ -80,7 +80,7 @@ export default function FoodScreen({ route, navigation }) {
         <View style={styles.itemContainer}>
           <JunksCard
             name={item.name}
-            source={{ uri: `https://foodride.viziddecors.com${item.image}` }}
+            source={{ uri: `https://savvy.pythonanywhere.com${item.image}` }}
             rating={item.rating}
             availability={item.availability}
             price={item.price}
@@ -111,7 +111,7 @@ export default function FoodScreen({ route, navigation }) {
       </View>
       <View style={styles.ibox}>
         <View style={styles.box1}>
-          <Image style={styles.image} source={{ uri: `https://foodride.viziddecors.com${logo}` }} />
+          <Image style={styles.image} source={{ uri: `https://savvy.pythonanywhere.com${logo}` }} />
         </View>
         <View style={styles.names}>
           <Text style={styles.text1}>{name}</Text>

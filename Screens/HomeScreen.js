@@ -49,7 +49,7 @@ export default function HomeScreen({ navigation }) {
 
   const search = async () => {
     try {
-      const response = await fetch(`https://foodride.viziddecors.com/search/${searchQuery}`);
+      const response = await fetch(`https://savvy.pythonanywhere.com/search/${searchQuery}`);
       const data = await response.json();
       setSearchResults(data);
       console.log(data); // Log the response
@@ -98,7 +98,7 @@ export default function HomeScreen({ navigation }) {
   const fetchAds = async () => {
     try {
       setLoading(true); // Start loading
-      const response = await axios.get('https://foodride.viziddecors.com/ads');
+      const response = await axios.get('https://savvy.pythonanywhere.com/ads');
       setAds(response.data.ads);
       setLoading(false); // Stop loading
     } catch (error) {
@@ -112,7 +112,7 @@ export default function HomeScreen({ navigation }) {
   const fetchRestaurants = async () => {
     try {
       setLoading(true); // Start loading
-      const response = await axios.get('https://foodride.viziddecors.com/restaurants/');
+      const response = await axios.get('https://savvy.pythonanywhere.com/restaurants/');
       setRestaurants(response.data.restaurants);
       setLoading(false); // Stop loading
     } catch (error) {
@@ -173,7 +173,7 @@ export default function HomeScreen({ navigation }) {
               <>
                 <ScrollView ref={scrollViewRef} contentContainerStyle={styles.scrollViewContent1} horizontal pagingEnabled showsHorizontalScrollIndicator={false}>
                   {ads.map((ad, index) => (
-                    <AdsCard key={index} source={{ uri: `https://foodride.viziddecors.com${ad.image}` }} />
+                    <AdsCard key={index} source={{ uri: `https://savvy.pythonanywhere.com${ad.image}` }} />
                   ))}
                 </ScrollView>
                 <Text style={styles.text3}>Available Restaurants</Text>
@@ -184,7 +184,7 @@ export default function HomeScreen({ navigation }) {
                       return (
                         <View key={index} style={styles.restview}>
                           <RestaurantCard
-                            imageSource={{ uri: `https://foodride.viziddecors.com${restaurant.logo}` }}
+                            imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurant.logo}` }}
                             name={restaurant.name}
                             location={restaurant.location}
                             // openingHours={`${restaurant.opening_hour} - ${restaurant.closing_hour}`}
@@ -195,7 +195,7 @@ export default function HomeScreen({ navigation }) {
                           />
                           {restaurants[index + 1] && ( // Check if there's another restaurant for the second card
                             <RestaurantCard
-                              imageSource={{ uri: `https://foodride.viziddecors.com${restaurants[index + 1].logo}` }}
+                              imageSource={{ uri: `https://savvy.pythonanywhere.com${restaurants[index + 1].logo}` }}
                               name={restaurants[index + 1].name}
                               location={restaurants[index + 1].location}
                               // openingHours={`${restaurants[index + 1].opening_hour} - ${restaurants[index + 1].closing_hour}`}
@@ -238,7 +238,7 @@ export default function HomeScreen({ navigation }) {
                       <View key={foodIndex} style={styles.cardRow}>
                         <JunksCard
                           name={food.name}
-                          source={{ uri: `https://foodride.viziddecors.com${food.image}` }}
+                          source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
                           category={food.category}
                           price={food.price}
                           availability={food.availability}
@@ -247,7 +247,7 @@ export default function HomeScreen({ navigation }) {
                         {restaurant.foods[foodIndex + 1] && (
                           <JunksCard
                             name={restaurant.foods[foodIndex + 1].name}
-                            source={{ uri: `https://foodride.viziddecors.com${restaurant.foods[foodIndex + 1].image}` }}
+                            source={{ uri: `https://savvy.pythonanywhere.com${restaurant.foods[foodIndex + 1].image}` }}
                             category={restaurant.foods[foodIndex + 1].category}
                             price={restaurant.foods[foodIndex + 1].price}
                             availability={restaurant.foods[foodIndex + 1].availability}
@@ -266,7 +266,7 @@ export default function HomeScreen({ navigation }) {
                     <JunksCard
                       key={index}
                       name={food.name}
-                      source={{ uri: `https://foodride.viziddecors.com${food.image}` }}
+                      source={{ uri: `https://savvy.pythonanywhere.com${food.image}` }}
                       category={food.category}
                       price={food.price}
                       availability={food.availability}

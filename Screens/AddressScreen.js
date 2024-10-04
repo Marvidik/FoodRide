@@ -26,7 +26,7 @@ export default function AddressScreen({ navigation, route }) {
   useEffect(() => {
     {
    
-      axios.get(`https://foodride.viziddecors.com/latest-price/`)
+      axios.get(`https://savvy.pythonanywhere.com/latest-price/`)
         .then(response => {
           setPrice(response.data.latest_price.fee);
           
@@ -44,7 +44,7 @@ export default function AddressScreen({ navigation, route }) {
     const fetchData = () => {
       if (user) {
         setLoading(true);
-        axios.get(`https://foodride.viziddecors.com/profile/${user.id}`)
+        axios.get(`https://savvy.pythonanywhere.com/profile/${user.id}`)
           .then(response => {
             const fetchedAddresses = response.data.profile;
             setAddress(fetchedAddresses);
@@ -78,7 +78,7 @@ export default function AddressScreen({ navigation, route }) {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      axios.get(`https://foodride.viziddecors.com/referal/${user.id}`)
+      axios.get(`https://savvy.pythonanywhere.com/referal/${user.id}`)
         .then(response => {
           setReferal(response.data.referals);
           setLoading(false);
@@ -123,7 +123,7 @@ export default function AddressScreen({ navigation, route }) {
     setLoader(true);
     try {
       const orderPromises = cartItems.map(async (cartItem) => {
-        const response = await axios.post('https://foodride.viziddecors.com/addorder/', {
+        const response = await axios.post('https://savvy.pythonanywhere.com/addorder/', {
           user: user.id,
           profile: profileid,
           real_food: cartItem.id,
@@ -151,7 +151,7 @@ export default function AddressScreen({ navigation, route }) {
   const deleteProfile = async (profileId) => {
     if (!user) return;
     try {
-      const response = await fetch(`https://foodride.viziddecors.com/profiles/${profileId}/`, {
+      const response = await fetch(`https://savvy.pythonanywhere.com/profiles/${profileId}/`, {
         method: 'DELETE',
       });
 
@@ -172,7 +172,7 @@ export default function AddressScreen({ navigation, route }) {
   const reducereferal = async (profileId) => {
     if (!user) return;
     try {
-      const response = await fetch(`https://foodride.viziddecors.com/reducereferal/${user.id}`, {
+      const response = await fetch(`https://savvy.pythonanywhere.com/reducereferal/${user.id}`, {
         method: 'PATCH',
       });
 

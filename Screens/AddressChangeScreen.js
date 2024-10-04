@@ -31,7 +31,7 @@ export default function AddressChangeScreen({navigation}) {
       setLoading(true);
       
       // Make API call to register user
-      const response = await axios.post('https://foodride.viziddecors.com/profile/user/add/', {
+      const response = await axios.post('https://savvy.pythonanywhere.com/profile/user/add/', {
         user: user.id,
         address:address,
         phone:phone,

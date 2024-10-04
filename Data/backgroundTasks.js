@@ -8,7 +8,7 @@ const BACKGROUND_FETCH_TASK = 'background-fetch';
 TaskManager.defineTask(BACKGROUND_FETCH_TASK, async () => {
   try {
     // Fetch new data here and handle notifications
-    const response = await fetch('https://foodride.viziddecors.com/last-notification/');
+    const response = await fetch('https://savvy.pythonanywhere.com/last-notification/');
     const data = await response.json();
     const storedLastNotificationId = await AsyncStorage.getItem('lastNotificationId');
     

@@ -38,7 +38,7 @@ export default function OTPScreen({navigation}) {
     try {
       setLoading(true);
   
-      const response = await axios.post('https://foodride.viziddecors.com/otp/', { 
+      const response = await axios.post('https://savvy.pythonanywhere.com/otp/', { 
         email,
         otp: otpString
       });

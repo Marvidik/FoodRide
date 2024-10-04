@@ -16,7 +16,7 @@ const CartScreen = ({navigation}) => {
   useEffect(() => {
     {
    
-      axios.get(`https://foodride.viziddecors.com/latest-price/`)
+      axios.get(`https://savvy.pythonanywhere.com/latest-price/`)
         .then(response => {
           setPrice(response.data.latest_price.fee);
           console.log(response.data.latest_price.fee)
