@@ -16,14 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.hackerdev.FoodRide"
+      "bundleIdentifier": "com.ebubeidika.FoodRide"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/new.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hackerdev.FoodRide",
+      "package": "com.ebubeidika.FoodRide",
       "versionCode": 2
     },
     "web": {
